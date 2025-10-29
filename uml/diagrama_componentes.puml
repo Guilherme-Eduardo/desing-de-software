@@ -1,0 +1,57 @@
+@startuml
+
+package "Camada de Apresentação" as F {
+  [Interface Web]
+}
+
+package "Camada de Controle" as C {
+  [Filial]
+}
+
+package "Camada de Serviço" as B {
+  [Serviço de Reserva]
+  [Serviço de Pagamento]
+  [Serviço de Espaço]
+}
+
+package "Camada de Entidades" as E {
+  [Pessoa]
+  [Cliente]
+  [Pagamento]
+  [Reserva]
+  [Período]
+  [Endereço]
+  [Espaço]
+  [Proprietário]
+}
+
+package "Camada de Repositórios" as BD {
+  [Repositório de Pessoas]
+  [Repositório de Reservas]
+  [Repositório de Pagamentos]
+  [Repositório de Espaços]
+  [Repositório de Endereços]
+}
+
+[Interface Web] --> [Filial] : HTTP/REST
+
+[Filial] --> [B] : acessa 
+
+[Serviço de Pagamento] --> [Repositório de Pagamentos] : JSON
+[Serviço de Espaço] --> [Repositório de Espaços] : JSON
+[Serviço de Espaço] --> [Repositório de Endereços] : JSON
+[Serviço de Reserva] --> [Repositório de Reservas] : JSON
+[Serviço de Reserva] --> [Repositório de Pagamentos] : JSON
+[Serviço de Reserva] --> [Repositório de Espaços] : JSON
+
+[Pessoa] <|-- [Cliente]
+[Pessoa] <|-- [Proprietário]
+
+[Pagamento] -- [Reserva]
+[Espaço] -- [Proprietário]
+[Endereço] -- [Espaço]
+[Reserva] -- [Espaço]
+[Reserva] -- [Período]
+
+[E] --> [B]
+@enduml

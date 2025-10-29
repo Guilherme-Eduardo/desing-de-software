@@ -1,0 +1,245 @@
+@startuml
+
+' ===== CORES =====
+
+skinparam class {
+  BackgroundColor White
+  Arrow Color Black
+  Border Color Black
+}
+
+skinparam legendFontSize 24
+
+' ===== LEGENDA =====
+
+legend top left
+  |<#LightCoral>| Camada Controle |
+  |<#Khaki>| Camada de Serviços |
+  |<#LightGreen>| Camada de Entidades |
+  |<#LightBlue>| Camada de Repositórios |
+  |<#Violet>| Status |
+endlegend
+
+' ===== Relacionamentos ===== 
+
+Pessoa <|-- Cliente
+Pessoa <|-- Proprietario
+
+Reserva "0..*" -- "1" Cliente : faz
+Reserva "1" -- "1" Pagamento : possui
+Reserva "1" -- "1" Espaco : contém
+
+Espaco "0..*" -- "1" Proprietario : contém
+Endereco "1" -- "1" Espaco : contém
+Periodo "1" -- "1" Reserva : contém
+
+Filial "1" --> "0..*" ServicoEspaco : administra
+Filial "1" --> "0..*" ServicoCliente : administra
+Filial "1" --> "0..*" ServicoReserva : administra
+Filial "1" --> "0..*" ServicoProprietario : administra
+Filial "1" --> "0..*" ServicoPagamento : administra
+
+ServicoEspaco -- Espaco
+ServicoCliente -- Cliente
+ServicoReserva -- Reserva
+ServicoProprietario -- Proprietario
+ServicoPagamento -- Pagamento
+
+ServicoPagamento "1" --> "1" RepositorioPagamento
+ServicoEspaco "1" --> "1" RepositorioEspaco
+ServicoCliente "1" --> "1" RepositorioCliente
+ServicoReserva "1" --> "1" RepositorioReserva
+ServicoProprietario "1" --> "1" RepositorioProprietario
+
+' ===== ENTIDADES =====
+
+Class Pessoa #LightGreen {
+  id : unsigned int
+  nome: String
+  data_nascimento: date
+  cpf: String
+  email: String
+  telefone: String
+}
+
+
+Class Endereco #LightGreen {
+  rua: String
+  numero: int
+  bairro: String
+  cidade: String
+  estado: String
+  complemento: String
+  
+  criaEndereco()
+  removeEndereco()
+  atualizaEndereco()
+}
+
+class Periodo #LightGreen {
+  inicio: Instant
+  fim: Instant
+  
+  duracao(): Duration
+}
+
+Class Cliente #LightGreen {
+  alugueis: List
+}
+
+
+Class Proprietario #LightGreen {
+  espacos: List
+}
+
+
+Class Reserva #LightGreen {
+  id : unsigned int
+  data_reserva: date
+  cliente: String
+  proprietario : String
+  espaco_aluguel: Espaço
+  pagamento: Pagamento
+  status: String
+  periodo : Periodo
+}
+
+
+Class Pagamento #LightGreen {
+  valor_pago: double
+  total: double
+  status: String
+}
+
+
+Class Espaco #LightGreen {
+  foto: List<Image>
+  capacidade: int
+  preco: double
+  tipo: String
+  endereco: Endereco
+  proprietario: Proprietario
+}
+
+' ===== CLASSES CONTROLADORA =====
+
+class Filial #LightCoral {
+  clientes : List<Clientes>
+  proprietarios : List<Proprietario>
+  reservas : List<Reserva>
+  endereco : Endereco
+  CNPJ : String
+  
+  verificarCliente ()
+  verificarProprietario ()
+  verificarReserva ()
+  cadastrarCliente()
+  cadastrarProprietario()
+  cadastrarReserva ()
+  atualizarCliente()
+  atualizarReserva()
+  atualizarEspaco()
+  atualizarProprietario()
+  cancelarReserva()
+  excluirReserva()
+  excluirCliente()
+  excluirEspaco()
+  excluirProprietario()
+  atualizaStatusReserva()
+  atualizaStatusPagamento()
+}
+
+' ===== CLASSES DE SERVICO =====
+
+class ServicoReserva #Khaki {
+  criaReserva()
+  cancelaReserva()
+  removeReserva()
+  atualizaReserva()
+  verificaStatus()
+}
+
+class ServicoCliente #Khaki {
+  criaCliente ()
+  excluCliente ()
+  atualizaCliente ()
+}
+
+class ServicoEspaco #Khaki {
+  criaEspaco()
+  removeEspaco()
+  atualizaEspaco()
+  verificaDisponibilidade()
+}
+
+class ServicoPagamento #Khaki {
+  criarPagamento()
+  removerPagamento()
+  atualizaPagamento()
+  processaPagamento()
+  estornarPagamento()
+  verificaStatus ()
+}
+
+class ServicoProprietario #Khaki {
+  criarProprietario ()
+  excluirProprietario ()
+  atualizarProprietario ()
+}
+
+' ===== Repositórios ===== '
+
+class RepositorioPagamento #LightBlue {
+  salvarPagamento()
+  excluirPagamento()
+  atualizarPagamento ()
+  buscarPagamento()
+}
+
+class RepositorioCliente #LightBlue {
+  salvarCliente ()
+  buscarCliente()
+  excluirCliente()
+  atualizarCliente()
+}
+
+class RepositorioProprietario #LightBlue {
+  buscarProprietario ()
+  salvarProprietario()
+  excluirProprietario()
+  atualizarProprietario ()
+} 
+
+class RepositorioReserva #LightBlue{
+  buscarReserva ()
+  salvarReserva ()
+  excluirReserva ()
+  atualizarReserva ()
+}
+
+class RepositorioEspaco #LightBlue{
+  buscarEspaco ()
+  atualizarEspaco()
+  salvarEspaco()
+  excluirEspaco ()
+}
+  
+
+' ===== Status =====
+enum StatusReserva #Plum {
+  PENDENTE
+  CONFIRMADA
+  EM_ANDAMENTO
+  CONCLUIDA
+  CANCELADA
+}
+
+enum StatusPagamento #Plum {
+  APROVADO
+  RECUSADO
+  ESTORNADO
+  SINAL
+  PENDENTE
+}
+
+@enduml
