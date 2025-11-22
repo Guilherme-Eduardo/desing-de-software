@@ -1,0 +1,377 @@
+openapi: 3.1.0
+info:
+  title: API de Reserva de Espaços
+  version: 1.0.0
+  description: >
+    API para gestão de reservas de espaços e pagamentos.
+    Os dados são persistidos em arquivos JSON (sem uso de banco de dados relacional).
+
+paths:
+  /reservas:
+    get:
+      summary: Lista todas as reservas
+      tags: [Reservas]
+      responses:
+        '200':
+          description: Lista de reservas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reserva'
+    post:
+      summary: Cria uma nova reserva
+      tags: [Reservas]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovaReserva'
+      responses:
+        '201':
+          description: Reserva criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reserva'
+        '400':
+          description: Dados inválidos
+
+  /reservas/{id}:
+    put:
+      summary: Atualiza uma reserva existente
+      tags: [Reservas]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovaReserva'
+      responses:
+        '200':
+          description: Reserva atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reserva'
+        '404':
+          description: Reserva não encontrada
+    delete:
+      summary: Remove uma reserva
+      tags: [Reservas]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Reserva removida com sucesso
+        '404':
+          description: Reserva não encontrada
+
+  /espacos:
+    get:
+      summary: Lista todos os espaços
+      tags: [Espaços]
+      responses:
+        '200':
+          description: Lista de espaços
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Espaco'
+    post:
+      summary: Cria um novo espaço
+      tags: [Espaços]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoEspaco'
+      responses:
+        '201':
+          description: Espaço criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Espaco'
+        '400':
+          description: Dados inválidos
+
+  /espacos/{id}:
+    put:
+      summary: Atualiza um espaço existente
+      tags: [Espaços]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoEspaco'
+      responses:
+        '200':
+          description: Espaço atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Espaco'
+        '404':
+          description: Espaço não encontrado
+    delete:
+      summary: Remove um espaço
+      tags: [Espaços]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Espaço removido com sucesso
+        '404':
+          description: Espaço não encontrado
+
+  /pagamentos:
+    get:
+      summary: Lista todos os pagamentos
+      tags: [Pagamentos]
+      responses:
+        '200':
+          description: Lista de pagamentos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pagamento'
+    post:
+      summary: Registra um novo pagamento
+      tags: [Pagamentos]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoPagamento'
+      responses:
+        '201':
+          description: Pagamento registrado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pagamento'
+        '400':
+          description: Dados inválidos
+
+  /pagamentos/{id}:
+    put:
+      summary: Atualiza dados de um pagamento
+      tags: [Pagamentos]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtualizarPagamento'
+      responses:
+        '200':
+          description: Pagamento atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pagamento'
+        '404':
+          description: Pagamento não encontrado
+    delete:
+      summary: Remove um pagamento
+      tags: [Pagamentos]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Pagamento removido com sucesso
+        '404':
+          description: Pagamento não encontrado
+
+components:
+  schemas:
+    # ---------- RESERVAS ----------
+    StatusReserva:
+      type: string
+      enum: [PENDENTE, CONFIRMADA, CANCELADA]
+      example: PENDENTE
+
+    NovaReserva:
+      type: object
+      required:
+        - data
+        - espacoId
+        - clienteNome
+      properties:
+        data:
+          type: string
+          format: date-time
+          example: 2025-12-01T19:00:00Z
+        espacoId:
+          type: integer
+          example: 1
+        clienteNome:
+          type: string
+          example: João da Silva
+        status:
+          $ref: '#/components/schemas/StatusReserva'
+
+    Reserva:
+      allOf:
+        - $ref: '#/components/schemas/NovaReserva'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 10
+
+    # ---------- ESPAÇOS ----------
+    Espaco:
+      type: object
+      required:
+        - id
+        - capacidade
+        - preco
+        - tipo
+        - endereco
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 3
+        capacidade:
+          type: integer
+          example: 50
+        preco:
+          type: number
+          format: float
+          example: 500.0
+        tipo:
+          type: string
+          example: Sala de Reunião
+        endereco:
+          type: string
+          example: Rua das Flores, 123, Centro
+
+    NovoEspaco:
+      type: object
+      required:
+        - capacidade
+        - preco
+        - tipo
+        - endereco
+      properties:
+        capacidade:
+          type: integer
+          example: 50
+        preco:
+          type: number
+          format: float
+          example: 500.0
+        tipo:
+          type: string
+          example: Auditório
+        endereco:
+          type: string
+          example: Avenida Principal, 1000
+
+    # ---------- PAGAMENTOS ----------
+    StatusPagamento:
+      type: string
+      enum: [PENDENTE, APROVADO, SINAL, ESTORNADO, RECUSADO]
+      example: PENDENTE
+
+    NovoPagamento:
+      type: object
+      required:
+        - reservaId
+        - total
+      properties:
+        reservaId:
+          type: integer
+          example: 10
+        total:
+          type: number
+          format: float
+          example: 750.0
+
+    AtualizarPagamento:
+      type: object
+      properties:
+        total:
+          type: number
+          format: float
+          example: 800.0
+        status:
+          $ref: '#/components/schemas/StatusPagamento'
+
+    Pagamento:
+      type: object
+      required:
+        - id
+        - reservaId
+        - total
+        - pago
+        - status
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 5
+        reservaId:
+          type: integer
+          example: 10
+        total:
+          type: number
+          format: float
+          example: 750.0
+        pago:
+          type: number
+          format: float
+          example: 250.0
+        status:
+          $ref: '#/components/schemas/StatusPagamento'
