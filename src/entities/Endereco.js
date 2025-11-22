@@ -1,8 +1,5 @@
 export default class Endereco {
 
-
-    count_id = 0;
-
   /**
    * Representa um endereço de uma filial, proprietário ou espaço.
    *
@@ -15,11 +12,9 @@ export default class Endereco {
    * @param {string} [params.complemento]
    */
 
-  constructor({ rua, numero, bairro, cidade, estado, complemento = "" }) {
+  constructor(id, rua, numero, bairro, cidade, estado, complemento = "" ) {
     
-    this.id = count_id;
-    count_id++;
-
+    this.id = id;
     this.rua = rua;
     this.numero = numero;
     this.bairro = bairro;
@@ -39,15 +34,15 @@ export default class Endereco {
     if (!obj.complemento)
         obj.complemento = "";
 
-    return new Endereco({
-      id: obj.id,
-      rua: obj.rua,
-      numero: obj.numero,
-      bairro: obj.bairro,
-      cidade: obj.cidade,
-      estado: obj.estado,
-      complemento: obj.complemento
-    });
+    return new Endereco(
+      obj.id,
+      obj.rua,
+      obj.numero,
+      obj.bairro,
+      obj.cidade,
+      obj.estado,
+      obj.complemento
+    );
   }
 
   /* Retorna um JSON. */

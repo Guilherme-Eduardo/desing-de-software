@@ -41,17 +41,17 @@ async function insertEspaco (path, space) {
 
 
 // Atualiza um Espaço
-async function updateEspaco (path, space) {
+async function updateEspaco (path, oldSpace, newSpace) {
 
     const list = await readJSON (path);
 
-    const index = list.findIndex(item => item.id == space.id);
+    const index = list.findIndex(item => item.id == oldSpace.id);
     if (index == -1) {
         console.log ("ERRO! Não foi encontrado o Espaço de atualização.");
         return;
     }
     
-    list[index] = space;
+    list[index] = newSpace;
 
     await writeFile(path, JSON.stringify(list, null, 2));
 }
