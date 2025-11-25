@@ -41,7 +41,7 @@ export async function removerReserva(id) {
   return res.json();
 }
 
-/* ===================== ESPAÇOS ===================== */
+
 
 export async function listarEspacos() {
   const res = await fetch(`${API_BASE_URL}/espacos`);
@@ -83,7 +83,7 @@ export async function removerEspaco(id) {
   return res.json();
 }
 
-/* ===================== PAGAMENTOS ===================== */
+
 
 export async function listarPagamentos() {
   const res = await fetch(`${API_BASE_URL}/pagamentos`);
@@ -125,7 +125,7 @@ export async function removerPagamento(id) {
   return res.json();
 }
 
-/* ===================== CLIENTES ===================== */
+
 
 export async function listarClientes() {
   const res = await fetch(`${API_BASE_URL}/clientes`);
@@ -167,7 +167,6 @@ export async function removerCliente(id) {
   return res.json();
 }
 
-/* ===================== PROPRIETÁRIOS ===================== */
 
 export async function listarProprietarios() {
   const res = await fetch(`${API_BASE_URL}/proprietarios`);
@@ -208,7 +207,6 @@ export async function removerProprietario(id) {
   if (!res.ok) throw new Error ("Erro");
   return res.json();
 }
-
 
 export async function criarEndereco(dados) {
   const res = await fetch(`${API_BASE_URL}/enderecos`, {
