@@ -1,81 +1,91 @@
 import { readFile, writeFile } from "fs/promises";
-import path from "path";
-import Reserva from "../entities/Reserva.js";
 
-/* Ler Arquivo de Dados de Reserva */
-async function readJSON(path) {
+export default class RepositorioReserva {
+
+  constructor () {
+    const path = "../data/reservas_db.json";
+  }  
   
-  try {
-    const texto = await readFile(path, "utf-8");
-    return JSON.parse(texto); 
-  } 
-  
-  // Se o arquivo não existir ou estiver vazio
-  catch (err) {
-    return [];
-  }
-}
-
-
-// Verifica se um já existe uma reserva
-async function findReserva (path, reservation) {
-
-    const reservas = await readJSON(path);
-
-    return reservas.find(item =>
-        item.id === reservation.id &&
-        item.data_reserva === reservation.data_reserva &&
-        item.status === item.status
-    ) || null;
-}
-
-// Insere reserva já criado no arquivo
-async function insertReserva (path, reservation) {
-
-    const list = await readJSON (path);
-
-    list.push(reservation);
-
-    await writeFile(path, JSON.stringify(list, null, 2));
-}
-
-
-// Atualiza um reserva
-async function updateReserva (path, reservation) {
-
-    const list = await readJSON (path);
-
-    const index = list.findIndex(item => item.id == reservation.id);
-    if (index == -1) {
-        console.log ("ERRO! Não foi encontrado o Reserva de atualização.");
-        return;
+  /* Ler Arquivo de Dados de Reserva */
+  async lerJSON() {
+    
+    try {
+      const texto = await readFile(this.path, "utf-8");
+      return JSON.parse(texto); 
+    } 
+    
+    // Se o arquivo não existir ou estiver vazio
+    catch (err) {
+      return [];
     }
+  }
+
+  async salvarJSON (lista) {
+
+    await writeFile(this.path, JSON.stringify (lista, null, 2));
+  } 
+
+// Busca uma reserva de acordo com o ID passado por parâmetro
+  async buscarPorId (id) {
+
+    const reservas = await  this.lerJSON();
+
+    return reservas.find(r => r.id == id) || null;
+  }
+
+
+  // Insere reserva já criado no arquivo
+  async inserirReserva (reserva) {
+
+      const list = await this.lerJSON ();
+
+      list.push(reserva);
+
+      await this.salvarJSON (list);
+  }
+
+
+  // Atualiza um reserva
+  async atualizarReserva (reserva) {
+
+      const lista = await this.lerJSON ();
+
+      const index = lista.findIndex(item => item.id == reserva.id);
+      if (index == -1) {
+          console.log ("ERRO! Não foi encontrado o Reserva de atualização.");
+          return;
+      }
+      
+      lista[index] = reserva;
+
+      await this.salvarJSON(lista);
+  }
+
+  // Deleta reserva
+  async deletarReserva (reserva) {
+
+      const lista_1 = await this.lerJSON ();
+      if (lista_1 == []) {
+        console.log ("ERRO! Não foi encontrado reservas para deletar.");
+        return false;
+      }
+
+      const lista_2 = lista_1.filter(item => item.id != reserva.id);
+      
+      if (lista_1.length === lista_2.length) {
+        // nada foi removido
+        return false;
+      }
+
+      await salvarJSON (lista_2);
+
+      return true;
+  }
+
+
+  async listarReservas () {
     
-    list[index] = reservation;
+    return await this.lerJSON();   
 
-    await writeFile(path, JSON.stringify(list, null, 2));
-}
-
-// Deleta reserva
-async function deleteReserva (path, reservation) {
-
-    const listOld = await readJSON (path);
-
-    const listNew = listOld.filter(item => item.id != reservation.id);
-    
-    await writeFile(path, JSON.stringify(listNew, null, 2));
-}
-
-
-async function getReserva () {
-  try {
-    const reservas = await readJSON(path);
-    return reservas;
-  } catch (error) {
-    console.log ("Erro ao listar reservas.");
-    return [];
-    
   }
 }
-
-

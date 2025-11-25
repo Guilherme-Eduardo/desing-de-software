@@ -1,71 +1,68 @@
 import { readFile, writeFile } from "fs/promises";
-import path from "path";
-import Cliente from "../entities/Cliente.js";
 
-/* Ler Arquivo de Dados de Cliente */
-async function readJSON(path) {
-  
-  try {
-    const texto = await readFile(path, "utf-8");
-    return JSON.parse(texto); 
-  } 
-  
-  // Se o arquivo não existir ou estiver vazio
-  catch (err) {
-    return [];
+export default class RepositorioCliente {
+
+  constructor() {
+    this.path = "../db/cliente_db.json";
+  }
+
+  /* Ler Arquivo de Dados de Cliente */
+  async lerJSON() {
+    
+    try {
+      const texto = await readFile(this.path, "utf-8");
+      return JSON.parse(texto); 
+    } 
+    
+    // Se o arquivo não existir ou estiver vazio
+    catch (err) {
+      return [];
+    }
+  }
+
+  async salvarJSON (lista) {
+    await writeFile(this.path, JSON.stringify(lista, null, 2));
+  }
+
+  // Insere cliente já criado no arquivo
+  async inserirCliente(cliente) {
+
+    const lista = await this.lerJSON ();
+    
+    lista.push(cliente);
+    
+    await this.salvarJSON(lista);
+  }
+
+
+  // Atualiza um cliente
+  async atualizarCliente(cliente) {
+
+      const lista = await this.lerJSON ();
+
+      const index = lista.findIndex(item => item.id == cliente.id);
+      if (index == -1) {
+          console.log ("ERRO! Não foi encontrado o Cliente de atualização.");
+          return;
+      }
+      
+      lista[index] = cliente;
+      
+      await this.salvarJSON(lista);
+  }
+
+  // Deleta cliente
+  async deletarCliente(cliente) {
+
+    const lista_1 = await this.lerJSON ();
+    if (lista_1 == [])
+        return false;
+
+    const lista_2 = lista_1.filter(item => item.id != cliente.id);
+    if (lista_1.length == lista_2.length)
+      return false;
+      
+      await salvarJSON (lista_2);
+      return true;
   }
 }
-
-// Verifica se um já existe um cliente
-async function findCliente(path, client) {
-
-    const clients = await readJSON(path);
-
-    return clients.find(item =>
-        item.id === client.id &&
-        item.nome === client.nome &&
-        item.data_nascimento === client.data_nascimento &&
-        item.cpf === client.cpf &&
-        item.email === client.email &&
-        item.telefone === client.telefone
-    ) || null;
-}
-
-// Insere cliente já criado no arquivo
-async function insertCliente(path, client) {
-
-    const list = await readJSON (path);
-
-    list.push(client);
-
-    await writeFile(path, JSON.stringify(list, null, 2));
-}
-
-
-// Atualiza um cliente
-async function updateCliente(path, client) {
-
-    const list = await readJSON (path);
-
-    const index = list.findIndex(item => item.id == client.id);
-    if (index == -1) {
-        console.log ("ERRO! Não foi encontrado o Cliente de atualização.");
-        return;
-    }
-    
-    list[index] = client;
-
-    await writeFile(path, JSON.stringify(list, null, 2));
-}
-
-// Deleta cliente
-async function deleteCliente(path, client) {
-
-    const listOld = await readJSON (path);
-
-    const listNew = listOld.filter(item => item.id != client.id);
-    
-    await writeFile(path, JSON.stringify(listNew, null, 2));
-}
-
-

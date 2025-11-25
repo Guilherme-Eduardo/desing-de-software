@@ -1,72 +1,73 @@
 import { readFile, writeFile } from "fs/promises";
-import path from "path";
-import Endereco from "../entities/Endereco.js";
 
-/* Ler Arquivo de Dados de Endereço */
-async function readJSON(path) {
-  
-  try {
-    const texto = await readFile(path, "utf-8");
-    return JSON.parse(texto); // transforma texto em objeto/array
-  } 
-  
-  // Se o arquivo não existir ou estiver vazio
-  catch (err) {
-    return [];
+export default class RepositorioEndereco {
+
+  constructor() {
+    this.path = "../db/endereco_db.json";
   }
-}
 
-// Verifica se um já existe um endereço
-async function findEndereco (path, address) {
-
-    const enderecos = await readJSON(path);
-
-    return enderecos.find(item =>
-        item.id === address.id &&
-        item.rua === address.rua &&
-        item.numero === address.numero &&
-        item.bairro === address.bairro &&
-        item.cidade === address.cidade &&
-        item.estado === address.estado && 
-        item.complemento === address.complemento
-    ) || null;
-}
-
-// Insere endereço já criado no arquivo
-async function insertEndereco (path, address) {
-
-    const list = await readJSON (path);
-
-    list.push(address);
-
-    await writeFile(path, JSON.stringify(list, null, 2));
-}
-
-
-// Atualiza um endereço
-async function updateEndereco (path, address) {
-
-    const list = await readJSON (path);
-
-    const index = list.findIndex(item => item.id == address.id);
-    if (index == -1) {
-        console.log ("ERRO! Não foi encontrado o Endereço de atualização.");
-        return;
+  /* Ler Arquivo de Dados de Endereço */
+  async lerJSON() {
+    
+    try {
+      const texto = await readFile(this.path, "utf-8");
+      return JSON.parse(texto); // transforma texto em objeto/array
+    } 
+    
+    // Se o arquivo não existir ou estiver vazio
+    catch (err) {
+      return [];
     }
-    
-    list[index] = address;
+  }
 
-    await writeFile(path, JSON.stringify(list, null, 2));
+  async salvarJSON (lista) {
+    await writeFile(this.path, JSON.stringify(lista, null, 2));
+  }
+
+  // Insere endereço já criado no arquivo
+  async inserirEndereco (endereco) {
+
+    const lista = await this.lerJSON ();
+
+    lista.push(endereco);
+
+    await this.salvarJSON(lista);
+  }
+
+
+  // Atualiza um endereço
+  async atualizarEndereco (endereco) {
+
+    const lista = await this.lerJSON ();
+
+    const index = lista.findIndex(item => item.id == endereco.id);
+    if (index == -1) {
+      console.log ("ERRO! Não foi encontrado o Endereço de atualização.");
+      return false;
+    }
+      
+    lista[index] = endereco;
+      
+    await this.salvarJSON(lista);
+  }
+
+  // Deleta endereço
+  async deletarEndereco (endereco) {
+
+    const lista_1 = await this.lerJSON ();
+    if (lista_1 == [])
+        return false;
+
+    const lista_2 = lista_1.filter(item => item.id != endereco.id);
+    if (lista_1.length == lista_2.length)
+      return false;
+
+    await this.salvarJSON(lista_2);
+    return true;
+    }
+
+    async listarEnderecos () {
+      return await this.lerJSON();
+    }
+  
 }
-
-// Deleta endereço
-async function deleteEndereco (path, adress) {
-
-    const listOld = await readJSON (path);
-
-    const listNew = listOld.filter(item => item.id != adress.id);
-    
-    await writeFile(path, JSON.stringify(listNew, null, 2));
-}
-
-

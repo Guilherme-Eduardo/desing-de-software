@@ -12,7 +12,7 @@ export default class ServicoProprietario {
    * Retorna todos os proprietários cadastrados.
    */
   async listarProprietarios() {
-    return await this.repositorio.listarTodos();
+    return await this.repositorio.listarProprietarios();
   }
 
   /**
@@ -37,7 +37,7 @@ export default class ServicoProprietario {
    */
   async criarProprietario(dados) {
     const proprietario = Proprietario.fromObject(dados);
-    const criado = await this.repositorio.criar(proprietario);
+    const criado = await this.repositorio.inserirProprietario(proprietario);
     return criado;
   }
 
@@ -59,7 +59,7 @@ export default class ServicoProprietario {
       id // garante que o id não mude
     });
 
-    const salvo = await this.repositorio.atualizar(id, proprietarioAtualizado);
+    const salvo = await this.repositorio.atualizarProprietario(proprietarioAtualizado);
     return salvo;
   }
 
@@ -67,7 +67,7 @@ export default class ServicoProprietario {
    * Remove um proprietário do sistema.
    */
   async removerProprietario(id) {
-    const removido = await this.repositorio.remover(id);
+    const removido = await this.repositorio.deletarProprietario(id);
 
     if (!removido) {
       const erro = new Error("Proprietário não encontrado");

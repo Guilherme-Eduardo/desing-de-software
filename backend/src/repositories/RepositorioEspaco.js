@@ -1,79 +1,74 @@
 import { readFile, writeFile } from "fs/promises";
-import path from "path";
-import Espaco from "../entities/Espaco.js";
 
-/* Ler Arquivo de Dados de Espaço */
-async function readJSON(path) {
-  
-  try {
-    const texto = await readFile(path, "utf-8");
-    return JSON.parse(texto); 
-  } 
-  
-  // Se o arquivo não existir ou estiver vazio
-  catch (err) {
-    return [];
+export default class RepositorioEspaco {
+
+  constructor () {
+    this.path = "../db/espaco_db.json";
   }
+
+  /* Ler Arquivo de Dados de Espaço */
+  async lerJSON() {
+    
+    try {
+      const texto = await readFile(this.path, "utf-8");
+      return JSON.parse(texto); 
+    } 
+  
+    // Se o arquivo não existir ou estiver vazio
+    catch (err) {
+      return [];
+    }
+  }
+
+  async salvarJSON (lista) {
+    await writeFile(path, JSON.stringify(lista, null, 2));
+  }
+
+
+  // Insere espaco já criado no arquivo
+  async inserirEspaco (espaco) {
+    
+      const lista = await this.lerJSON ();
+
+      lista.push(espaco);
+      
+      this.salvarJSON(lista);
 }
 
-// Verifica se um já existe um espaço
-async function findEspaco(path, space) {
 
-    const reservas = await readJSON(path);
-
-    return reservas.find(item =>
-        item.id === space.id &&
-        item.capacidade === space.capacidade &&
-        item.preco === space.preco &&
-        item.tipo === space.tipo
-    ) || null;
-}
-
-// Insere espaco já criado no arquivo
-async function insertEspaco (path, space) {
-
-    const list = await readJSON (path);
-
-    list.push(space);
-
-    await writeFile(path, JSON.stringify(list, null, 2));
-}
-
-
-// Atualiza um Espaço
-async function updateEspaco (path, oldSpace, newSpace) {
-
-    const list = await readJSON (path);
+  // Atualiza um Espaço
+  async atualizarEspaco (espaco) {
+    
+    const lista = await this.lerJSON ();
 
     const index = list.findIndex(item => item.id == oldSpace.id);
     if (index == -1) {
-        console.log ("ERRO! Não foi encontrado o Espaço de atualização.");
-        return;
+      console.log ("ERRO! Não foi encontrado o Espaço de atualização.");
+      return false;
     }
-    
-    list[index] = newSpace;
+      
+    lista[index] = espaco;
 
-    await writeFile(path, JSON.stringify(list, null, 2));
-}
+    await this.salvarJSON(lista);
+  }
 
-// Deleta Espaço
-async function deleteEspaco (path, space) {
+  // Deleta Espaço  
+  async deletarEspaco (espaco) {
 
-    const listOld = await readJSON (path);
+    const lista_1 = await this.lerJSON ();
+    if (lista_1 == [])
+      return false;
 
-    const listNew = listOld.filter(item => item.id != space.id);
-    
-    await writeFile(path, JSON.stringify(listNew, null, 2));
-}
+    const lista_2 = lista_1.filter(item => item.id != espaco.id);
+    if (lista_1.length == lista_2.length)
+      return false;
 
-async function getEspacos () {
-  try {
-    const espacos = await readJSON(path);
-    return espacos;
-  } catch (error) {
-    console.log ("Erro ao listar espacos.");
-    return [];    
+    await this.salvarJSON(lista_2);
+
+    return true;
+  }
+  
+  async listarEspacos () {
+    return await this.lerJSON();
   }
 }
-
-

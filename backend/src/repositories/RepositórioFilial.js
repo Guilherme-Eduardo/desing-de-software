@@ -1,12 +1,17 @@
 // src/repositories/RepositorioFilial.js
 import { readFile, writeFile } from "fs/promises";
-import path from "path";
-import Filial from "../entities/Filial.js";
 
-/* Lê arquivo JSON (lista de filiais) */
-async function readJSON(caminho) {
+export default class RepositorioFilial {
+
+  constructor () {
+
+    this.path = "../db/filial_db.json";
+  }  
+
+  /* Lê arquivo JSON (lista de filiais) */
+  async lerJSON() {
   try {
-    const texto = await readFile(caminho, "utf-8");
+    const texto = await readFile(this.path, "utf-8");
     return JSON.parse(texto);
   } catch (err) {
     // Se o arquivo não existir ou estiver vazio, retornamos lista vazia
@@ -14,90 +19,64 @@ async function readJSON(caminho) {
   }
 }
 
-/* Escreve arquivo JSON */
-async function writeJSON(caminho, dados) {
-  await writeFile(caminho, JSON.stringify(dados, null, 2));
-}
-
-export default class RepositorioFilial {
-  constructor() {
-    // Ajuste o caminho conforme sua estrutura de pastas
-    this.caminhoArquivo = path.resolve("db", "filiais.json");
+  /* Escreve arquivo JSON */
+  async salvarJSON(lista) {
+    await writeFile(this.path, JSON.stringify(lista, null, 2));
   }
 
   /* Retorna todas as filiais */
-  async listarTodas() {
-    const lista = await readJSON(this.caminhoArquivo);
-    // Converte cada item para entidade Filial
-    return lista.map((item) => Filial.fromObject(item));
+  async listarFiliais() {
+    return await this.lerJSON();
   }
 
   /* Busca uma filial pelo id */
   async buscarPorId(id) {
-    const lista = await readJSON(this.caminhoArquivo);
-    const encontrado = lista.find((item) => String(item.id) === String(id));
-    return encontrado ? Filial.fromObject(encontrado) : null;
+    const lista = await this.lerJSON();
+    const encontrado = lista.find((item) => item.id === id);
+
+    return encontrado ? encontrado : null;
   }
 
   /* Cria uma nova filial */
-  async criar(filialDados) {
-    const lista = await readJSON(this.caminhoArquivo);
+  async inserirFilial (filial) {
+    
+    const lista = await this.lerJSON();
 
-    const filial =
-      filialDados instanceof Filial
-        ? filialDados
-        : Filial.fromObject(filialDados);
+    lista.push(filial);
 
-    const jaExiste = lista.some(
-      (item) => String(item.id) === String(filial.id)
-    );
-
-    if (jaExiste) {
-      const erro = new Error("Já existe uma filial com este id");
-      erro.status = 409;
-      throw erro;
-    }
-
-    lista.push(filial.toJSON());
-    await writeJSON(this.caminhoArquivo, lista);
-
-    return filial;
+    await this.salvarJSON(lista);
   }
 
   /* Atualiza uma filial existente */
-  async atualizar(id, dadosAtualizados) {
-    const lista = await readJSON(this.caminhoArquivo);
+  async atualizarFilial(filial) {
+    const lista = await this.lerJSON();
 
-    const index = lista.findIndex((item) => String(item.id) === String(id));
+    const index = lista.findIndex((item) => item.id === id);
     if (index === -1) {
-      return null; // quem chamar decide se lança erro 404
+      return false; // quem chamar decide se lança erro 404
     }
 
-    const atual = lista[index];
+    lista[index] = filial;
 
-    const filialAtualizada = Filial.fromObject({
-      ...atual,
-      ...dadosAtualizados,
-      id // garante que o id não seja sobrescrito
-    });
+    await this.salvarJSON(lista);
 
-    lista[index] = filialAtualizada.toJSON();
-    await writeJSON(this.caminhoArquivo, lista);
-
-    return filialAtualizada;
+    return true;
   }
 
   /* Remove uma filial */
-  async remover(id) {
-    const lista = await readJSON(this.caminhoArquivo);
-    const novaLista = lista.filter((item) => String(item.id) !== String(id));
+  async removerFilial(id) {
+    const lista_1 = await this.lerJSON();
+    if (lista_1 == [])
+      return false;
 
-    if (novaLista.length === lista.length) {
+    const lista_2 = lista_1.filter((item) => item.id !== id);
+
+    if (lista_1.length === lista_2.length) {
       // nada foi removido
       return false;
     }
 
-    await writeJSON(this.caminhoArquivo, novaLista);
+    await this.salvarJSON(lista_2);
     return true;
   }
 }

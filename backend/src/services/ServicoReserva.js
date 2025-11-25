@@ -1,4 +1,5 @@
 // src/services/ServicoReserva.js
+
 import RepositorioReserva from "../repositories/RepositorioReserva.js";
 import Reserva from "../entities/Reserva.js";
 import { StatusReserva } from "../entities/StatusReserva.js";
@@ -24,7 +25,8 @@ class ServicoReserva {
       status ?? StatusReserva.PENDENTE
     );
 
-    await this.repositorio.insertReserva(reserva);
+    await this.repositorio.inserirReserva(reserva);
+
     return reserva;
   }
 
@@ -38,11 +40,12 @@ class ServicoReserva {
     if (dadosAtualizados.data !== undefined) {
       reservaExistente.setData(dadosAtualizados.data);
     }
+
     if (dadosAtualizados.status !== undefined) {
       reservaExistente.setStatus(dadosAtualizados.status);
     }
 
-    await this.repositorio.updateReserva(reservaExistente);
+    await this.repositorio.atualizarReserva(reservaExistente);
     return reservaExistente;
   }
 
@@ -56,7 +59,7 @@ class ServicoReserva {
     if (!reserva) return null;
 
     reserva.setStatus(StatusReserva.CANCELADA);
-    await this.repositorio.updateReserva(reserva);
+    await this.repositorio.atualizarReserva(reserva);
     return reserva;
   }
 

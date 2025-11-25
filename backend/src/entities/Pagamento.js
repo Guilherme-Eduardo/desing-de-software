@@ -1,9 +1,6 @@
-import PendenteState from "statespagamento/PendenteState.js";
 import { StatusPagamento } from "./StatusPagamento";
 
 export default class Pagamento {
-
-    static count_id = 0;
 
     constructor (id, total, pago = 0, status = StatusPagamento.PENDENTE) {
 
