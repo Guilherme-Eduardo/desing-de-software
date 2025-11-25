@@ -1,27 +1,29 @@
-import Pagamento from "entities/Pagamento.js";
-import RepositorioPagamento from "repositories/RepositorioPagamento";
+import Pagamento from "../entities/Pagamento.js";
+import RepositorioPagamento from "../repositories/RepositorioPagamento";
 import { StatusPagamento } from "../entities/StatusPagamento";
 
 export default class ServicoPagamento {
 
     constructor() {
         this.repositorio = new RepositorioPagamento();
+        this.count_id = 0;
     }
 
     async criarPagamento (total) {
 
-    const novoId = await this.repositorio.proximoId();
+        const novoId = this.count_id;
+        this.count_id++;
 
-    const pagamento = new Pagamento(novoId, total);
+        const pagamento = new Pagamento(novoId, total);
 
-    await this.repositorio.insertPagamento(pagamento);
+        await this.repositorio.inserirPagamento(pagamento);
 
-    return pagamento;
+        return pagamento;
     }
 
     removerPagamento (id) {
 
-        return this.repositorio.deletePagamento(id);
+        return this.repositorio.deletarPagamento(id);
 
     }
 
@@ -30,7 +32,7 @@ export default class ServicoPagamento {
         if (!pagamento) return null;
 
         pagamento.setStatus(StatusPagamento.ESTORNADO);
-        await this.repositorio.updatePagamento(pagamento);
+        await this.repositorio.atualizarPagamento(pagamento);
         return pagamento;
     }
 
@@ -54,7 +56,7 @@ export default class ServicoPagamento {
         pagamento.setStatus(StatusPagamento.SINAL);
         }
 
-        await this.repositorio.updatePagamento(pagamento);
+        await this.repositorio.atualizarPagamento(pagamento);
         return pagamento;
     }
 
@@ -66,7 +68,7 @@ export default class ServicoPagamento {
         }
 
         pagamento.setStatus(StatusPagamento.RECUSADO);
-        await this.repositorio.updatePagamento(pagamento);
+        await this.repositorio.atualizarPagamento(pagamento);
         return pagamento;
     }
 
@@ -76,9 +78,6 @@ export default class ServicoPagamento {
             return pagamento.getStatus();
          
 
-        }
-    buscarPagamento (pagamento) {
-        return this.repositorio.findPagamento(pagamento);
     }
 }
 

@@ -36,7 +36,7 @@ export default class ServicoCliente {
   async criaCliente(dadosCliente) {
     const cliente = Cliente.fromObject(dadosCliente);
 
-    const clienteCriado = await this.repositorio.criar(cliente);
+    const clienteCriado = await this.repositorio.inserirCliente(cliente);
     return clienteCriado;
   }
 
@@ -58,7 +58,7 @@ export default class ServicoCliente {
       id // garante que o id não seja trocado
     });
 
-    const salvo = await this.repositorio.atualizar(id, clienteAtualizado);
+    const salvo = await this.repositorio.atualizar(clienteAtualizado);
     return salvo;
   }
 
@@ -66,7 +66,7 @@ export default class ServicoCliente {
    * Remove um cliente do sistema.
    */
   async removeCliente(id) {
-    const removido = await this.repositorio.remover(id);
+    const removido = await this.repositorio.deletarCliente(id);
 
     if (!removido) {
       const erro = new Error("Cliente não encontrado");

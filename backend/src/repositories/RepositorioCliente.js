@@ -24,6 +24,16 @@ export default class RepositorioCliente {
     await writeFile(this.path, JSON.stringify(lista, null, 2));
   }
 
+  async buscarPorId (id) {
+
+    const lista = await this.lerJSON();
+
+    const index = lista.find(item => item.id == id);
+    
+    return index;
+  }
+
+
   // Insere cliente já criado no arquivo
   async inserirCliente(cliente) {
 

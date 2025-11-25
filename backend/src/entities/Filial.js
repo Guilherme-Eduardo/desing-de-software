@@ -1,6 +1,4 @@
 // src/entities/Filial.js
-import Endereco from "./Endereco.js";
-
 export default class Filial {
   /**
    * Representa uma filial da rede, responsável por administrar reservas.

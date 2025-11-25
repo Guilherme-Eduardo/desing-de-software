@@ -6,6 +6,7 @@ import yaml from "js-yaml";
 import swaggerUi from "swagger-ui-express";
 
 import SistemaController from "./controller/SistemaController"
+import sistemaRoutes from "./routes/sistemaRoutes.js";
 
 const app = express();
 app.use(express.json());

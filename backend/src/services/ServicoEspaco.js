@@ -1,5 +1,5 @@
-import Espaco from "entities/Espaco.js";
-import RepositorioEspaco from "repositories/RepositorioEspaco.js";
+import Espaco from "../entities/Espaco.js";
+import RepositorioEspaco from "../repositories/RepositorioEspaco.js";
 
 export default class ServicoEspaco {
 
@@ -46,30 +46,21 @@ export default class ServicoEspaco {
         espacoExistente.setEndereco(dadosAtualizados.endereco);
         }
 
-        await this.repositorio.updateEspaco(espacoExistente);
+        await this.repositorio.atualizarEspaco(espacoExistente);
         return espacoExistente;
     }
     removerEspaco (id) {
 
-        return this.repositorio.deleteEspaco(id);
+        return this.repositorio.deletarEspaco(id);
     }
 
-    buscarEspaco (space) {
-
-        return this.repositorio.findEspaco(space);
-    }
-
-    verificarDisponibilidade(space) {
+    verificarDisponibilidade(espaco) {
 
         // Algo :)
 
     }
 
     async listarEspacos() {
-        return this.repositorio.getEspacos(); // ajuste o nome se no repositório for outro
+        return this.repositorio.listarEspacos(); // ajuste o nome se no repositório for outro
     }
-
-
-
-
 }
