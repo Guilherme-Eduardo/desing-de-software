@@ -1,4 +1,4 @@
-export const StatusReserva = Object.frezze({
+export const StatusReserva = Object.freeze({
     
     PENDENTE: "pendente",
     CONFIRMADO: "confirmado",

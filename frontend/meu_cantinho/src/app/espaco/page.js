@@ -1,6 +1,6 @@
 "use client";
 
-import { criarEspaco } from "@/lib/api";
+import { criarEspaco } from "../lib/api";
 
 export default function CadastroEspacoPage() {
   async function handleSubmit(e) {

@@ -1,5 +1,5 @@
 import express from "express";
-import * as SistemaController from "../Controller/SistemaController.js";
+import * as SistemaController from "../controller/SistemaController.js";
 
 const router = express.Router();
 

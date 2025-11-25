@@ -1,6 +1,6 @@
 import Pagamento from "../entities/Pagamento.js";
-import RepositorioPagamento from "../repositories/RepositorioPagamento";
-import { StatusPagamento } from "../entities/StatusPagamento";
+import RepositorioPagamento from "../repositories/RepositorioPagamento.js";
+import { StatusPagamento } from "../entities/StatusPagamento.js";
 
 export default class ServicoPagamento {
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { criarCliente } from "@/lib/api";
+import { criarCliente } from "../lib/api";
 
 export default function CadastroClientePage() {
   async function handleSubmit(e) {
@@ -34,7 +34,7 @@ export default function CadastroClientePage() {
               name="nome"
               type="text"
               required
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="Ex.: João da Silva"
             />
@@ -53,7 +53,7 @@ export default function CadastroClientePage() {
               name="documento"
               type="text"
               required
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="Ex.: 123.456.789-00"
             />
@@ -63,7 +63,7 @@ export default function CadastroClientePage() {
           <div>
             <label
               htmlFor="telefone"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="text-black block text-sm font-medium text-gray-700 mb-1"
             >
               Telefone
             </label>
@@ -71,7 +71,7 @@ export default function CadastroClientePage() {
               id="telefone"
               name="telefone"
               type="text"
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="Ex.: (41) 99999-9999"
             />
@@ -81,7 +81,7 @@ export default function CadastroClientePage() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="text-black block text-sm font-medium text-gray-700 mb-1"
             >
               E-mail
             </label>
@@ -89,7 +89,7 @@ export default function CadastroClientePage() {
               id="email"
               name="email"
               type="email"
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="cliente@exemplo.com"
             />

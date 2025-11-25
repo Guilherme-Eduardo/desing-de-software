@@ -1,10 +1,8 @@
-// src/services/ServicoReserva.js
-
 import RepositorioReserva from "../repositories/RepositorioReserva.js";
 import Reserva from "../entities/Reserva.js";
 import { StatusReserva } from "../entities/StatusReserva.js";
 
-class ServicoReserva {
+export default class ServicoReserva {
   constructor() {
     this.repositorio = new RepositorioReserva();
   }
@@ -68,4 +66,3 @@ class ServicoReserva {
   }
 }
 
-export default new ServicoReserva();

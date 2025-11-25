@@ -1,4 +1,4 @@
-import { StatusPagamento } from "./StatusPagamento";
+import { StatusPagamento } from "./StatusPagamento.js";
 
 export default class Pagamento {
 

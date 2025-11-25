@@ -1,5 +1,5 @@
 // src/services/ServicoCliente.js
-import RespositorioCliente from "./repositories/RespositorioCliente.js";
+import RespositorioCliente from "../repositories/RepositorioCliente.js";
 import Cliente from "../entities/Cliente.js";
 
 export default class ServicoCliente {

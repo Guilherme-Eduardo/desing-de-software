@@ -1,4 +1,4 @@
-export const StatusPagamento = Object.frezze({
+export const StatusPagamento = Object.freeze({
     
     APROVADO: "aprovado",
     RECUSADO: "recusado",

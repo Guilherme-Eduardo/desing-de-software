@@ -1,18 +1,18 @@
 import express from "express";
 import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
 import yaml from "js-yaml";
 import swaggerUi from "swagger-ui-express";
+import cors from "cors";
 
-import SistemaController from "./controller/SistemaController"
 import sistemaRoutes from "./routes/sistemaRoutes.js";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
-const doc = yaml.load(fs.readFileSync('/openapi.yaml', 'utf-8'));
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(doc));
+yaml.load(fs.readFileSync('openapi.yaml', 'utf-8'));
+const doc = yaml.load(fs.readFileSync('./openapi.yaml', 'utf-8'));
+
 
 
 app.use("/", sistemaRoutes);
