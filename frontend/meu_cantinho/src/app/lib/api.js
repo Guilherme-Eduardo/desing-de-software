@@ -1,34 +1,16 @@
 const API_BASE_URL = "http://localhost:3002";
 
-async function handleResponse(res) {
-  if (!res.ok) {
-    let text = "";
-    try {
-      text = await res.text();
-    } catch {
-      // ignora
-    }
-    throw new Error(
-      `Erro na API: ${res.status} ${res.statusText} - ${text}`
-    );
-  }
-  // Algumas rotas 204 (no content) não têm corpo
-  if (res.status === 204) {
-    return null;
-  }
-  return res.json();
-}
-
-/* ===================== RESERVAS ===================== */
 
 export async function listarReservas() {
   const res = await fetch(`${API_BASE_URL}/reservas`);
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function obterReserva(id) {
   const res = await fetch(`${API_BASE_URL}/reservas/${id}`);
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function criarReserva(dados) {
@@ -37,7 +19,8 @@ export async function criarReserva(dados) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function atualizarReserva(id, dados) {
@@ -46,26 +29,30 @@ export async function atualizarReserva(id, dados) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function removerReserva(id) {
   const res = await fetch(`${API_BASE_URL}/reservas/${id}`, {
     method: "DELETE",
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 /* ===================== ESPAÇOS ===================== */
 
 export async function listarEspacos() {
   const res = await fetch(`${API_BASE_URL}/espacos`);
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function obterEspaco(id) {
   const res = await fetch(`${API_BASE_URL}/espacos/${id}`);
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function criarEspaco(dados) {
@@ -74,7 +61,8 @@ export async function criarEspaco(dados) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function atualizarEspaco(id, dados) {
@@ -83,26 +71,30 @@ export async function atualizarEspaco(id, dados) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function removerEspaco(id) {
   const res = await fetch(`${API_BASE_URL}/espacos/${id}`, {
     method: "DELETE",
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 /* ===================== PAGAMENTOS ===================== */
 
 export async function listarPagamentos() {
   const res = await fetch(`${API_BASE_URL}/pagamentos`);
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function obterPagamento(id) {
   const res = await fetch(`${API_BASE_URL}/pagamentos/${id}`);
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function criarPagamento(dados) {
@@ -111,7 +103,8 @@ export async function criarPagamento(dados) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function atualizarPagamento(id, dados) {
@@ -120,26 +113,30 @@ export async function atualizarPagamento(id, dados) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function removerPagamento(id) {
   const res = await fetch(`${API_BASE_URL}/pagamentos/${id}`, {
     method: "DELETE",
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 /* ===================== CLIENTES ===================== */
 
 export async function listarClientes() {
   const res = await fetch(`${API_BASE_URL}/clientes`);
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function obterCliente(id) {
   const res = await fetch(`${API_BASE_URL}/clientes/${id}`);
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function criarCliente(dados) {
@@ -148,7 +145,8 @@ export async function criarCliente(dados) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function atualizarCliente(id, dados) {
@@ -157,26 +155,30 @@ export async function atualizarCliente(id, dados) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function removerCliente(id) {
   const res = await fetch(`${API_BASE_URL}/clientes/${id}`, {
     method: "DELETE",
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 /* ===================== PROPRIETÁRIOS ===================== */
 
 export async function listarProprietarios() {
   const res = await fetch(`${API_BASE_URL}/proprietarios`);
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function obterProprietario(id) {
   const res = await fetch(`${API_BASE_URL}/proprietarios/${id}`);
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function criarProprietario(dados) {
@@ -185,7 +187,8 @@ export async function criarProprietario(dados) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function atualizarProprietario(id, dados) {
@@ -194,12 +197,14 @@ export async function atualizarProprietario(id, dados) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
 
 export async function removerProprietario(id) {
   const res = await fetch(`${API_BASE_URL}/proprietarios/${id}`, {
     method: "DELETE",
   });
-  return handleResponse(res);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
 }
