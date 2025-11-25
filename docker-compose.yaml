@@ -1,0 +1,19 @@
+services:
+  backend:
+    container_name: backend_seu_cantinho
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+
+  frontend:
+    container_name: frontend-seu_cantinho
+    build:
+      context: ./frontend/meu_cantinho
+      dockerfile: Dockerfile
+    ports:
+    - '3000:3000'
+    depends_on:
+    - backend
+
