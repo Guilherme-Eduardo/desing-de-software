@@ -1,0 +1,16 @@
+[
+  {
+    "id": 0,
+    "nome": "João Silva",
+    "telefone": "12335489525",
+    "email": "heloisa@gmail.com",
+    "reservas": []
+  },
+  {
+    "id": 1,
+    "nome": "João Silva",
+    "telefone": "1233548952",
+    "email": "heloisa@gmail.com",
+    "reservas": []
+  }
+]

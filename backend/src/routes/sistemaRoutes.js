@@ -39,4 +39,6 @@ router.post("/proprietarios", SistemaController.criarProprietario);
 router.put("/proprietarios/:id", SistemaController.atualizarProprietario);
 router.delete("/proprietarios/:id", SistemaController.removerProprietario);
 
+router.post("/enderecos", SistemaController.criarEndereco);
+
 export default router;

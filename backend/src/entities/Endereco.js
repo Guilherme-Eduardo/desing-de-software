@@ -23,6 +23,20 @@ export default class Endereco {
     this.complemento = complemento;
   }
 
+  getRua () { return this.rua; }
+  getNumero() { return this.numero; }
+  getBairro () { return this.bairro; }
+  getCidade () { return this.cidade; }
+  getEstado () { return this.estado; }
+  getComplemento() { return this.complemento; }
+
+  setRua (rua) { this.rua = rua; }
+  setNumero (numero) { this.numero = numero; }
+  setBairro (bairro) { this.bairro = bairro; }
+  setCidade (cidade) { this.cidade = cidade; }
+  setEstado (estado) { this.estado = estado; }
+  setComplemento (complemento) { this.complemento = complemento; }
+
 
   /* Cria um Endereco a partir de um objeto “cru” (por exemplo, vindo de JSON). */
   static fromObject(obj) {

@@ -208,3 +208,20 @@ export async function removerProprietario(id) {
   if (!res.ok) throw new Error ("Erro");
   return res.json();
 }
+
+
+export async function criarEndereco(dados) {
+  const res = await fetch(`${API_BASE_URL}/enderecos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dados),
+  });
+
+  if (!res.ok) {
+    const texto = await res.text();
+    console.error("Erro da API:", texto);
+    throw new Error(texto || "Erro desconhecido");
+  }
+
+  return res.json();
+}

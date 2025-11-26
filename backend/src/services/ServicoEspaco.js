@@ -5,23 +5,29 @@ export default class ServicoEspaco {
 
     constructor() {
         this.repositorio = new RepositorioEspaco();
+        this.countId = 0;
     }
     
     async criarEspaco (dadosEspaco) {
 
         const { capacidade, preco, tipo, endereco } = dadosEspaco;
 
-        const novoId = await this.repositorio.proximoId();
-
         const novoEspaco = new Espaco(
-            novoId,
+            this.countId,
             capacidade,
             preco,
             tipo,
             endereco
         );
 
-        await this.repositorio.insertEspaco(novoEspaco);
+        if (await this.repositorio.buscarEspaco(novoEspaco)) {
+            console.log("Espaço já criado")
+            return null;
+        }
+
+        this.countId++;
+
+        await this.repositorio.inserirEspaco(novoEspaco);
         return novoEspaco;
     }
         
@@ -49,6 +55,7 @@ export default class ServicoEspaco {
         await this.repositorio.atualizarEspaco(espacoExistente);
         return espacoExistente;
     }
+
     removerEspaco (id) {
 
         return this.repositorio.deletarEspaco(id);

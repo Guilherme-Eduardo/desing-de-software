@@ -5,7 +5,6 @@ export default class Cliente {
     documento,
     telefone,
     email,
-    endereco,
     reservas = [] // histórico de reservas
   ) {
     this.id = id;
@@ -13,7 +12,6 @@ export default class Cliente {
     this.documento = documento;
     this.telefone = telefone;
     this.email = email;
-    this.endereco = endereco;
     this.reservas = reservas; // pode ser lista de objetos ou de IDs
   }
 
@@ -28,33 +26,26 @@ export default class Cliente {
     return {
       id: this.id,
       nome: this.nome,
-      documento: this.documento,
+      cpf: this.cpf,
       telefone: this.telefone,
       email: this.email,
-      endereco: this.endereco ? this.endereco.toJSON() : null,
       reservas: this.reservas
     };
   }
 
-  static fromObject(obj) {
+  static fromObject(id, obj) {
     if (!obj) {
       throw new Error("Objeto de cliente inválido");
     }
 
-    const endereco =
-      obj.endereco instanceof Endereco
-        ? obj.endereco
-        : Endereco.fromObject(obj.endereco);
-
     const reservas = Array.isArray(obj.reservas) ? obj.reservas : [];
 
     return new Cliente(
-      obj.id,
+      id,
       obj.nome,
       obj.documento,
       obj.telefone,
       obj.email,
-      endereco,
       reservas
     );
   }

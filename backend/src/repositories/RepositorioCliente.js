@@ -3,7 +3,7 @@ import { readFile, writeFile } from "fs/promises";
 export default class RepositorioCliente {
 
   constructor() {
-    this.path = "../db/cliente_db.json";
+    this.path = "./db/cliente_db.json";
   }
 
   /* Ler Arquivo de Dados de Cliente */
@@ -33,6 +33,22 @@ export default class RepositorioCliente {
     return index;
   }
 
+  async buscaCliente (cliente) {
+
+    const lista = await this.lerJSON();
+
+    const ind = lista.find(item => item.nome === cliente.nome &&
+                                   item.cpf === cliente.cpf &&
+                                   item.data === cliente.data &&
+                                   item.email === cliente.email &&
+                                   item.telefone === cliente.telefone 
+    )
+
+    if (ind == undefined)
+      return false;
+
+    return true;
+  }
 
   // Insere cliente já criado no arquivo
   async inserirCliente(cliente) {

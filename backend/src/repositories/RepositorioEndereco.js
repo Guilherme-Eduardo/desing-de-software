@@ -3,7 +3,7 @@ import { readFile, writeFile } from "fs/promises";
 export default class RepositorioEndereco {
 
   constructor() {
-    this.path = "../db/endereco_db.json";
+    this.path = "./db/endereco_db.json";
   }
 
   /* Ler Arquivo de Dados de Endereço */
@@ -22,6 +22,24 @@ export default class RepositorioEndereco {
 
   async salvarJSON (lista) {
     await writeFile(this.path, JSON.stringify(lista, null, 2));
+  }
+
+  async buscarEndereco (endereco) {
+
+    const lista = await this.lerJSON();
+
+    const ind = lista.find(item => item.rua === endereco.rua & 
+                                   item.numero === endereco.numero &
+                                   item.bairro === endereco.bairro &
+                                   item.cidade === endereco.cidade &
+                                   item.estado === endereco.estado &
+                                   item.complemento === endereco.complemento
+    )
+
+    if (ind == undefined)
+      return false;
+
+    return true;
   }
 
   // Insere endereço já criado no arquivo

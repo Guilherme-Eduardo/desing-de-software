@@ -4,12 +4,14 @@ import ServicoReserva from "../services/ServicoReserva.js";
 import ServicoPagamento from "../services/ServicoPagamento.js";
 import ServicoCliente from "../services/ServicoCliente.js";
 import ServicoProprietario from "../services/ServicoProprietario.js";
+import ServicoEndereco from "../services/ServicoEndereco.js";
 
 const servicoReserva = new ServicoReserva();
 const servicoEspaco = new ServicoEspaco();
 const servicoPagamento = new ServicoPagamento();
 const servicoCliente = new ServicoCliente();
 const servicoProprietario = new ServicoProprietario();
+const servicoEndereco = new ServicoEndereco ();
 
 
 /* Retorna uma lista de reservas realizadas */
@@ -207,13 +209,17 @@ export async function obterCliente(req, res, next) {
 
 /* Cria um novo cliente */
 export async function criarCliente(req, res, next) {
+  console.log("POST /clientes recebido — body:", req.body);
   try {
     const cliente = await servicoCliente.criaCliente(req.body);
+    console.log("Cliente criado com sucesso:", cliente);
     res.status(201).json(cliente);
   } catch (error) {
+    console.error("Erro em criarCliente controller:", error);
     next(error);
   }
 }
+
 
 
 /* Atualiza cliente */
@@ -291,6 +297,15 @@ export async function removerProprietario(req, res, next) {
     const { id } = req.params;
     await servicoProprietario.removerProprietario(id);
     res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function criarEndereco (req, res, next) {
+  try {
+    const criado = await servicoEndereco.criarEndereco(req.body);
+    res.status(201).json(criado);
   } catch (err) {
     next(err);
   }
