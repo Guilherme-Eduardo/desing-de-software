@@ -81,7 +81,7 @@ export default class RepositorioCliente {
   async deletarCliente(cliente) {
 
     const lista_1 = await this.lerJSON ();
-    if (lista_1 == [])
+    if (lista_1.length == 0) 
         return false;
 
     const lista_2 = lista_1.filter(item => item.id != cliente.id);

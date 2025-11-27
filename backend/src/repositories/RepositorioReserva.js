@@ -3,7 +3,7 @@ import { readFile, writeFile } from "fs/promises";
 export default class RepositorioReserva {
 
   constructor () {
-    const path = "../data/reservas_db.json";
+    this.path = "./db/reservas_db.json";
   }  
   
   /* Ler Arquivo de Dados de Reserva */
@@ -33,6 +33,22 @@ export default class RepositorioReserva {
     return reservas.find(r => r.id == id) || null;
   }
 
+  async buscarReserva (reserva) {
+
+    const lista = await this.lerJSON();
+
+    const ind = lista.find(item => item.data_inicio === reserva.data_inicio &&
+                                   item.data_fim === reserva.data_fim &&
+                                   item.espaco === reserva.espaco &&
+                                   item.cliente === reserva.cliente &&
+                                   item.status === reserva.status
+    )
+
+    if (ind == undefined)
+      return false;
+
+    return true;
+  }
 
   // Insere reserva já criado no arquivo
   async inserirReserva (reserva) {
@@ -65,7 +81,7 @@ export default class RepositorioReserva {
   async deletarReserva (reserva) {
 
       const lista_1 = await this.lerJSON ();
-      if (lista_1 == []) {
+      if (lista_1.length == 0) {
         console.log ("ERRO! Não foi encontrado reservas para deletar.");
         return false;
       }
@@ -77,7 +93,7 @@ export default class RepositorioReserva {
         return false;
       }
 
-      await salvarJSON (lista_2);
+      await this.salvarJSON (lista_2);
 
       return true;
   }
