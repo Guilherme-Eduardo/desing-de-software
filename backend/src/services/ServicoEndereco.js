@@ -54,8 +54,8 @@ export default class ServicoEndereco {
         existente.setComplemento(dadosAtualizados.complemento);
         }
 
-        await this.repositorio.atualizarEspaco(espacoExistente);
-        return espacoExistente;
+        await this.repositorio.atualizarEndereco(existente);
+        return existente;
     }
 
     removerEndereco (id) {

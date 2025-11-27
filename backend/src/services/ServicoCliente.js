@@ -12,7 +12,7 @@ export default class ServicoCliente {
    * Retorna a lista de todos os clientes cadastrados.
    */
   async listarClientes() {
-    const clientes = await this.repositorio.listarTodos();
+    const clientes = await this.repositorio.listarClientes();
     return clientes;
   }
 

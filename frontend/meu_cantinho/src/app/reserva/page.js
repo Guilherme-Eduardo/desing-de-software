@@ -1,6 +1,6 @@
 "use client";
 
-
+import Header from "../components/Header.js";
 import { criarReserva } from "../lib/api.js";
 
 export default function ReservaPage() {
@@ -16,6 +16,9 @@ export default function ReservaPage() {
     }
 
     return (
+        <>
+        <Header />
+
         <div className="flex min-h-screen w-full items-center justify-center bg-[#fff7e6]">
             <div className="w-full max-w-md bg-white shadow-lg rounded-xl border border-orange-200 p-8">
                 <h1 className="text-2xl text-gray-700 font-semibold text-center mb-6">
@@ -107,5 +110,6 @@ export default function ReservaPage() {
                 </form>
             </div>
         </div>
+    </>
     );
 }
