@@ -63,7 +63,7 @@ export default function EntrarPage() {
                 required
                 value={form.email}
                 onChange={handleChange}
-                className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
                 placeholder="seuemail@exemplo.com"
               />
             </div>
@@ -71,7 +71,7 @@ export default function EntrarPage() {
             <div>
               <label
                 htmlFor="senha"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="text-black block text-sm font-medium text-gray-700 mb-1"
               >
                 Senha
               </label>
@@ -82,7 +82,7 @@ export default function EntrarPage() {
                 required
                 value={form.senha}
                 onChange={handleChange}
-                className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
                 placeholder="Digite sua senha"
               />
             </div>

@@ -15,6 +15,7 @@ export default class Cliente {
     this.reservas = reservas; // pode ser lista de objetos ou de IDs
   }
 
+
   adicionarReserva(reserva) {
     if (!this.reservas) {
       this.reservas = [];

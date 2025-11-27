@@ -1,6 +1,6 @@
 "use client";
 
-import { criarEspaco } from "../lib/api";
+import { criarEspaco } from "../lib/api.js";
 
 export default function CadastroEspacoPage() {
   async function handleSubmit(e) {
@@ -34,7 +34,7 @@ export default function CadastroEspacoPage() {
               name="nome"
               type="text"
               required
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="Ex.: Salão Principal, Chácara Verde"
             />
@@ -44,7 +44,7 @@ export default function CadastroEspacoPage() {
           <div>
             <label
               htmlFor="tipo"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="text-black block text-sm font-medium text-gray-700 mb-1"
             >
               Tipo de espaço
             </label>
@@ -52,7 +52,7 @@ export default function CadastroEspacoPage() {
               id="tipo"
               name="tipo"
               type="text"
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="Ex.: Salão de festas, Chácara, Quadra esportiva"
             />
@@ -62,7 +62,7 @@ export default function CadastroEspacoPage() {
           <div>
             <label
               htmlFor="capacidade"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="text-black block text-sm font-medium text-gray-700 mb-1"
             >
               Capacidade (pessoas)
             </label>
@@ -71,7 +71,7 @@ export default function CadastroEspacoPage() {
               name="capacidade"
               type="number"
               min="0"
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="Ex.: 100"
             />
@@ -81,7 +81,7 @@ export default function CadastroEspacoPage() {
           <div>
             <label
               htmlFor="preco"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="text-black block text-sm font-medium text-gray-700 mb-1"
             >
               Preço base (ex.: diária ou hora)
             </label>
@@ -91,7 +91,7 @@ export default function CadastroEspacoPage() {
               type="number"
               min="0"
               step="0.01"
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="Ex.: 500.00"
             />
@@ -101,7 +101,7 @@ export default function CadastroEspacoPage() {
           <div>
             <label
               htmlFor="filialId"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="text-black block text-sm font-medium text-gray-700 mb-1"
             >
               ID da filial (opcional)
             </label>
@@ -109,7 +109,7 @@ export default function CadastroEspacoPage() {
               id="filialId"
               name="filialId"
               type="text"
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="Ex.: filial-01"
             />
@@ -119,7 +119,7 @@ export default function CadastroEspacoPage() {
           <div>
             <label
               htmlFor="descricao"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="text-black block text-sm font-medium text-gray-700 mb-1"
             >
               Descrição
             </label>
@@ -127,7 +127,7 @@ export default function CadastroEspacoPage() {
               id="descricao"
               name="descricao"
               rows={3}
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="Ex.: Espaço amplo, cozinha equipada, estacionamento para 20 carros..."
             />

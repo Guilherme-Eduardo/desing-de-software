@@ -1,7 +1,7 @@
 "use client";
 
 
-import { criarReserva } from "@/lib/api";
+import { criarReserva } from "../lib/api.js";
 
 export default function ReservaPage() {
 
