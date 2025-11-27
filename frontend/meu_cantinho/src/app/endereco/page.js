@@ -2,11 +2,18 @@
 
 import { useEffect, useState } from "react";
 
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
+import ClearIcon from '@mui/icons-material/Clear';   // <-- FALTAVA ISSO !!!
+
 import Header from "../components/Header.js";
-import { criarEndereco, listarEnderecos } from "../lib/api.js";
+import { criarEndereco, listarEnderecos, removerEndereco } from "../lib/api.js";
+import ModalEnderecoUpdate from "./ModalEnderecoUpdate.js";
+
 
 export default function CadastroEnderecoPage() {
   const [enderecos, setEnderecos] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [dadosEndereco, setDadosEndereco] = useState(null);
 
   // Carregar endereços ao abrir a página
   useEffect(() => {
@@ -32,9 +39,15 @@ export default function CadastroEnderecoPage() {
     e.target.reset(); // limpa o formulário
   }
 
+async function handleRemoveEndereco(id) {
+  await removerEndereco(id);
+  setEnderecos((prev) => prev.filter(e => e.id !== id));
+}
+
+
 
   return (
-    <>    
+    <>
       <Header />
       <div className="flex h-screen w-full items-start justify-center bg-[#fff7e6] gap-12">
         <div className="w-full max-w-md bg-white shadow-lg rounded-xl border border-orange-200 p-8">
@@ -167,7 +180,7 @@ export default function CadastroEnderecoPage() {
           </form>
         </div>
 
-        <div className="w-full max-w-md bg-white shadow-lg rounded-xl border border-orange-200 p-8">
+        <div className="w-full max-w-md bg-white shadow-lg rounded-xl border border-orange-200 p-8 h-[640px] overflow-y-auto">
 
           <h1 className="text-2xl text-gray-700 font-semibold text-center mb-6">
             Lista de Endereços
@@ -178,7 +191,21 @@ export default function CadastroEnderecoPage() {
           ) : (
             <ul className="space-y-3">
               {enderecos.map((item, idx) => (
-                <li key={idx} className="border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800">
+                <div key={idx} className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800">
+                  {/* Botão de deletar */}
+                  <button
+                    onClick={() => handleRemoveEndereco(item.id)}
+                    className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+                  >
+                    <ClearIcon fontSize="medium" />
+                  </button>
+                  {/* Atualizar */}
+                  <button
+                    onClick={() => { setOpenModal(true); setDadosEndereco(item); }}
+                    className="absolute top-10 right-2 text-blue-600 hover:text-blue-800"
+                  >
+                    <SyncAltIcon fontSize="medium" />
+                  </button>
                   <p><strong>Rua:</strong> {item.rua}</p>
                   <p><strong>Número:</strong> {item.numero}</p>
                   <p><strong>Bairro:</strong> {item.bairro}</p>
@@ -187,14 +214,18 @@ export default function CadastroEnderecoPage() {
                   {item.complemento && (
                     <p><strong>Complemento:</strong> {item.complemento}</p>
                   )}
-                </li>
+                </div>
               ))}
             </ul>
           )}
-
         </div>
-
       </div>
+      <ModalEnderecoUpdate
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        dados={dadosEndereco}
+        setEndereco={setEnderecos}
+      />
     </>
   );
 }

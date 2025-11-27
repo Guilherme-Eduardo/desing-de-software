@@ -32,7 +32,7 @@ export default function EntrarPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#fff7e6]">
+    <div className="min-h-screen flex items-center justify-center bg-[#fff7e6]">
       <div className="w-full max-w-md mx-4">
         <div className="bg-white shadow-lg rounded-xl p-8 border border-orange-100">
           <h1 className="text-2xl font-semibold text-gray-800 mb-2 text-center">
@@ -100,6 +100,6 @@ export default function EntrarPage() {
           </p>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
