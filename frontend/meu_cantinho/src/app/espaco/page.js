@@ -1,20 +1,42 @@
 "use client";
 
-import { criarEspaco } from "../lib/api.js";
+import { useEffect, useState } from "react";
+
+import Header from "../components/Header.js";
+import { criarEspaco, listarEspacos } from "../lib/api.js";
 
 export default function CadastroEspacoPage() {
+  const [espacos, setEspacos] = useState([]);
+
+  // Carregar endereços ao abrir a página
+  useEffect(() => {
+    async function carregar() {
+      const dados = await listarEspacos();
+      if (dados) setEspacos(dados);
+    }
+    carregar();
+  }, []);
+
+  // Enviar o formulário
   async function handleSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const dados = Object.fromEntries(formData.entries());
-    console.log("Dados do espaço:", dados);
 
-    await criarEspaco(dados);
+    await criarEspaco(dados);              // cria o endereço
+
+    const atualizada = await listarEspacos(); // recarrega a lista
+    setEspacos(atualizada);
+
+    e.target.reset(); // limpa o formulário
   }
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-[#fff7e6]">
+    <>
+      <Header />
+
+    <div className="flex h-screen w-full items-start justify-center bg-[#fff7e6] gap-12">
       <div className="w-full max-w-md bg-white shadow-lg rounded-xl border border-orange-200 p-8">
         <h1 className="text-2xl text-gray-700 font-semibold text-center mb-6">
           Cadastro de Espaço
@@ -142,6 +164,31 @@ export default function CadastroEspacoPage() {
           </button>
         </form>
       </div>
+
+       <div className="w-full max-w-md bg-white shadow-lg rounded-xl border border-orange-200 p-8">
+
+          <h1 className="text-2xl text-gray-700 font-semibold text-center mb-6">
+            Lista de Espaços
+          </h1>
+
+          {espacos.length === 0 ? (
+            <p className="text-gray-600 text-center">Nenhum espaço cadastrado.</p>
+          ) : (
+            <ul className="space-y-3">
+              {espacos.map((item, idx) => (
+                <li key={idx} className="border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800">
+                  <p><strong>Cpacidade:</strong> {item.capacidade}</p>
+                  <p><strong>Preço:</strong> {item.preco}</p>
+                  <p><strong>Tipo:</strong> {item.tipo}</p>
+                  <p><strong>Endereço:</strong> {item.endereco.rua}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+
+        </div>
+
     </div>
+  </>
   );
 }

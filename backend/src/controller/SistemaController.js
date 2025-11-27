@@ -310,3 +310,12 @@ export async function criarEndereco (req, res, next) {
     next(err);
   }
 }
+
+export async function listarEnderecos(req, res, next) {
+  try {
+    const enderecos = await servicoEndereco.listarEnderecos();
+    res.json(enderecos);
+  } catch (err) {
+    next(err);
+  }
+}

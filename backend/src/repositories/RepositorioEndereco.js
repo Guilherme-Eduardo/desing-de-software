@@ -82,10 +82,10 @@ export default class RepositorioEndereco {
 
     await this.salvarJSON(lista_2);
     return true;
-    }
+  }
 
-    async listarEnderecos () {
+  async listarEnderecos () {
       return await this.lerJSON();
-    }
+  }
   
 }

@@ -4,10 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 const menu = [
-    { titulo: 'Clientes', href: "/clientes" },
-    { titulo: 'Enderecos', href: "/enderecos" },
-    { titulo: 'Reservas', href: "/reservas" },
-    { titulo: 'Espacos', href: "/espacos" },
+    { titulo: 'Clientes', href: "/cliente" },
+    { titulo: 'Enderecos', href: "/endereco" },
+    { titulo: 'Reservas', href: "/reserva" },
+    { titulo: 'Espacos', href: "/espaco" },
 ];
 
 export default function Header() {

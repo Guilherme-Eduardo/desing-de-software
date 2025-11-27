@@ -91,4 +91,9 @@ export default class RepositorioCliente {
       await salvarJSON (lista_2);
       return true;
   }
+
+  async listarClientes () {
+
+    return await this.lerJSON();
+  }
 }

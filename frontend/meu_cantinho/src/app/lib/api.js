@@ -223,3 +223,9 @@ export async function criarEndereco(dados) {
 
   return res.json();
 }
+
+export async function listarEnderecos() {
+  const res = await fetch(`${API_BASE_URL}/enderecos`);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
+}
