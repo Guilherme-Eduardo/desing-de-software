@@ -29,14 +29,14 @@ export default function ReservaPage() {
                     {/* Nome do cliente */}
                     <div>
                         <label
-                            htmlFor="nome"
+                            htmlFor="cliente"
                             className="block text-sm font-medium text-gray-700 mb-1"
                         >
-                            Nome do cliente
+                            nome do cliente
                         </label>
                         <input
-                            id="nome"
-                            name="nome"
+                            id="cliente"
+                            name="cliente"
                             type="text"
                             required
                             className=" text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm

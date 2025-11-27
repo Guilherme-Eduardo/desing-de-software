@@ -2,21 +2,27 @@ import { StatusReserva } from "./StatusReserva.js";
 
 export default class Reserva {
 
-    constructor (id, data, status) {
+    constructor (id, data_inicio, data_fim, espaco, cliente, status) {
 
         this.id = id;
-        this.data = data;
+        this.data_inicio = data_inicio;
+        this.data_fim = data_fim;
+        this.espaco = espaco;
+        this.cliente = cliente;
         this.status = status;
     }
 
     static fromObject(obj) {
     if (!obj) {
-      throw new Error("Objeto de proprietário inválido");
+      throw new Error("Objeto de reserva inválido");
     }
 
     return new Reserva (
       obj.id,
-      obj.data,
+      obj.data_inicio,
+      obj.data_fim,
+      obj.espaco,
+      obj.cliente,
       obj.status
     );
   }
@@ -27,7 +33,10 @@ export default class Reserva {
   toJSON() {
     return {
       id: this.id,
-      data : this.data,
+      data_inicio : this.data_inicio,
+      data_fim : this.data_fim,
+      espaco : this.espaco,
+      cliente : this.cliente,
       status : this.status
     };
   }

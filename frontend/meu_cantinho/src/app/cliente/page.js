@@ -2,8 +2,12 @@
 
 import { useEffect, useState } from "react";
 
+import ClearIcon from '@mui/icons-material/Clear';
+import UpdateIcon from '@mui/icons-material/Update';
+
 import Header from "../components/Header.js";
 import { criarCliente, listarClientes } from "../lib/api.js";
+
 
 export default function CadastroClientePage() {
   const [clientes, setClientes] = useState([]);
@@ -16,20 +20,47 @@ export default function CadastroClientePage() {
     carregar();
   }, []);
 
-async function handleSubmit(e) {
-  e.preventDefault();
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-  const formData = new FormData(e.target);
-  const dados = Object.fromEntries(formData.entries());
+    const formData = new FormData(e.target);
+    const dados = Object.fromEntries(formData.entries());
 
-  await criarCliente(dados);
+    await criarCliente(dados);
 
-  const atualizada = await listarClientes();
-  setClientes(atualizada);
+    const atualizada = await listarClientes();
+    setClientes(atualizada);
 
-  e.target.reset();
+    e.target.reset();
+  }
+
+  async function removerCliente(id) {
+  try {
+    await fetch(`http://localhost:3000/cliente/${id}`, {
+      method: "DELETE",
+    });
+
+    // Atualiza a lista no front removendo a reserva deletada
+    setClientes((prev) => prev.filter((r) => r.id !== id));
+
+  } catch (err) {
+    console.error("Erro ao deletar reserva", err);
+  }
 }
 
+  async function atualizarCliente(item) {
+  try {
+    await fetch(`http://localhost:3000/cliente/${item.id}`, {
+      method: "PATCH",
+    });
+
+    // Atualiza a lista no front removendo a reserva deletada
+    setClientes((prev) => prev.filter((r) => r.id !== item.id));
+
+  } catch (err) {
+    console.error("Erro ao deletar reserva", err);
+  }
+}
 
   return (
     <>
@@ -126,15 +157,32 @@ async function handleSubmit(e) {
           ) : (
             <ul className="space-y-3">
               {clientes.map((item, idx) => (
-                <li
+
+                <div
                   key={idx}
-                  className="border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800"
+                  className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800"
                 >
+                  {/* Botão de deletar */}
+                  <button
+                    onClick={() => removerCliente(item.id)}
+                    className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+                  >
+                    <ClearIcon fontSize="medium" />
+                  </button>
+                  {/* Atualizar */}
+                  <button
+                    onClick={() => atualizarCliente(item)}
+                    className="absolute top-10 right-2 text-blue-600 hover:text-blue-800"
+                  >
+                    <UpdateIcon fontSize="medium" />
+                  </button>
                   <p><strong>Nome:</strong> {item.nome}</p>
                   <p><strong>Documento:</strong> {item.documento}</p>
                   <p><strong>Telefone:</strong> {item.telefone}</p>
                   <p><strong>Email:</strong> {item.email}</p>
-                </li>
+                </div>
+
+
               ))}
             </ul>
           )}

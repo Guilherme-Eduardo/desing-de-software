@@ -69,7 +69,7 @@ export default class RepositorioProprietario {
   async deletarProprietario (proprietario) {
 
       const lista_1 = await this.lerJSON ();
-      if (lista_1 == []) {
+      if (lista_1.length == 0) {
         console.log ("ERRO! Não há proprietários para deletar.");
         return false;
       }

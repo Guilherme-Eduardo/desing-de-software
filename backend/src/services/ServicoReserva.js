@@ -5,23 +5,32 @@ import { StatusReserva } from "../entities/StatusReserva.js";
 export default class ServicoReserva {
   constructor() {
     this.repositorio = new RepositorioReserva();
+    this.countID = 0;
   }
 
   async listarReservas() {
-    return this.repositorio.getReservas(); // ajuste o nome se for diferente
+    return this.repositorio.listarReservas(); // ajuste o nome se for diferente
   }
 
   async criarReserva(dados) {
     // aqui você adapta aos campos reais da sua Reserva
-    const { id, data, espacoId, clienteId, status } = dados;
+    const { data_inicio, data_fim, espaco, cliente, status } = dados;
 
     const reserva = new Reserva(
-      id,
-      data,
-      espacoId,
-      clienteId,
+      this.countID,
+      data_inicio,
+      data_fim,
+      espaco,
+      cliente,
       status ?? StatusReserva.PENDENTE
     );
+
+    // if (this.repositorio.buscarReserva(reserva)) {
+    //   console.log("Reserva já cadastrada");
+    //   return null;
+    // }
+
+    this.countID++;
 
     await this.repositorio.inserirReserva(reserva);
 
@@ -49,7 +58,7 @@ export default class ServicoReserva {
 
   async removerReserva(id) {
     // repositório retorna true/false
-    return this.repositorio.deleteReserva(id);
+    return this.repositorio.deletarReserva(id);
   }
 
   async cancelarReserva(id) {
