@@ -7,10 +7,13 @@ import SyncAltIcon from '@mui/icons-material/SyncAlt';
 
 import Header from "../components/Header.js";
 import { criarEspaco, listarEnderecos, listarEspacos } from "../lib/api.js";
+import ModalEspacoUpdate from "./components/ModalEspacoUpdate.js";
 
 export default function CadastroEspacoPage() {
+  const [openModal, setOpenModal] = useState(false);
   const [espacos, setEspacos] = useState([]);
   const [enderecos, setEnderecos] = useState([]);
+  const [dadosEspaco, setDadosEspaco] = useState([]);
 
   // Carregar endereços ao abrir a página
   useEffect(() => {
@@ -29,14 +32,24 @@ export default function CadastroEspacoPage() {
     e.preventDefault();
 
     const formData = new FormData(e.target);
+
+    // Envia os dados incluindo a imagem
     const dados = Object.fromEntries(formData.entries());
+    const imagem = formData.get("imagem"); // Captura o arquivo de imagem
 
-    await criarEspaco(dados);              // cria o endereço
+    // O backend vai receber o arquivo de imagem e o restante dos dados
+    const response = await fetch("http://localhost:3000/espacos", {
+      method: "POST",
+      body: formData,  // FormData inclui o arquivo de imagem
+    });
 
-    const atualizada = await listarEspacos(); // recarrega a lista
-    setEspaco(atualizada);
-
-    e.target.reset(); // limpa o formulário
+    if (response.ok) {
+      const atualizada = await listarEspacos();
+      setEspacos(atualizada);
+      e.target.reset();
+    } else {
+      console.error("Erro ao cadastrar espaço");
+    }
   }
 
   async function removerEspaco(id) {
@@ -142,7 +155,6 @@ export default function CadastroEspacoPage() {
 
 
 
-            {/* Descrição */}
             <div>
               <label
                 htmlFor="endereco"
@@ -165,6 +177,24 @@ export default function CadastroEspacoPage() {
                   </option>
                 ))}
               </select>
+            </div>
+            {/* Imagem do espaço */}
+            <div>
+              <label
+                htmlFor="imagem"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Imagem do espaço
+              </label>
+              <input
+                id="imagem"
+                name="imagem"
+                type="file"
+                accept="image/*"
+                required
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+      focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+              />
             </div>
 
             <button
@@ -192,6 +222,15 @@ export default function CadastroEspacoPage() {
                   key={idx}
                   className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800"
                 >
+                  {item.imagemURL && (
+                    <Image
+                      src={`http://localhost:3000${item.imagemURL}`} // O caminho da imagem
+                      alt={item.nome}  // Descrição da imagem
+                      width={300}  // Tamanho da imagem (ajuste conforme necessário)
+                      height={200}  // Tamanho da imagem (ajuste conforme necessário)
+                      className="rounded-lg mb-4" // Classe para estilizar a imagem
+                    />
+                  )}
                   {/* Botão de deletar */}
                   <button
                     onClick={() => removerEspaco(item.id)}
@@ -201,7 +240,7 @@ export default function CadastroEspacoPage() {
                   </button>
                   {/* Atualizar */}
                   <button
-                    onClick={() => atualizarEspaco(item)}
+                    onClick={() => { setOpenModal(true); setDadosEspaco(item) }}
                     className="absolute top-10 right-2 text-blue-600 hover:text-blue-800"
                   >
                     <SyncAltIcon fontSize="medium" />
@@ -209,20 +248,24 @@ export default function CadastroEspacoPage() {
                   <li key={idx} className="rounded-md p-3 bg-orange-50 text-gray-800">
                     <p><strong>Nome:</strong> {item.nome}</p>
                     <p><strong>Tipo:</strong> {item.tipo}</p>
-                    <p><strong>Cpacidade:</strong> {item.capacidade}</p>
+                    <p><strong>Capacidade:</strong> {item.capacidade}</p>
+                    <p><strong>Endereco:</strong> {item.endereco}</p>
                     <p><strong>Preço:</strong> {item.preco}</p>
-                    <p><strong>ID da Filial:</strong> {item.filialID}</p>
-                    <p><strong>Descrição:</strong> {item.descricao}</p>
                   </li>
-                  </div>
+                </div>
               ))}
             </ul>
           )}
 
         </div>
-
-
       </div>
+      <ModalEspacoUpdate
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        dados={dadosEspaco}
+        setReservas={setEspacos}
+        enderecos={enderecos}
+      />
     </>
   );
 }

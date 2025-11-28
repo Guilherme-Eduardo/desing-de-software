@@ -12,5 +12,61 @@
       "total": {},
       "status": "pendente"
     }
+  },
+  {
+    "id": 0,
+    "inicio": "2025-02-01",
+    "fim": "2025-02-07",
+    "espaco": 1,
+    "cliente": 1,
+    "status": "pendente",
+    "pagamento": {
+      "id": 1,
+      "valor_pago": 0,
+      "total": {},
+      "status": "pendente"
+    }
+  },
+  {
+    "id": 1,
+    "inicio": "2025-02-01",
+    "fim": "2025-02-09",
+    "espaco": 1,
+    "cliente": 1,
+    "status": "pendente",
+    "pagamento": {
+      "id": 2,
+      "valor_pago": 0,
+      "total": {},
+      "status": "pendente"
+    }
+  },
+  {
+    "id": 2,
+    "inicio": "2025-02-01",
+    "fim": "2025-02-10",
+    "espaco": 1,
+    "cliente": 1,
+    "status": "pendente",
+    "pagamento": {
+      "id": 3,
+      "valor_pago": 0,
+      "total": {},
+      "status": "pendente"
+    }
+  },
+  {
+    "id": 0,
+    "inicio": "2025-02-01",
+    "fim": "2025-02-11",
+    "espaco": 1,
+    "cliente": 1,
+    "status": "pendente",
+    "pagamento": {
+      "id": 0,
+      "valor_pago": 0,
+      "total": "500",
+      "status": "pendente"
+    }
   }
 ]

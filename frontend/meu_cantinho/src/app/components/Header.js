@@ -5,6 +5,7 @@ import Image from "next/image";
 
 const menu = [
     { titulo: 'Clientes', href: "/cliente" },
+    { titulo: 'Filiais', href: "/filial" },
     { titulo: 'Enderecos', href: "/endereco" },
     { titulo: 'Reservas', href: "/reserva" },
     { titulo: 'Espacos', href: "/espaco" },

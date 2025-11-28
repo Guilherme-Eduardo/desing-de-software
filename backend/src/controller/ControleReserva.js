@@ -34,7 +34,7 @@ export async function criarReserva(req, res, next) {
     if (!existeEspaco)
       return res.status(404).json({ erro: "Espaço não encontrado" })
 
-    const total = servicoEspaco.getTotal(espacoID);
+    const total = await servicoEspaco.getTotal(espacoID);
 
     // Verificar se espaço está disponível
     const disponivel = servicoReserva.verificaDisponibilidade (espacoID, inicio, fim);

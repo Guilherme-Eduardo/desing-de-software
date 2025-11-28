@@ -1,3 +1,5 @@
+import Endereco from "./Endereco";
+
 // src/entities/Filial.js
 export default class Filial {
   /**

@@ -5,14 +5,19 @@ import Header from "../components/Header.js";
 
 import ClearIcon from '@mui/icons-material/Clear';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
-import { criarReserva, listarReservas, removerReserva } from "../lib/api.js";
+import { criarReserva, listarClientes, listarEspacos, listarReservas, removerReserva } from "../lib/api.js";
 import ModalReservaUpdate from "./components/ModalReservaUpdate.js";
+import ModalPagamento from "./components/ModalPagamento.js";
 
 export default function ReservaPage() {
     const [reservas, setReservas] = useState([]);
+    const [clientes, setClientes] = useState([]);
+    const [espacos, setEspacos] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [dadosReserva, setDadosReserva] = useState(null);
+    const [openModalPagamento, setOpenModalPagamento] = useState(false);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -24,14 +29,21 @@ export default function ReservaPage() {
         await criarReserva(dados);
 
         const atualizada = await listarReservas();
-        setReservas (atualizada);
+        setReservas(atualizada);
         e.target.reset();
     }
 
     useEffect(() => {
         async function carregar() {
-            const dados = await listarReservas();
-            if (dados) setReservas(dados);
+            const reservas = await listarReservas();
+            const clientes = await listarClientes();
+            const espacos = await listarEspacos();
+
+            if (reservas && clientes && espacos) {
+                setReservas(reservas);
+                setClientes(clientes);
+                setEspacos(espacos);
+            }
         }
         carregar();
     }, []);
@@ -41,6 +53,13 @@ export default function ReservaPage() {
         setReservas((prev) => prev.filter(e => e.id !== id));
     }
 
+    function formatarData(data) {
+        const dataObj = new Date(data);
+        const dia = String(dataObj.getDate()).padStart(2, '0');
+        const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+        const ano = dataObj.getFullYear();
+        return `${dia}/${mes}/${ano}`;
+    }
 
 
     return (
@@ -62,15 +81,20 @@ export default function ReservaPage() {
                             >
                                 nome do cliente
                             </label>
-                            <input
+                            <select
                                 id="cliente"
                                 name="cliente"
-                                type="text"
                                 required
-                                className=" text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-                         focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-                                placeholder="Ex.: João da Silva"
-                            />
+                                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+                                    focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                            >
+                                <option value="">Selecione um cliente</option>
+                                {clientes.map((client) => (
+                                    <option key={client.id} value={client.id}>
+                                        {client.name}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
                         {/* Espaço */}
@@ -81,24 +105,28 @@ export default function ReservaPage() {
                             >
                                 Espaço
                             </label>
-                            <input
+                            <select
                                 id="espaco"
                                 name="espaco"
-                                type="text"
                                 required
-                                className="text-black  block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-                         focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-                                placeholder="Ex.: Salão Principal"
-                            />
+                                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+                                    focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                            >
+                                <option value="">Selecione um espaço</option>
+                                {espacos.map((esp) => (
+                                    <option key={esp.id} value={esp.id}>
+                                        {esp.name}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
-
-                        {/* Início da reserva */}
+                        {/* Fim da reserva */}
                         <div>
                             <label
                                 htmlFor="inicio"
-                                className="text-black block text-sm font-medium text-gray-700 mb-1"
+                                className="block text-sm font-medium text-gray-700 mb-1"
                             >
-                                Início
+                                inicio
                             </label>
                             <input
                                 id="inicio"
@@ -162,14 +190,22 @@ export default function ReservaPage() {
                                     {/* Atualizar */}
                                     <button
                                         onClick={() => { setOpenModal(true); setDadosReserva(item); }}
-                                        className="absolute top-10 right-2 text-blue-600 hover:text-blue-800"
+                                        className="absolute top-12 right-2 text-blue-600 hover:text-blue-800"
                                     >
                                         <SyncAltIcon fontSize="medium" />
                                     </button>
+                                    <button
+                                        onClick={() => { setOpenModalPagamento(true); setDadosReserva(item); }}
+                                        className="absolute top-22 right-2 text-blue-600 hover:text-blue-800"
+                                    >
+                                        <AttachMoneyIcon fontSize="medium" />
+                                    </button>
                                     <p><strong>cliente:</strong> {item.cliente}</p>
                                     <p><strong>espaco:</strong> {item.espaco}</p>
-                                    <p><strong>inicio:</strong> {item.inicio}</p>
-                                    <p><strong>fim:</strong> {item.fim}</p>
+                                    <p><strong>início:</strong> {formatarData(item.inicio)}</p>
+                                    <p><strong>fim:</strong> {formatarData(item.fim)}</p>
+                                    <p><strong>Status:</strong> {item.status}</p>
+
                                 </div>
                             ))}
                         </div>
@@ -179,6 +215,12 @@ export default function ReservaPage() {
             <ModalReservaUpdate
                 open={openModal}
                 onClose={() => setOpenModal(false)}
+                dados={dadosReserva}
+                setReservas={setReservas}
+            />
+            <ModalPagamento
+                open={openModalPagamento}
+                onClose={() => setOpenModalPagamento(false)}
                 dados={dadosReserva}
                 setReservas={setReservas}
             />

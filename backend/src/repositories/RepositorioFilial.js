@@ -4,7 +4,6 @@ import { readFile, writeFile } from "fs/promises";
 export default class RepositorioFilial {
 
   constructor () {
-
     this.path = "./db/filial_db.json";
   }  
 
