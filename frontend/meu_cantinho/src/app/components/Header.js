@@ -14,16 +14,20 @@ export default function Header() {
     return (
         <>
             <div className="flex w-full bg-[#fff7e6]">
-                <Image
-                    src="/seu_cantinho_logo.jpg"
-                    alt="Logo"
-                    width={120}
-                    height={120}
-                    className="ml-10 m-5"
-                />
+
+                <Link href={'http://localhost:3001/reserva'}>
+                    <Image
+                        src="/seu_cantinho_logo.png"
+                        alt="Logo"
+                        width={120}
+                        height={120}
+                        href="/reserva"
+                        className="ml-10 m-5"                    />
+
+                </Link>
 
 
-                <div className="flex w-full justify-end p-4 text-black m-5 pr-10">
+                <div className="flex w-full justify-end p-4 text-black m-auto pr-10">
                     <div className="flex gap-6">
                         {menu.map((item) => (
                             <Link

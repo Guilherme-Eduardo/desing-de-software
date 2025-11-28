@@ -3,16 +3,20 @@
 import { useEffect, useState } from "react";
 
 import Header from "../components/Header.js";
-import { criarEspaco, listarEspacos } from "../lib/api.js";
+import { criarEspaco, listarEnderecos, listarEspacos } from "../lib/api.js";
 
 export default function CadastroEspacoPage() {
   const [espacos, setEspacos] = useState([]);
+  const [enderecos, setEnderecos] = useState([]);
 
   // Carregar endereços ao abrir a página
   useEffect(() => {
     async function carregar() {
       const dados = await listarEspacos();
       if (dados) setEspacos(dados);
+
+      const end = await listarEnderecos();
+      if (end) setEnderecos(end);
     }
     carregar();
   }, []);
@@ -36,136 +40,127 @@ export default function CadastroEspacoPage() {
     <>
       <Header />
 
-    <div className="flex h-screen w-full items-start justify-center bg-[#fff7e6] gap-12">
-      <div className="w-full max-w-md bg-white shadow-lg rounded-xl border border-orange-200 p-8">
-        <h1 className="text-2xl text-gray-700 font-semibold text-center mb-6">
-          Cadastro de Espaço
-        </h1>
+      <div className="flex h-screen w-full items-start justify-center bg-[#fff7e6] gap-12">
+        <div className="w-full max-w-md bg-white shadow-lg rounded-xl border border-orange-200 p-8">
+          <h1 className="text-2xl text-gray-700 font-semibold text-center mb-6">
+            Cadastro de Espaço
+          </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Nome do espaço */}
-          <div>
-            <label
-              htmlFor="nome"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Nome do espaço
-            </label>
-            <input
-              id="nome"
-              name="nome"
-              type="text"
-              required
-              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Nome do espaço */}
+            <div>
+              <label
+                htmlFor="nome"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Nome do espaço
+              </label>
+              <input
+                id="nome"
+                name="nome"
+                type="text"
+                required
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-              placeholder="Ex.: Salão Principal, Chácara Verde"
-            />
-          </div>
+                placeholder="Ex.: Salão Principal, Chácara Verde"
+              />
+            </div>
 
-          {/* Tipo do espaço */}
-          <div>
-            <label
-              htmlFor="tipo"
-              className="text-black block text-sm font-medium text-gray-700 mb-1"
-            >
-              Tipo de espaço
-            </label>
-            <input
-              id="tipo"
-              name="tipo"
-              type="text"
-              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+            {/* Tipo do espaço */}
+            <div>
+              <label
+                htmlFor="tipo"
+                className="text-black block text-sm font-medium text-gray-700 mb-1"
+              >
+                Tipo de espaço
+              </label>
+              <input
+                id="tipo"
+                name="tipo"
+                type="text"
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-              placeholder="Ex.: Salão de festas, Chácara, Quadra esportiva"
-            />
-          </div>
+                placeholder="Ex.: Salão de festas, Chácara, Quadra esportiva"
+              />
+            </div>
 
-          {/* Capacidade */}
-          <div>
-            <label
-              htmlFor="capacidade"
-              className="text-black block text-sm font-medium text-gray-700 mb-1"
-            >
-              Capacidade (pessoas)
-            </label>
-            <input
-              id="capacidade"
-              name="capacidade"
-              type="number"
-              min="0"
-              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+            {/* Capacidade */}
+            <div>
+              <label
+                htmlFor="capacidade"
+                className="text-black block text-sm font-medium text-gray-700 mb-1"
+              >
+                Capacidade (pessoas)
+              </label>
+              <input
+                id="capacidade"
+                name="capacidade"
+                type="number"
+                min="0"
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-              placeholder="Ex.: 100"
-            />
-          </div>
+                placeholder="Ex.: 100"
+              />
+            </div>
 
-          {/* Preço por hora / diária */}
-          <div>
-            <label
-              htmlFor="preco"
-              className="text-black block text-sm font-medium text-gray-700 mb-1"
-            >
-              Preço base (ex.: diária ou hora)
-            </label>
-            <input
-              id="preco"
-              name="preco"
-              type="number"
-              min="0"
-              step="0.01"
-              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+            {/* Preço por hora / diária */}
+            <div>
+              <label
+                htmlFor="preco"
+                className="text-black block text-sm font-medium text-gray-700 mb-1"
+              >
+                Preço base (ex.: diária ou hora)
+              </label>
+              <input
+                id="preco"
+                name="preco"
+                type="number"
+                min="0"
+                step="0.01"
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-              placeholder="Ex.: 500.00"
-            />
-          </div>
+                placeholder="Ex.: 500.00"
+              />
+            </div>
 
-          {/* Id da filial (opcional, se você estiver relacionando) */}
-          <div>
-            <label
-              htmlFor="filialId"
-              className="text-black block text-sm font-medium text-gray-700 mb-1"
-            >
-              ID da filial (opcional)
-            </label>
-            <input
-              id="filialId"
-              name="filialId"
-              type="text"
-              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-                         focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-              placeholder="Ex.: filial-01"
-            />
-          </div>
 
-          {/* Descrição */}
-          <div>
-            <label
-              htmlFor="descricao"
-              className="text-black block text-sm font-medium text-gray-700 mb-1"
-            >
-              Descrição
-            </label>
-            <textarea
-              id="descricao"
-              name="descricao"
-              rows={3}
-              className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-                         focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-              placeholder="Ex.: Espaço amplo, cozinha equipada, estacionamento para 20 carros..."
-            />
-          </div>
 
-          <button
-            type="submit"
-            className="mt-4 w-full rounded-md bg-orange-500 px-4 py-2 text-sm font-medium text-white shadow-sm
+            {/* Descrição */}
+            <div>
+              <label
+                htmlFor="endereco"
+                className="text-black block text-sm font-medium text-gray-700 mb-1"
+              >
+                Endereco
+              </label>
+              <select
+                id="enderecoId"
+                name="enderecoId"
+                required
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
+               focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+              >
+                <option value="">Selecione um endereço...</option>
+
+                {enderecos.map((end) => (
+                  <option key={end.id} value={end.id}>
+                    {end.rua}, {end.numero} — {end.cidade}/{end.estado}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              className="mt-4 w-full rounded-md bg-orange-500 px-4 py-2 text-sm font-medium text-white shadow-sm
                        hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-1"
-          >
-            Cadastrar espaço
-          </button>
-        </form>
-      </div>
+            >
+              Cadastrar espaço
+            </button>
+          </form>
+        </div>
 
-       <div className="w-full max-w-md bg-white shadow-lg rounded-xl border border-orange-200 p-8">
+        <div className="w-full max-w-md bg-white shadow-lg rounded-xl border border-orange-200 p-8 h-[680px] overflow-y-auto">
 
           <h1 className="text-2xl text-gray-700 font-semibold text-center mb-6">
             Lista de Espaços
@@ -188,7 +183,8 @@ export default function CadastroEspacoPage() {
 
         </div>
 
-    </div>
-  </>
+
+      </div>
+    </>
   );
 }

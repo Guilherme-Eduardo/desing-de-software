@@ -3,14 +3,17 @@
 import { useEffect, useState } from "react";
 
 import ClearIcon from '@mui/icons-material/Clear';
-import UpdateIcon from '@mui/icons-material/Update';
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
 
 import Header from "../components/Header.js";
-import { criarCliente, listarClientes } from "../lib/api.js";
+import { criarCliente, listarClientes, removerCliente } from "../lib/api.js";
+import ModalClienteUpdate from "./components/ModalClienteUpdate.js";
 
 
 export default function CadastroClientePage() {
   const [clientes, setClientes] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [dadosCliente, setDadosCliente] = useState(null);
 
   useEffect(() => {
     async function carregar() {
@@ -34,33 +37,10 @@ export default function CadastroClientePage() {
     e.target.reset();
   }
 
-  async function removerCliente(id) {
-  try {
-    await fetch(`http://localhost:3000/cliente/${id}`, {
-      method: "DELETE",
-    });
-
-    // Atualiza a lista no front removendo a reserva deletada
-    setClientes((prev) => prev.filter((r) => r.id !== id));
-
-  } catch (err) {
-    console.error("Erro ao deletar reserva", err);
+  async function handleRemoveCliente(id) {
+    await removerCliente (id);
+    setClientes ((prev) => prev.filter(e => e.id !== id));
   }
-}
-
-  async function atualizarCliente(item) {
-  try {
-    await fetch(`http://localhost:3000/cliente/${item.id}`, {
-      method: "PATCH",
-    });
-
-    // Atualiza a lista no front removendo a reserva deletada
-    setClientes((prev) => prev.filter((r) => r.id !== item.id));
-
-  } catch (err) {
-    console.error("Erro ao deletar reserva", err);
-  }
-}
 
   return (
     <>
@@ -155,7 +135,7 @@ export default function CadastroClientePage() {
           {clientes.length === 0 ? (
             <p className="text-gray-600 text-center">Nenhum cliente cadastrado.</p>
           ) : (
-            <ul className="space-y-3">
+            <div className="space-y-3">
               {clientes.map((item, idx) => (
 
                 <div
@@ -171,23 +151,27 @@ export default function CadastroClientePage() {
                   </button>
                   {/* Atualizar */}
                   <button
-                    onClick={() => atualizarCliente(item)}
+                    onClick={() => { setOpenModal(true); setDadosCliente(item); }}
                     className="absolute top-10 right-2 text-blue-600 hover:text-blue-800"
                   >
-                    <UpdateIcon fontSize="medium" />
+                    <SyncAltIcon fontSize="medium" />
                   </button>
                   <p><strong>Nome:</strong> {item.nome}</p>
                   <p><strong>Documento:</strong> {item.documento}</p>
                   <p><strong>Telefone:</strong> {item.telefone}</p>
                   <p><strong>Email:</strong> {item.email}</p>
                 </div>
-
-
               ))}
-            </ul>
+            </div>
           )}
         </div>
       </div>
+      <ModalClienteUpdate
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        dados={dadosCliente}
+        setClientes={setClientes}
+      />
     </>
   );
 }

@@ -229,3 +229,23 @@ export async function listarEnderecos() {
   if (!res.ok) throw new Error ("Erro");
   return res.json();
 }
+
+
+export async function atualizarEndereco(id, dados) {
+  const res = await fetch(`${API_BASE_URL}/enderecos/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dados),
+  });
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
+}
+
+
+export async function removerEndereco(id) {
+  const res = await fetch(`${API_BASE_URL}/enderecos/${id}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
+}
