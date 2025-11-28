@@ -34,28 +34,30 @@ export default class ServicoEndereco {
         return null;
         }
 
+        const obj = Endereco.fromObject(id, existente);
+
         // Atualiza somente os campos enviados
         if (dadosAtualizados.rua !== undefined) {
-        existente.setRua(dadosAtualizados.rua);
+        obj.setRua(dadosAtualizados.rua);
         }
         if (dadosAtualizados.numero !== undefined) {
-        existente.setNumero(dadosAtualizados.numero);
+        obj.setNumero(dadosAtualizados.numero);
         }
         if (dadosAtualizados.bairro !== undefined) {
-        existente.setBairro(dadosAtualizados.bairro);
+        obj.setBairro(dadosAtualizados.bairro);
         }
         if (dadosAtualizados.cidade !== undefined) {
-        existente.setCidade(dadosAtualizados.cidade);
+        obj.setCidade(dadosAtualizados.cidade);
         }
         if (dadosAtualizados.estado !== undefined) {
-        existente.setEstado(dadosAtualizados.estado);
+        obj.setEstado(dadosAtualizados.estado);
         }
         if (dadosAtualizados.complemento !== undefined) {
-        existente.setComplemento(dadosAtualizados.complemento);
+        obj.setComplemento(dadosAtualizados.complemento);
         }
 
-        await this.repositorio.atualizarEndereco(existente);
-        return existente;
+        await this.repositorio.atualizarEndereco(obj);
+        return obj;
     }
 
     removerEndereco (id) {

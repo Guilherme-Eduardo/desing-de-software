@@ -37,8 +37,8 @@ export default class RepositorioReserva {
 
     const lista = await this.lerJSON();
 
-    const ind = lista.find(item => item.data_inicio === reserva.data_inicio &&
-                                   item.data_fim === reserva.data_fim &&
+    const ind = lista.find(item => item.inicio === reserva.inicio &&
+                                   item.fim === reserva.fim &&
                                    item.espaco === reserva.espaco &&
                                    item.cliente === reserva.cliente &&
                                    item.status === reserva.status
@@ -78,7 +78,7 @@ export default class RepositorioReserva {
   }
 
   // Deleta reserva
-  async deletarReserva (reserva) {
+  async deletarReserva (id) {
 
       const lista_1 = await this.lerJSON ();
       if (lista_1.length == 0) {
@@ -86,7 +86,7 @@ export default class RepositorioReserva {
         return false;
       }
 
-      const lista_2 = lista_1.filter(item => item.id != reserva.id);
+      const lista_2 = lista_1.filter(item => item.id != id);
       
       if (lista_1.length === lista_2.length) {
         // nada foi removido

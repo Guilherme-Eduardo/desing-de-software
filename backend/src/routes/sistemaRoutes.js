@@ -1,45 +1,52 @@
 import express from "express";
-import * as SistemaController from "../controller/SistemaController.js";
+
+import * as ControleCliente from "../controller/ControleCliente.js";
+import * as ControleEndereco from "../controller/ControleEndereco.js";
+import * as ControleEspaco from "../controller/ControleEspaco.js";
+import * as ControlePagamento from "../controller/ControlePagamento.js";
+import * as ControleProprietário from "../controller/ControleProprietário.js";
+import * as ControleReserva from "../controller/ControleReserva.js";
 
 const router = express.Router();
 
 /* Rotas destinadas a Reserva */ 
-router.get("/reservas", SistemaController.listarReservas);
-router.post("/reservas", SistemaController.criarReserva);
-router.put("/reservas/:id", SistemaController.atualizarReserva);
-router.delete("/reservas/:id", SistemaController.removerReserva);
+router.get("/reservas", ControleReserva.listarReservas);
+router.post("/reservas", ControleReserva.criarReserva);
+router.patch("/reservas/:id", ControleReserva.atualizarReserva);
+router.delete("/reservas/:id", ControleReserva.removerReserva);
 
 
 /* Rotas destinadas ao Espaço*/
-router.get("/espacos", SistemaController.listarEspacos);
-router.post("/espacos", SistemaController.criarEspaco);
-router.put("/espacos/:id", SistemaController.atualizarEspaco);
-router.delete("/espacos/:id", SistemaController.removerEspaco);
+router.get("/espacos", ControleEspaco.listarEspacos);
+router.post("/espacos", ControleEspaco.criarEspaco);
+router.patch("/espacos/:id", ControleEspaco.atualizarEspaco);
+router.delete("/espacos/:id", ControleEspaco.removerEspaco);
 
 
 /* Rotas destinadas aos Pagamentos */
-router.get("/pagamentos", SistemaController.listarPagamentos);
-router.post("/pagamentos", SistemaController.criarPagamento);
-router.put("/pagamentos/:id", SistemaController.atualizarPagamento);
-router.delete("/pagamentos/:id", SistemaController.removerPagamento);
+router.get("/pagamentos", ControlePagamento.listarPagamentos);
+router.post("/pagamentos", ControlePagamento.criarPagamento);
+router.patch("/pagamentos/:id", ControlePagamento.atualizarPagamento);
+router.delete("/pagamentos/:id", ControlePagamento.removerPagamento);
 
 
 /* Rotas destinadas ao Clientes */
-router.get("/clientes", SistemaController.listarClientes);
-router.get("/clientes/:id", SistemaController.obterCliente);
-router.post("/clientes", SistemaController.criarCliente);
-router.put("/clientes/:id", SistemaController.atualizarCliente);
-router.delete("/clientes/:id", SistemaController.removerCliente);
+router.get("/clientes", ControleCliente.listarClientes);
+router.post("/clientes", ControleCliente.criarCliente);
+router.patch("/clientes/:id", ControleCliente.atualizarCliente);
+router.delete("/clientes/:id", ControleCliente.removerCliente);
 
 
 /* Rotas destinadas ao Proprietario*/
-router.get("/proprietarios", SistemaController.listarProprietarios);
-router.get("/proprietarios/:id", SistemaController.obterProprietario);
-router.post("/proprietarios", SistemaController.criarProprietario);
-router.put("/proprietarios/:id", SistemaController.atualizarProprietario);
-router.delete("/proprietarios/:id", SistemaController.removerProprietario);
+router.get("/proprietarios", ControleProprietário.listarProprietarios);
+router.get("/proprietarios/:id", ControleProprietário.obterProprietario);
+router.post("/proprietarios", ControleProprietário.criarProprietario);
+router.delete("/proprietarios/:id", ControleProprietário.removerProprietario);
 
-router.post("/enderecos", SistemaController.criarEndereco);
-router.get("/enderecos", SistemaController.listarEnderecos);
+/* Rotas destinadas ao endereço */
+router.post("/enderecos", ControleEndereco.criarEndereco);
+router.get("/enderecos", ControleEndereco.listarEnderecos);
+router.delete("/enderecos/:id", ControleEndereco.removerEndereco);
+router.patch("/enderecos/:id", ControleEndereco.atualizarEndereco);
 
 export default router;

@@ -10,14 +10,16 @@ export default class ServicoEspaco {
     
     async criarEspaco (dadosEspaco) {
 
-        const { capacidade, preco, tipo, endereco } = dadosEspaco;
+        const { nome, tipo, capacidade, preco, filialID, descricao } = dadosEspaco;
 
         const novoEspaco = new Espaco(
             this.countId,
+            nome,
+            tipo,
             capacidade,
             preco,
-            tipo,
-            endereco
+            filialID,
+            descricao
         );
 
         if (await this.repositorio.buscarEspaco(novoEspaco)) {
@@ -33,38 +35,43 @@ export default class ServicoEspaco {
         
 
     async atualizarEspaco(id, dadosAtualizados) {
-        const espacoExistente = await this.repositorio.buscarPorId(id);
-        if (!espacoExistente) {
+        const existente = await this.repositorio.buscarPorId(id);
+        if (!existente) {
         return null;
         }
 
+        const obj = Espaco.fromObject(id, existente);
+
         // Atualiza somente os campos enviados
-        if (dadosAtualizados.capacidade !== undefined) {
-        espacoExistente.setCapacidade(dadosAtualizados.capacidade);
-        }
-        if (dadosAtualizados.preco !== undefined) {
-        espacoExistente.setPreco(dadosAtualizados.preco);
+        if (dadosAtualizados.nome !== undefined) {
+        obj.setNome(dadosAtualizados.nome);
         }
         if (dadosAtualizados.tipo !== undefined) {
-        espacoExistente.setTipo(dadosAtualizados.tipo);
+        obj.setTipo(dadosAtualizados.tipo);
         }
-        if (dadosAtualizados.endereco !== undefined) {
-        espacoExistente.setEndereco(dadosAtualizados.endereco);
+        if (dadosAtualizados.capacidade !== undefined) {
+        obj.setCapacidade(dadosAtualizados.capacidade);
         }
+        if (dadosAtualizados.preco !== undefined) {
+        obj.setPreco(dadosAtualizados.preco);
+        }
+        if (dadosAtualizados.filialID !== undefined) {
+        obj.setFilialID(dadosAtualizados.filialID);
+        }
+        if (dadosAtualizados.descricao !== undefined) {
+        obj.setDescricao(dadosAtualizados.descricao);
+        }
+        // if (dadosAtualizados.endereco !== undefined) {
+        // obj.setEndereco(dadosAtualizados.endereco);
+        // }
 
-        await this.repositorio.atualizarEspaco(espacoExistente);
-        return espacoExistente;
+        await this.repositorio.atualizarEspaco(obj);
+        return obj;
     }
 
     removerEspaco (id) {
 
         return this.repositorio.deletarEspaco(id);
-    }
-
-    verificarDisponibilidade(espaco) {
-
-        // Algo :)
-
     }
 
     async listarEspacos() {

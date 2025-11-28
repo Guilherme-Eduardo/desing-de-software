@@ -43,9 +43,9 @@ export default class ServicoCliente {
     }
 
     this.count_id++;
-
-    const clienteCriado = await this.repositorio.inserirCliente(cliente);
-    return clienteCriado;
+    
+    const criado = await this.repositorio.inserirCliente(cliente);
+    return criado;
   }
 
   /**
@@ -60,13 +60,12 @@ export default class ServicoCliente {
       throw erro;
     }
 
-    const clienteAtualizado = Cliente.fromObject({
+    const clienteAtualizado = Cliente.fromObject(id, {
       ...existente,
-      ...dadosCliente,
-      id // garante que o id não seja trocado
+      ...dadosCliente
     });
 
-    const salvo = await this.repositorio.atualizar(clienteAtualizado);
+    const salvo = await this.repositorio.atualizarCliente(clienteAtualizado);
     return salvo;
   }
 

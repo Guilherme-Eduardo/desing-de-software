@@ -1,0 +1,60 @@
+import ServicoProprietario from "../services/ServicoProprietario.js";
+
+const servicoProprietario = new ServicoProprietario();
+
+/* Lista todos os proprietários */
+export async function listarProprietarios(req, res, next) {
+  try {
+    const proprietarios = await servicoProprietario.listarProprietarios();
+    res.json(proprietarios);
+  } catch (err) {
+    next(err);
+  }
+}
+
+/* Busca um proprietário pelo id */
+export async function obterProprietario(req, res, next) {
+  try {
+    const { id } = req.params;
+    const proprietario = await servicoProprietario.buscarProprietario(id);
+    res.json(proprietario);
+  } catch (err) {
+    next(err);
+  }
+}
+
+/* Cria um novo proprietário */
+export async function criarProprietario(req, res, next) {
+  try {
+    const proprietarioCriado = await servicoProprietario.criarProprietario(
+      req.body
+    );
+    res.status(201).json(proprietarioCriado);
+  } catch (err) {
+    next(err);
+  }
+}
+
+/* Atualiza um proprietário existente */
+export async function atualizarProprietario(req, res, next) {
+  try {
+    const { id } = req.params;
+    const proprietarioAtualizado =
+      await servicoProprietario.atualizarProprietario(id, req.body);
+
+    res.json(proprietarioAtualizado);
+  } catch (err) {
+    next(err);
+  }
+}
+
+/* Remove um proprietário */
+export async function removerProprietario(req, res, next) {
+  try {
+    const { id } = req.params;
+    await servicoProprietario.removerProprietario(id);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}

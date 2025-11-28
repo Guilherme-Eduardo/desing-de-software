@@ -58,6 +58,8 @@ export default class RepositorioCliente {
     lista.push(cliente);
     
     await this.salvarJSON(lista);
+
+    return true;
   }
 
 
@@ -78,17 +80,17 @@ export default class RepositorioCliente {
   }
 
   // Deleta cliente
-  async deletarCliente(cliente) {
+  async deletarCliente(id) {
 
     const lista_1 = await this.lerJSON ();
     if (lista_1.length == 0) 
         return false;
 
-    const lista_2 = lista_1.filter(item => item.id != cliente.id);
+    const lista_2 = lista_1.filter(item => item.id != id);
     if (lista_1.length == lista_2.length)
       return false;
       
-      await salvarJSON (lista_2);
+      await this.salvarJSON (lista_2);
       return true;
   }
 

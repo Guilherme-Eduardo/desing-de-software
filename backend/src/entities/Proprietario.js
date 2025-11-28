@@ -8,15 +8,15 @@ export default class Proprietario {
   /**
    * @param {string|number} id          Identificador único do proprietário
    * @param {string}        nome        Nome do proprietário
-   * @param {string}        documento   Documento (CPF/CNPJ)
+   * @param {string}        cpf   Documento (CPF/CNPJ)
    * @param {string}        telefone    Telefone de contato
    * @param {string}        email       E-mail de contato
    * @param {Array<string|number>} [espacos] Lista de IDs de espaços administrados
    */
-  constructor(id, nome, documento, telefone, email, espacos = []) {
+  constructor(id, nome, cpf, telefone, email, espacos = []) {
     this.id = id;
     this.nome = nome;
-    this.documento = documento;
+    this.cpf = cpf;
     this.telefone = telefone;
     this.email = email;
     this.espacos = espacos; // normalmente lista de IDs de Espaco
@@ -44,7 +44,7 @@ export default class Proprietario {
     return new Proprietario(
       obj.id,
       obj.nome,
-      obj.documento,
+      obj.cpf,
       obj.telefone,
       obj.email,
       espacos
@@ -58,7 +58,7 @@ export default class Proprietario {
     return {
       id: this.id,
       nome: this.nome,
-      documento: this.documento,
+      cpf: this.cpf,
       telefone: this.telefone,
       email: this.email,
       espacos: this.espacos

@@ -3,7 +3,7 @@ import { readFile, writeFile } from "fs/promises";
 export default class RepositorioProprietario {
 
   constructor() {
-    this.path = "../db/proprietário_db.json";
+    this.path = "./db/proprietário_db.json";
   }
 
   // Ler Arquivo de Dados de Proprietário 
@@ -37,15 +37,10 @@ export default class RepositorioProprietario {
 
   // Busca um proprietário de mesmo id
   async buscarPorId(id) {
-
     const lista = await this.lerJSON();
+    const encontrado = lista.find((item) => item.id === id);
 
-    const index = lista.find(item => item.id == id);
-    if (index == -1)
-      return null;
-
-    return lista[index]
-
+    return encontrado ? encontrado : null;
   }
 
 
@@ -54,7 +49,7 @@ export default class RepositorioProprietario {
 
       const lista = await this.lerJSON ();
 
-      const index = list.findIndex(item => item.id == proprietario.id);
+      const index = lista.findIndex(item => item.id == proprietario.id);
       if (index == -1) {
           console.log ("ERRO! Não foi encontrado o Cliente de atualização.");
           return;

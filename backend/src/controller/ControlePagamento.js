@@ -1,0 +1,65 @@
+// src/Controller/SistemaController.js
+import ServicoPagamento from "../services/ServicoPagamento.js";
+import ServicoReserva from "../services/ServicoReserva.js";
+import { StatusReserva } from "../entities/StatusReserva.js";
+import { StatusPagamento } from "../entities/StatusPagamento.js";
+
+const servicoPagamento = new ServicoPagamento();
+
+/* Retorna uma lista de pagamentos */
+export async function listarPagamentos(req, res, next) {
+  try {
+    const pagamentos = await servicoPagamento.listarPagamentos();
+    res.json(pagamentos);
+  } catch (err) {
+    next(err);
+  }
+}
+
+/* Registra um pagamento no sistema */
+export async function criarPagamento(req, res, next) {
+  try {
+    const pagamento = await servicoPagamento.registrarPagamento(req.body);
+    res.status(201).json(pagamento);
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+/* Atualiza um pagamento */
+export async function atualizarPagamento(req, res, next) {
+  try {
+    const { reservaID } = req.params;
+
+    const pagamentoAtualizado = await servicoPagamento.processarPagamento(
+      id,
+      req.body
+    );
+
+    if (!pagamentoAtualizado) {
+      return res.status(404).json({ erro: "Pagamento não encontrado" });
+    }
+
+    res.json(pagamentoAtualizado);
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+/* Remove um pagamento */
+export async function removerPagamento(req, res, next) {
+  try {
+    const { id } = req.params;
+    const removido = await servicoPagamento.removerPagamento(id);
+
+    if (!removido) {
+      return res.status(404).json({ erro: "Pagamento não encontrado" });
+    }
+
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}

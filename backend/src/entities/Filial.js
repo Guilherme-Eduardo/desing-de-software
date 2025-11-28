@@ -25,7 +25,7 @@ export default class Filial {
    *   endereco: { ... }
    * }
    */
-  static fromObject(obj) {
+  static fromObject(id, obj) {
     if (!obj) {
       throw new Error("Objeto de filial inválido");
     }
@@ -36,7 +36,7 @@ export default class Filial {
         : Endereco.fromObject(obj.endereco);
 
     return new Filial(
-      obj.id,
+      id,
       obj.nome,
       obj.cnpj,
       endereco

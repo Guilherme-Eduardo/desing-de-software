@@ -1,43 +1,60 @@
 import { StatusReserva } from "./StatusReserva.js";
+import Pagamento from "./Pagamento.js";
 
 export default class Reserva {
 
-    constructor (id, data_inicio, data_fim, espaco, cliente, status) {
+    constructor (id, inicio, fim, espaco, cliente, status, pagamento) {
 
         this.id = id;
-        this.data_inicio = data_inicio;
-        this.data_fim = data_fim;
+        this.inicio = inicio;
+        this.fim = fim;
         this.espaco = espaco;
         this.cliente = cliente;
         this.status = status;
+        this.pagamento = pagamento;
     }
 
-    static fromObject(obj) {
-    if (!obj) {
-      throw new Error("Objeto de reserva inválido");
-    }
+    async getPagamento () { return this.pagamento; }
+    
+    async setInicio (inicio) { this.inicio = inicio; }
+    async setFim (fim) { this.fim = fim; }
+    async setEspaco (espaco) { this.espaco = espaco; }
+    async setCliente (cliente) { this.cliente = cliente; }
+    async setStatus (status) { this.status = status; }
 
-    return new Reserva (
-      obj.id,
-      obj.data_inicio,
-      obj.data_fim,
-      obj.espaco,
-      obj.cliente,
-      obj.status
-    );
-  }
+    static fromObject(id, obj) {
+      
+      if (!obj) {
+        throw new Error("Objeto de reserva inválido");
+      }
+
+      const { id_pag, pago, total, status } = obj.pagamento;
+
+      const pagamento = new Pagamento (id_pag, pago, total, status);
+      
+      return new Reserva (
+        id,
+        obj.inicio,
+        obj.fim,
+        obj.espaco,
+        obj.cliente,
+        obj.status,
+        pagamento
+      );
+    }
 
   /**
-   * Retorna uma representação JSON do proprietário.
+   * Retorna uma representação JSON do pagamento.
    */
   toJSON() {
     return {
       id: this.id,
-      data_inicio : this.data_inicio,
-      data_fim : this.data_fim,
+      inicio : this.inicio,
+      fim : this.fim,
       espaco : this.espaco,
       cliente : this.cliente,
-      status : this.status
+      status : this.status,
+      pagamento: this.pagamento.toJSON()
     };
   }
 }

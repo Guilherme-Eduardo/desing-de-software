@@ -10,27 +10,22 @@ export default class Pagamento {
         this.status = status;
     }
 
-
-    setStatus (status) { this.staus = status; }
-
-    setPago(pago) { this.valor_pago = pago; }
-
-    setTotal(total){ this.total = total; }
-    
+    getID () { return this.id; }
     getStatus () { return this.status; }
-
     getPago() { return this.valor_pago; }
-
     getTotal() { return this.total; }
 
-
-    static fromObject (obj) {
+    setStatus (status) { this.staus = status; }
+    setPago(pago) { this.valor_pago = pago; }
+    setTotal(total){ this.total = total; }
+    
+    static fromObject (id, obj) {
 
         if (!obj)
             throw new Error ("Objeto Pagamento não encontrado.");
 
         return new Pagamento (
-            obj.id,
+            id,
             obj.valor_pago,
             obj.total,
             obj.status

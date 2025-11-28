@@ -39,7 +39,7 @@ export default class ServicoPagamento {
     async processarPagamento(id, valorPago) {
         const pagamento = await this.repositorio.buscarPorId(id);
         if (!pagamento) {
-        return null;
+            return null;
         }
 
         const total = pagamento.getTotal();
@@ -49,11 +49,10 @@ export default class ServicoPagamento {
         const novoPago = pagoAtual + valorPago;
         pagamento.setPago(novoPago);
 
-        // Regra que você já tinha:
         if (valorPago === restante) {
-        pagamento.setStatus(StatusPagamento.APROVADO);
+            pagamento.setStatus(StatusPagamento.APROVADO);
         } else {
-        pagamento.setStatus(StatusPagamento.SINAL);
+            pagamento.setStatus(StatusPagamento.SINAL);
         }
 
         await this.repositorio.atualizarPagamento(pagamento);
