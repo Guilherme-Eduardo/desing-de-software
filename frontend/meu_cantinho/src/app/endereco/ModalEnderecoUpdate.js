@@ -20,6 +20,7 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco 
     useEffect(() => {
         if (dados) {
             setForm({
+                id: dados.id || "",
                 rua: dados.rua || "",
                 numero: dados.numero || "",
                 bairro: dados.bairro || "",
@@ -38,7 +39,7 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco 
     async function handleSubmit(e) {
         e.preventDefault();
 
-        await atualizarEndereco(form);
+        await atualizarEndereco(form.id, form);
 
         if (setEndereco) {
             const atualizada = await listarEnderecos();

@@ -15,7 +15,7 @@ export default class ServicoPagamento {
         this.count_id++;
 
         const pagamento = new Pagamento(novoId, total);
-
+        console.log("TEstes", pagamento);
         await this.repositorio.inserirPagamento(pagamento);
 
         return pagamento;
@@ -56,7 +56,8 @@ export default class ServicoPagamento {
         }
 
         await this.repositorio.atualizarPagamento(pagamento);
-        return pagamento;
+        
+        return pagamento.getStatus();
     }
 
 

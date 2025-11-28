@@ -16,6 +16,14 @@ export default class ServicoCliente {
     return clientes;
   }
 
+  async verificaValidade (id) {
+    const index = await this.repositorio.buscarPorId(id);
+    if (index == -1)
+      return false;
+
+    return true;
+  }
+
   /*
    * Busca um cliente pelo ID.
    */

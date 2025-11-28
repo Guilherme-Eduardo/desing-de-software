@@ -3,7 +3,7 @@ import { readFile, writeFile } from "fs/promises";
 export default class RepositorioPagamento {
 
   constructor () {
-    this.path = "./db/pagaentos_db.json";
+    this.path = "./db/pagamentos_db.json";
   }  
   
   /* Ler Arquivo de Dados de Pagamento */

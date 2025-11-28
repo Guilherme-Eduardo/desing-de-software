@@ -37,10 +37,16 @@ export default function CadastroClientePage() {
     e.target.reset();
   }
 
-  async function handleRemoveCliente(id) {
-    await removerCliente (id);
-    setClientes ((prev) => prev.filter(e => e.id !== id));
+async function handleRemoveCliente(id) {
+  try {
+    await removerCliente(id);   
+     const atualizada = await listarClientes();
+    setClientes(atualizada);
+  } catch (err) {
+    console.error(err);
   }
+}
+
 
   return (
     <>
@@ -136,15 +142,15 @@ export default function CadastroClientePage() {
             <p className="text-gray-600 text-center">Nenhum cliente cadastrado.</p>
           ) : (
             <div className="space-y-3">
-              {clientes.map((item, idx) => (
+              {clientes.map((item) => (
 
                 <div
-                  key={idx}
+                  key={item.id}
                   className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800"
                 >
                   {/* Botão de deletar */}
                   <button
-                    onClick={() => removerCliente(item.id)}
+                    onClick={() => handleRemoveCliente(item.id)}
                     className="absolute top-2 right-2 text-red-600 hover:text-red-800"
                   >
                     <ClearIcon fontSize="medium" />

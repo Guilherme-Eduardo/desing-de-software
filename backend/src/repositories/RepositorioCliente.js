@@ -77,6 +77,8 @@ export default class RepositorioCliente {
       lista[index] = cliente;
       
       await this.salvarJSON(lista);
+
+      return cliente;
   }
 
   // Deleta cliente
@@ -90,8 +92,8 @@ export default class RepositorioCliente {
     if (lista_1.length == lista_2.length)
       return false;
       
-      await this.salvarJSON (lista_2);
-      return true;
+    await this.salvarJSON (lista_2);
+    return true;
   }
 
   async listarClientes () {
