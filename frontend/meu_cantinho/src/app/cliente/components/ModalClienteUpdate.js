@@ -8,8 +8,9 @@ import { useEffect, useState } from "react";
 
 export default function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
   const [form, setForm] = useState({
+    id: "",
     nome: "",
-    documento: "",
+    cpf: "",
     telefone: "",
     email: "",
   });
@@ -18,8 +19,9 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
   useEffect(() => {
     if (dados) {
       setForm({
+        id: dados.id || "",
         nome: dados.nome || "",
-        documento: dados.documento || "",
+        cpf: dados.cpf || "",
         telefone: dados.telefone || "",
         email: dados.email || "",
       });
@@ -34,7 +36,8 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
   async function handleSubmit(e) {
     e.preventDefault();
 
-    await atualizarCliente(form);
+    await atualizarCliente(form.id, form);
+
 
     if (setClientes) {
       const atualizada = await listarClientes();
@@ -43,6 +46,7 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
 
     onClose();
   }
+  console.log ("CLIENTESSSSS: ", dados);
 
   return (
     <Modal
@@ -99,20 +103,20 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
               />
             </div>
 
-            {/* Documento */}
+            {/* cpf */}
             <div>
               <label
-                htmlFor="documento"
+                htmlFor="cpf"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Documento (CPF ou RG)
               </label>
               <input
-                id="documento"
-                name="documento"
+                id="cpf"
+                name="cpf"
                 type="text"
                 required
-                value={form.documento}
+                value={form.cpf}
                 onChange={handleChange}
                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                   focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"

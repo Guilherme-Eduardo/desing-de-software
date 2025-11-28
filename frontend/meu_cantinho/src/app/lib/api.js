@@ -141,13 +141,18 @@ export async function criarCliente(dados) {
 
 export async function atualizarCliente(id, dados) {
   const res = await fetch(`${API_BASE_URL}/clientes/${id}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
-  if (!res.ok) throw new Error ("Erro");
+
+  if (!res.ok) {
+    throw new Error("Erro ao atualizar cliente");
+  }
+
   return res.json();
 }
+
 
 export async function removerCliente(id) {
   const res = await fetch(`${API_BASE_URL}/clientes/${id}`, {
@@ -223,7 +228,7 @@ export async function listarEnderecos() {
 
 export async function atualizarEndereco(id, dados) {
   const res = await fetch(`${API_BASE_URL}/enderecos/${id}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });

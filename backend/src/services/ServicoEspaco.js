@@ -10,7 +10,7 @@ export default class ServicoEspaco {
     
     async criarEspaco (dadosEspaco) {
 
-        const { nome, tipo, capacidade, preco, filialID, descricao } = dadosEspaco;
+        const { nome, tipo, capacidade, preco, filialID } = dadosEspaco;
 
         const novoEspaco = new Espaco(
             this.countId,
@@ -18,8 +18,7 @@ export default class ServicoEspaco {
             tipo,
             capacidade,
             preco,
-            filialID,
-            descricao
+            filialID
         );
 
         if (await this.repositorio.buscarEspaco(novoEspaco)) {
@@ -32,7 +31,15 @@ export default class ServicoEspaco {
         await this.repositorio.inserirEspaco(novoEspaco);
         return novoEspaco;
     }
-        
+
+    async verificaValidade (id) {
+        const index = await this.repositorio.buscarPorId(id);
+        if (index == -1)
+        return false;
+
+        return true;
+    }
+      
 
     async atualizarEspaco(id, dadosAtualizados) {
         const existente = await this.repositorio.buscarPorId(id);
@@ -44,22 +51,19 @@ export default class ServicoEspaco {
 
         // Atualiza somente os campos enviados
         if (dadosAtualizados.nome !== undefined) {
-        obj.setNome(dadosAtualizados.nome);
+            obj.setNome(dadosAtualizados.nome);
         }
         if (dadosAtualizados.tipo !== undefined) {
-        obj.setTipo(dadosAtualizados.tipo);
+            obj.setTipo(dadosAtualizados.tipo);
         }
         if (dadosAtualizados.capacidade !== undefined) {
-        obj.setCapacidade(dadosAtualizados.capacidade);
+            obj.setCapacidade(dadosAtualizados.capacidade);
         }
         if (dadosAtualizados.preco !== undefined) {
-        obj.setPreco(dadosAtualizados.preco);
+            obj.setPreco(dadosAtualizados.preco);
         }
         if (dadosAtualizados.filialID !== undefined) {
-        obj.setFilialID(dadosAtualizados.filialID);
-        }
-        if (dadosAtualizados.descricao !== undefined) {
-        obj.setDescricao(dadosAtualizados.descricao);
+            obj.setFilialID(dadosAtualizados.filialID);
         }
         // if (dadosAtualizados.endereco !== undefined) {
         // obj.setEndereco(dadosAtualizados.endereco);
@@ -76,5 +80,16 @@ export default class ServicoEspaco {
 
     async listarEspacos() {
         return this.repositorio.listarEspacos(); // ajuste o nome se no repositório for outro
+    }
+
+    async getTotal (id) {
+        
+        const obj = await this.repositorio.buscarPorId(id);
+        if (!obj)
+            return null;
+
+        const espaco = new Espaco (obj.id, obj.nome, obj.tipo, obj.capacidade, obj.preco, obj.filialID)
+
+        return espaco.getPreco();
     }
 }

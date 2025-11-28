@@ -104,4 +104,26 @@ export default class RepositorioReserva {
     return await this.lerJSON();   
 
   }
+
+  async verificaDisponibilidade (espacoID, inicio, fim) {
+
+    const reservas = await this.lerJSON();
+    if (reservas.length == 0)
+      return false;
+
+    const lista = reservas.filter (item => item.espaco == espacoID);
+    if (lista.length == 0)
+      return false;
+
+    for (const item of lista) {
+      const item_inicio = new Date(item.inicio);
+      const item_fim = new Date(item.fim);
+
+    const colisao = (inicio < item_fim) && (item_inicio < fim);
+    if (colisao) 
+      return false;
+  }
+
+  return true;
+  }
 }

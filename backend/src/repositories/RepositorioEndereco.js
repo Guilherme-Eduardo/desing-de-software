@@ -72,14 +72,14 @@ export default class RepositorioEndereco {
     const index = lista.findIndex(item => item.id == endereco.id);
     if (index == -1) {
       console.log ("ERRO! Não foi encontrado o Endereço de atualização.");
-      return false;
+      return null;
     }
       
     lista[index] = endereco;
       
     await this.salvarJSON(lista);
 
-    return true;
+    return endereco;
   }
 
   // Deleta endereço

@@ -1,34 +1,40 @@
 import RepositorioReserva from "../repositories/RepositorioReserva.js";
 import Reserva from "../entities/Reserva.js";
 import { StatusReserva } from "../entities/StatusReserva.js";
+import ServicoPagamento from "./ServicoPagamento.js";
+
 
 export default class ServicoReserva {
   constructor() {
     this.repositorio = new RepositorioReserva();
+    this.servicoPagamento = new ServicoPagamento();
     this.countID = 0;
   }
 
   async listarReservas() {
-    return this.repositorio.listarReservas(); // ajuste o nome se for diferente
+    return this.repositorio.listarReservas(); 
   }
 
-  async criarReserva(dados) {
-    // aqui você adapta aos campos reais da sua Reserva
-    const { inicio, fim, espaco, cliente} = dados;
+  async criarReserva(dados, total) {
+    
+    const { inicio, fim, espacoID, clienteID} = dados;
 
+    const pagamento = await this.servicoPagamento.criarPagamento(total);
+    
     const reserva = new Reserva(
       this.countID,
       inicio,
       fim,
-      espaco,
-      cliente,
-      StatusReserva.PENDENTE
+      espacoID,
+      clienteID,
+      StatusReserva.PENDENTE,
+      pagamento
     );
 
-    // if (this.repositorio.buscarReserva(reserva)) {
-    //   console.log("Reserva já cadastrada");
-    //   return null;
-    // }
+    if (await this.repositorio.buscarReserva(reserva)) {
+       console.log("Reserva já cadastrada");
+       return null;
+    }
 
     this.countID++;
 
@@ -83,6 +89,10 @@ export default class ServicoReserva {
 
   verificarStatus(reserva) {
     return reserva.getStatus();
+  }
+
+  async verificaDisponibilidade (espacoID, inicio, fim) {
+    return this.repositorio.verificaDisponibilidade(espacoID, inicio, fim);
   }
 }
 
