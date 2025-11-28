@@ -14,15 +14,15 @@ export default class ServicoReserva {
 
   async criarReserva(dados) {
     // aqui você adapta aos campos reais da sua Reserva
-    const { data_inicio, data_fim, espaco, cliente, status } = dados;
+    const { inicio, fim, espaco, cliente} = dados;
 
     const reserva = new Reserva(
       this.countID,
-      data_inicio,
-      data_fim,
+      inicio,
+      fim,
       espaco,
       cliente,
-      status ?? StatusReserva.PENDENTE
+      StatusReserva.PENDENTE
     );
 
     // if (this.repositorio.buscarReserva(reserva)) {
@@ -38,22 +38,33 @@ export default class ServicoReserva {
   }
 
   async atualizarReserva(id, dadosAtualizados) {
-    const reservaExistente = await this.repositorio.buscarPorId(id);
-    if (!reservaExistente) {
+    const existente = await this.repositorio.buscarPorId(id);
+    if (!existente) {
       return null;
     }
 
+    const obj = Reserva.fromObject(id, existente);
+
     // atualiza só o que chegou
-    if (dadosAtualizados.data !== undefined) {
-      reservaExistente.setData(dadosAtualizados.data);
+    if (dadosAtualizados.inicio !== undefined) {
+      obj.setInicio(dadosAtualizados.inicio);
     }
-
+    if (dadosAtualizados.fim !== undefined) {
+      obj.setFim(dadosAtualizados.fim);
+    }
+    if (dadosAtualizados.espaco !== undefined) {
+      obj.setEspaco(dadosAtualizados.espaco);
+    }
+    if (dadosAtualizados.cliente !== undefined) {
+      obj.setCliente(dadosAtualizados.cliente);
+    }
     if (dadosAtualizados.status !== undefined) {
-      reservaExistente.setStatus(dadosAtualizados.status);
+      obj.setStatus(dadosAtualizados.status);
     }
 
-    await this.repositorio.atualizarReserva(reservaExistente);
-    return reservaExistente;
+    await this.repositorio.atualizarReserva(obj);
+    
+    return obj;
   }
 
   async removerReserva(id) {

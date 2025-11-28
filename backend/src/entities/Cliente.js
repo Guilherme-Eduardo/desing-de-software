@@ -2,14 +2,14 @@ export default class Cliente {
   constructor(
     id,
     nome,
-    documento,
+    cpf,
     telefone,
     email,
     reservas = [] // histórico de reservas
   ) {
     this.id = id;
     this.nome = nome;
-    this.documento = documento;
+    this.cpf = cpf;
     this.telefone = telefone;
     this.email = email;
     this.reservas = reservas; // pode ser lista de objetos ou de IDs
@@ -44,7 +44,7 @@ export default class Cliente {
     return new Cliente(
       id,
       obj.nome,
-      obj.documento,
+      obj.cpf,
       obj.telefone,
       obj.email,
       reservas

@@ -3,7 +3,7 @@ import { readFile, writeFile } from "fs/promises";
 export default class RepositorioPagamento {
 
   constructor () {
-    this.path = "../db/pagaentos_db.json";
+    this.path = "./db/pagaentos_db.json";
   }  
   
   /* Ler Arquivo de Dados de Pagamento */
@@ -23,6 +23,13 @@ export default class RepositorioPagamento {
   async salvarJSON (lista) {
 
     await writeFile(this.path, JSON.stringify (lista, null, 2));
+  }
+
+  async buscarPorId(id) {
+    const lista = await this.lerJSON();
+    const encontrado = lista.find((item) => item.id === id);
+
+    return encontrado ? encontrado : null;
   }
 
   // Insere pagamento já criado no arquivo

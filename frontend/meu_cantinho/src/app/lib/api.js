@@ -107,16 +107,6 @@ export async function criarPagamento(dados) {
   return res.json();
 }
 
-export async function atualizarPagamento(id, dados) {
-  const res = await fetch(`${API_BASE_URL}/pagamentos/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(dados),
-  });
-  if (!res.ok) throw new Error ("Erro");
-  return res.json();
-}
-
 export async function removerPagamento(id) {
   const res = await fetch(`${API_BASE_URL}/pagamentos/${id}`, {
     method: "DELETE",
@@ -245,6 +235,16 @@ export async function atualizarEndereco(id, dados) {
 export async function removerEndereco(id) {
   const res = await fetch(`${API_BASE_URL}/enderecos/${id}`, {
     method: "DELETE",
+  });
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
+}
+
+export async function atualizarPagamento(id, dados) {
+  const res = await fetch(`${API_BASE_URL}/pagamento/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dados),
   });
   if (!res.ok) throw new Error ("Erro");
   return res.json();

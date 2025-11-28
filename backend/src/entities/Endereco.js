@@ -39,7 +39,7 @@ export default class Endereco {
 
 
   /* Cria um Endereco a partir de um objeto “cru” (por exemplo, vindo de JSON). */
-  static fromObject(obj) {
+  static fromObject(id, obj) {
 
     if (!obj) {
       throw new Error("Objeto de endereço inválido");
@@ -49,7 +49,7 @@ export default class Endereco {
         obj.complemento = "";
 
     return new Endereco(
-      obj.id,
+      id,
       obj.rua,
       obj.numero,
       obj.bairro,

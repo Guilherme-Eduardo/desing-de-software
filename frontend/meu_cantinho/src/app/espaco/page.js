@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+import ClearIcon from '@mui/icons-material/Clear';
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
+
 import Header from "../components/Header.js";
 import { criarEspaco, listarEnderecos, listarEspacos } from "../lib/api.js";
 
@@ -31,9 +34,23 @@ export default function CadastroEspacoPage() {
     await criarEspaco(dados);              // cria o endereço
 
     const atualizada = await listarEspacos(); // recarrega a lista
-    setEspacos(atualizada);
+    setEspaco(atualizada);
 
     e.target.reset(); // limpa o formulário
+  }
+
+  async function removerEspaco(id) {
+    try {
+      await fetch(`http://localhost:3000/espacos/${id}`, {
+        method: "DELETE",
+      });
+
+      // Atualiza a lista no front removendo a reserva deletada
+      setEspaco((prev) => prev.filter((r) => r.id !== id));
+
+    } catch (err) {
+      console.error("Erro ao deletar espaco", err);
+    }
   }
 
   return (
@@ -171,12 +188,33 @@ export default function CadastroEspacoPage() {
           ) : (
             <ul className="space-y-3">
               {espacos.map((item, idx) => (
-                <li key={idx} className="border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800">
-                  <p><strong>Cpacidade:</strong> {item.capacidade}</p>
-                  <p><strong>Preço:</strong> {item.preco}</p>
-                  <p><strong>Tipo:</strong> {item.tipo}</p>
-                  <p><strong>Endereço:</strong> {item.endereco.rua}</p>
-                </li>
+                <div
+                  key={idx}
+                  className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800"
+                >
+                  {/* Botão de deletar */}
+                  <button
+                    onClick={() => removerEspaco(item.id)}
+                    className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+                  >
+                    <ClearIcon fontSize="medium" />
+                  </button>
+                  {/* Atualizar */}
+                  <button
+                    onClick={() => atualizarEspaco(item)}
+                    className="absolute top-10 right-2 text-blue-600 hover:text-blue-800"
+                  >
+                    <SyncAltIcon fontSize="medium" />
+                  </button>
+                  <li key={idx} className="rounded-md p-3 bg-orange-50 text-gray-800">
+                    <p><strong>Nome:</strong> {item.nome}</p>
+                    <p><strong>Tipo:</strong> {item.tipo}</p>
+                    <p><strong>Cpacidade:</strong> {item.capacidade}</p>
+                    <p><strong>Preço:</strong> {item.preco}</p>
+                    <p><strong>ID da Filial:</strong> {item.filialID}</p>
+                    <p><strong>Descrição:</strong> {item.descricao}</p>
+                  </li>
+                  </div>
               ))}
             </ul>
           )}

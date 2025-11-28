@@ -5,7 +5,7 @@ export default class RepositorioFilial {
 
   constructor () {
 
-    this.path = "../db/filial_db.json";
+    this.path = "./db/filial_db.json";
   }  
 
   /* Lê arquivo JSON (lista de filiais) */

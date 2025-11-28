@@ -72,12 +72,12 @@ export default function CadastroClientePage() {
 
             {/* Documento */}
             <div>
-              <label htmlFor="documento" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="cpf" className="block text-sm font-medium text-gray-700 mb-1">
                 Documento (CPF ou RG)
               </label>
               <input
-                id="documento"
-                name="documento"
+                id="cpf"
+                name="cpf"
                 type="text"
                 required
                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
@@ -157,7 +157,7 @@ export default function CadastroClientePage() {
                     <SyncAltIcon fontSize="medium" />
                   </button>
                   <p><strong>Nome:</strong> {item.nome}</p>
-                  <p><strong>Documento:</strong> {item.documento}</p>
+                  <p><strong>Documento:</strong> {item.cpf}</p>
                   <p><strong>Telefone:</strong> {item.telefone}</p>
                   <p><strong>Email:</strong> {item.email}</p>
                 </div>

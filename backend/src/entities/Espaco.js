@@ -1,33 +1,46 @@
 export default class Espaco {
 
-    /**
-     * 
-     * @param {int} capacidade 
-     * @param {double} preco 
-     * @param {string} tipo 
-     * @param {Endereco} endereco 
-     */
-    constructor (id, capacidade, preco, tipo, endereco) {
+    constructor (id, nome, tipo, capacidade, preco, filialID, descricao) {
 
         this.id = id;
+        this.nome = nome;
+        this.tipo = tipo;
         this.capacidade = capacidade;
         this.preco = preco;
-        this.tipo = tipo;
-        this.endereco = endereco;
+        this.filialID = filialID;
+        this.descricao = descricao;
+        //this.endereco = endereco;
     }
 
+    async getNome () { return this.nome; }
+    async getTipo () { return this.tipo; }
+    async getCapacidade () { return this.capacidade; }
+    async getPreco () { return this.preco; }
+    async getFilialID () { return this.filialID; }
+    async getDescricao () { return this.descricao; }
+
+    async setNome (nome) { this.nome = nome; }
+    async setTipo (tipo) { this.tipo = tipo; }
+    async setCapacidade (capacidade) { this.capacidade = capacidade; }
+    async setPreco (preco) { this.preco = preco; }
+    async setFilialID (filialID) {this.filialID = filialID; }
+    async setDescricao (descricao) { this.descricao = descricao; }
+
     // Cria um obejto a partir de um objeto
-    static fromObject(obj) {
+    static fromObject(id, obj) {
 
         if (!obj) {
             throw new Error ("Objeto não encontrado.");
         }
 
-        return new Espaco (obj.id,
+        return new Espaco (id,
+                           obj.nome,
+                           obj.tipo,
                            obj.capacidade, 
                            obj.preco, 
-                           obj.tipo, 
-                           new Endereco(obj.endereco));
+                           obj.filialID,
+                           obj.descricao )
+                           //new Endereco(obj.endereco));
     }
 
     // Cria um JSON a partir de um Espaço
@@ -35,10 +48,13 @@ export default class Espaco {
 
         return {
             id: this.id,
+            nome : this.nome,
+            tipo : this.tipo,
             capacidade: this.capacidade,
             preco: this.preco,
-            tipo: this.tipo,
-            endereco: this.endereco.toJSON(),
+            filialID : this.filialID,
+            descricao : this.descricao
+           // endereco: this.endereco.toJSON(),
         }
     }
 
