@@ -254,3 +254,49 @@ export async function atualizarPagamento(id, dados) {
   if (!res.ok) throw new Error ("Erro");
   return res.json();
 }
+
+
+export async function listarFiliais() {
+  const res = await fetch(`${API_BASE_URL}/filiais`);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
+}
+
+export async function obterFilial(id) {
+  const res = await fetch(`${API_BASE_URL}/filiais/${id}`);
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
+}
+
+export async function criarFilial(dados) {
+  const res = await fetch(`${API_BASE_URL}/filiais`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dados),
+  });
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
+}
+
+export async function atualizarFilial(id, dados) {
+  const res = await fetch(`${API_BASE_URL}/filiais/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dados),
+  });
+
+  if (!res.ok) {
+    throw new Error("Erro ao atualizar filial.");
+  }
+
+  return res.json();
+}
+
+
+export async function removerFilial(id) {
+  const res = await fetch(`${API_BASE_URL}/filiais/${id}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error ("Erro");
+  return res.json();
+}

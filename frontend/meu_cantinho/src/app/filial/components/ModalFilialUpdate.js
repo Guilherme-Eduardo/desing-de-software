@@ -6,13 +6,12 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { atualizarCliente, listarClientes } from "../../lib/api.js";
 import { useEffect, useState } from "react";
 
-export default function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
+export default function ModalFilialUpdate({ open, onClose, dados, setClientes }) {
   const [form, setForm] = useState({
     id: "",
     nome: "",
-    cpf: "",
-    telefone: "",
-    email: "",
+    cnpj: "",
+    estado: "",
   });
 
   // Preenche o formulário quando os dados do cliente mudarem
@@ -21,9 +20,8 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
       setForm({
         id: dados.id || "",
         nome: dados.nome || "",
-        cpf: dados.cpf || "",
-        telefone: dados.telefone || "",
-        email: dados.email || "",
+        cnpj: dados.cnpj || "",
+        estado: dados.estado || "",
       });
     }
   }, [dados]);
@@ -102,20 +100,20 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
               />
             </div>
 
-            {/* cpf */}
+            {/* cnpj */}
             <div>
               <label
-                htmlFor="cpf"
+                htmlFor="cnpj"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Documento (CPF ou RG)
               </label>
               <input
-                id="cpf"
-                name="cpf"
+                id="cnpj"
+                name="cnpj"
                 type="text"
                 required
-                value={form.cpf}
+                value={form.cnpj}
                 onChange={handleChange}
                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                   focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
@@ -126,49 +124,30 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
             {/* Telefone */}
             <div>
               <label
-                htmlFor="telefone"
+                htmlFor="estado"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Telefone
               </label>
               <input
-                id="telefone"
-                name="telefone"
+                id="estado"
+                name="estado"
                 type="text"
-                value={form.telefone}
+                value={form.estado}
                 onChange={handleChange}
                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                   focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-                placeholder="Ex.: (41) 99999-9999"
+                placeholder="Ex.: Paraná"
               />
             </div>
-
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                E-mail
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={form.email}
-                onChange={handleChange}
-                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-                  focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-                placeholder="cliente@exemplo.com"
-              />
-            </div>
+           
 
             <button
               type="submit"
               className="mt-4 w-full rounded-md bg-orange-500 px-4 py-2 text-sm font-medium text-white shadow-sm
                 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-1"
             >
-              Atualizar cliente
+              Atualizar filial
             </button>
           </form>
         </div>

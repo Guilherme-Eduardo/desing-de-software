@@ -6,6 +6,7 @@ import * as ControleEspaco from "../controller/ControleEspaco.js";
 import * as ControlePagamento from "../controller/ControlePagamento.js";
 import * as ControleProprietário from "../controller/ControleProprietário.js";
 import * as ControleReserva from "../controller/ControleReserva.js";
+import * as ControleFilial from "../controller/ControleFilial.js"
 
 const router = express.Router();
 
@@ -35,6 +36,13 @@ router.get("/clientes", ControleCliente.listarClientes);
 router.post("/clientes", ControleCliente.criarCliente);
 router.patch("/clientes/:id", ControleCliente.atualizarCliente);
 router.delete("/clientes/:id", ControleCliente.removerCliente);
+
+
+/* Rotas destinadas a filiais */
+router.get("/filiais", ControleFilial.listarFiliais);
+router.post("/filiais", ControleFilial.criarFilial);
+router.patch("/filiais/:id", ControleFilial.atualizarFilial);
+router.delete("/filiais/:id", ControleFilial.removerFilial);
 
 
 /* Rotas destinadas ao Proprietario*/
