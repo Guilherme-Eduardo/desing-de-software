@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "nome": "Salão Pri",
+    "tipo": "quadra",
+    "capacidade": "100",
+    "preco": "500"
+  }
+]

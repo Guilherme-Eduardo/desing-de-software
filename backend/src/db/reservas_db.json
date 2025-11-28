@@ -1,0 +1,16 @@
+[
+  {
+    "id": 0,
+    "inicio": "2025-02-01",
+    "fim": "2025-02-06",
+    "espaco": 1,
+    "cliente": 1,
+    "status": "pendente",
+    "pagamento": {
+      "id": 0,
+      "valor_pago": 0,
+      "total": {},
+      "status": "pendente"
+    }
+  }
+]

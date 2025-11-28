@@ -1,0 +1,20 @@
+[
+  {
+    "id": 0,
+    "rua": "Mário Zanlorenzi",
+    "numero": "2700",
+    "bairro": "Campo Comprido",
+    "cidade": "Curitiba",
+    "estado": "PR",
+    "complemento": "Apto E11"
+  },
+  {
+    "id": 1,
+    "rua": "Pedro Hidalgo Martins",
+    "numero": "535",
+    "bairro": "Interlagos",
+    "cidade": "Apucarana",
+    "estado": "PR",
+    "complemento": "ao lado do"
+  }
+]
