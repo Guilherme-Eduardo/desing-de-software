@@ -7,18 +7,20 @@ export default class ServicoEspaco {
         this.repositorio = new RepositorioEspaco();
         this.countId = 0;
     }
-    
-    async criarEspaco (dadosEspaco) {
 
-        const { nome, tipo, capacidade, preco, filialID } = dadosEspaco;
+    async criarEspaco(dadosEspaco, imagem) {
+
+        const { nome, tipo, capacidade, preco, filialId, enderecoId } = dadosEspaco;
 
         const novoEspaco = new Espaco(
-            this.countId,
+            Number(this.countId),
             nome,
             tipo,
             capacidade,
             preco,
-            filialID
+            filialId,
+            enderecoId,
+            imagem ? `/uploads/${imagem.filename}` : null
         );
 
         if (await this.repositorio.buscarEspaco(novoEspaco)) {
@@ -32,48 +34,57 @@ export default class ServicoEspaco {
         return novoEspaco;
     }
 
-    async verificaValidade (id) {
+    async verificaValidade(id) {
         const index = await this.repositorio.buscarPorId(id);
         if (index == -1)
-        return false;
+            return false;
 
         return true;
     }
-      
 
-    async atualizarEspaco(id, dadosAtualizados) {
-        const existente = await this.repositorio.buscarPorId(id);
-        if (!existente) {
+
+async atualizarEspaco(id, dadosAtualizados, imagem) {
+    id = Number(id);
+    const existente = await this.repositorio.buscarPorId(id);
+    if (!existente) {
         return null;
-        }
-
-        const obj = Espaco.fromObject(id, existente);
-
-        // Atualiza somente os campos enviados
-        if (dadosAtualizados.nome !== undefined) {
-            obj.setNome(dadosAtualizados.nome);
-        }
-        if (dadosAtualizados.tipo !== undefined) {
-            obj.setTipo(dadosAtualizados.tipo);
-        }
-        if (dadosAtualizados.capacidade !== undefined) {
-            obj.setCapacidade(dadosAtualizados.capacidade);
-        }
-        if (dadosAtualizados.preco !== undefined) {
-            obj.setPreco(dadosAtualizados.preco);
-        }
-        if (dadosAtualizados.filialID !== undefined) {
-            obj.setFilialID(dadosAtualizados.filialID);
-        }
-        // if (dadosAtualizados.endereco !== undefined) {
-        // obj.setEndereco(dadosAtualizados.endereco);
-        // }
-
-        await this.repositorio.atualizarEspaco(obj);
-        return obj;
     }
 
-    removerEspaco (id) {
+    const obj = Espaco.fromObject(id, existente);
+
+    if (dadosAtualizados.nome !== undefined) {
+        obj.setNome(dadosAtualizados.nome);
+    }
+
+    if (dadosAtualizados.tipo !== undefined) {
+        obj.setTipo(dadosAtualizados.tipo);
+    }
+
+    if (dadosAtualizados.capacidade !== undefined) {
+        obj.setCapacidade(dadosAtualizados.capacidade);
+    }
+
+    if (dadosAtualizados.preco !== undefined) {
+        obj.setPreco(dadosAtualizados.preco);
+    }
+
+    if (dadosAtualizados.filialId !== undefined) {
+        obj.setFilialId(dadosAtualizados.filialId);
+    }
+
+    if (dadosAtualizados.enderecoId !== undefined) {
+        obj.setEnderecoId(dadosAtualizados.enderecoId);
+    }
+
+    if (imagem) {
+        obj.setImagemURL(`/uploads/${imagem.filename}`);
+    }
+
+    await this.repositorio.atualizarEspaco(obj);
+    return obj;
+}
+
+    removerEspaco(id) {
 
         return this.repositorio.deletarEspaco(id);
     }
@@ -82,13 +93,13 @@ export default class ServicoEspaco {
         return this.repositorio.listarEspacos(); // ajuste o nome se no repositório for outro
     }
 
-    async getTotal (id) {
-        
+    async getTotal(id) {
+
         const obj = await this.repositorio.buscarPorId(id);
         if (!obj)
             return null;
 
-        const espaco = new Espaco (obj.id, obj.nome, obj.tipo, obj.capacidade, obj.preco, obj.filialID)
+        const espaco = new Espaco(obj.id, obj.nome, obj.tipo, obj.capacidade, obj.preco, obj.filialID)
 
         return espaco.getPreco();
     }

@@ -19,7 +19,7 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
   useEffect(() => {
     if (dados) {
       setForm({
-        id: dados.id || "",
+        id: dados.id,
         nome: dados.nome || "",
         cpf: dados.cpf || "",
         telefone: dados.telefone || "",
@@ -36,6 +36,8 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
   async function handleSubmit(e) {
     e.preventDefault();
 
+    console.log ("Dados do cliente: ", form);
+
     await atualizarCliente(form.id, form);
 
 
@@ -49,7 +51,7 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
 
   return (
     <Modal
-      aria-labelledby="modal-atualizar-cliente"
+      aria-pledby="modal-atualizar-cliente"
       aria-describedby="modal-atualizar-cliente-descricao"
       open={open}
       onClose={onClose}
@@ -81,14 +83,15 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <input type="hidden" name="id" value={form.id} />
             {/* Nome */}
             <div>
-              <label
+              <p
                 htmlFor="nome"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Nome completo
-              </label>
+              </p>
               <input
                 id="nome"
                 name="nome"
@@ -104,12 +107,12 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
 
             {/* cpf */}
             <div>
-              <label
+              <p
                 htmlFor="cpf"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Documento (CPF ou RG)
-              </label>
+              </p>
               <input
                 id="cpf"
                 name="cpf"
@@ -125,12 +128,12 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
 
             {/* Telefone */}
             <div>
-              <label
+              <p
                 htmlFor="telefone"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Telefone
-              </label>
+              </p>
               <input
                 id="telefone"
                 name="telefone"
@@ -145,12 +148,12 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
 
             {/* Email */}
             <div>
-              <label
+              <p
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 E-mail
-              </label>
+              </p>
               <input
                 id="email"
                 name="email"

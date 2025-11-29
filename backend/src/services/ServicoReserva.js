@@ -22,7 +22,7 @@ export default class ServicoReserva {
     const pagamento = await this.servicoPagamento.criarPagamento(total);
     
     const reserva = new Reserva(
-      this.countID,
+      Number(this.countID),
       inicio,
       fim,
       espacoID,
@@ -44,6 +44,7 @@ export default class ServicoReserva {
   }
 
   async atualizarReserva(id, dadosAtualizados) {
+    id = Number(id);
     const existente = await this.repositorio.buscarPorId(id);
     if (!existente) {
       return null;

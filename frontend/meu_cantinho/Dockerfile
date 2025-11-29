@@ -2,23 +2,21 @@ FROM node:24.11.1-alpine
 
 WORKDIR /app
 
-# habilita pnpm
+# Habilita o PNPM
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
+# Copia apenas arquivos de dependências primeiro (melhor cache)
 COPY package.json pnpm-lock.yaml ./
 
-# impede erros no Docker
+# Diz para o pnpm que está em ambiente CI (sem TTY)
 ENV CI=true
 
-# instala dependências
+# Instala dependências
 RUN pnpm install
 
-# agora copia todo o projeto
+# Agora copia o restante do código
 COPY . .
 
-# build da aplicação
-RUN pnpm build
-
-EXPOSE 3000
+EXPOSE 3002
 
 CMD ["pnpm", "start"]

@@ -45,7 +45,7 @@ export default class ServicoCliente {
   async criaCliente(dadosCliente) {
     const cliente = Cliente.fromObject(this.count_id, dadosCliente);
     
-    if (await this.repositorio.buscaCliente(cliente)) {
+    if (await this.repositorio.buscarCliente(cliente)) {
       console.log ("Cliente já cadastrado.")
       return false;
     }

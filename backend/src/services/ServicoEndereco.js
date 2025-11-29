@@ -28,37 +28,30 @@ export default class ServicoEndereco {
     }
         
 
-    async atualizarEndereco(id, dadosAtualizados) {
-        const existente = await this.repositorio.buscarPorId(id);
-        if (!existente) {
-        return null;
-        }
+  async atualizarEndereco(id, dadosAtualizados) {
+    id = Number(id);
 
-        const obj = Endereco.fromObject(id, existente);
+    const existente = await this.repositorio.buscarPorId(id);
 
-        // Atualiza somente os campos enviados
-        if (dadosAtualizados.rua !== undefined) {
-        obj.setRua(dadosAtualizados.rua);
-        }
-        if (dadosAtualizados.numero !== undefined) {
-        obj.setNumero(dadosAtualizados.numero);
-        }
-        if (dadosAtualizados.bairro !== undefined) {
-        obj.setBairro(dadosAtualizados.bairro);
-        }
-        if (dadosAtualizados.cidade !== undefined) {
-        obj.setCidade(dadosAtualizados.cidade);
-        }
-        if (dadosAtualizados.estado !== undefined) {
-        obj.setEstado(dadosAtualizados.estado);
-        }
-        if (dadosAtualizados.complemento !== undefined) {
-        obj.setComplemento(dadosAtualizados.complemento);
-        }
-
-        await this.repositorio.atualizarEndereco(obj);
-        return obj;
+    if (!existente) {
+      console.log("Endereço inexistente:", id);
+      return null;
     }
+
+    // monta usando o id EXPLÍCITO, não usando fromObject incorreto
+    const obj = new Endereco(
+      id,
+      dadosAtualizados.rua ?? existente.rua,
+      dadosAtualizados.numero ?? existente.numero,
+      dadosAtualizados.bairro ?? existente.bairro,
+      dadosAtualizados.cidade ?? existente.cidade,
+      dadosAtualizados.estado ?? existente.estado,
+      dadosAtualizados.complemento ?? existente.complemento
+    );
+
+    const atualizado = await this.repositorio.atualizarEndereco(obj);
+    return atualizado;
+  }
 
     removerEndereco (id) {
 
@@ -67,5 +60,10 @@ export default class ServicoEndereco {
 
     async listarEnderecos() {
         return this.repositorio.listarEnderecos(); 
+    }
+
+    async buscarPorId (id) {
+        const endereco = this.repositorio.buscarPorId(id);
+        return endereco;
     }
 }

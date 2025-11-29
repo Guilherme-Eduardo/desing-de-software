@@ -46,7 +46,7 @@ export default function ModalReservaUpdate({ open, onClose, dados, setReservas }
 
     return (
         <Modal
-            aria-labelledby="modal-atualizar-reserva"
+            aria-pledby="modal-atualizar-reserva"
             aria-describedby="modal-atualizar-reserva-descricao"
             open={open}
             onClose={onClose}
@@ -80,12 +80,12 @@ export default function ModalReservaUpdate({ open, onClose, dados, setReservas }
                     <form onSubmit={handleSubmit} className="space-y-4">
                         {/* Nome do cliente */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="cliente"
                                 className="block text-sm font-medium text-gray-700 mb-1"
                             >
                                 nome do cliente
-                            </label>
+                            </p>
                             <input
                                 id="cliente"
                                 name="cliente"
@@ -99,12 +99,12 @@ export default function ModalReservaUpdate({ open, onClose, dados, setReservas }
 
                         {/* Espaço */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="espaco"
                                 className="block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Espaço
-                            </label>
+                            </p>
                             <input
                                 id="espaco"
                                 name="espaco"
@@ -118,12 +118,12 @@ export default function ModalReservaUpdate({ open, onClose, dados, setReservas }
 
                         {/* Início da reserva */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="inicio"
                                 className="text-black block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Início
-                            </label>
+                            </p>
                             <input
                                 id="inicio"
                                 name="inicio"
@@ -136,12 +136,12 @@ export default function ModalReservaUpdate({ open, onClose, dados, setReservas }
 
                         {/* Fim da reserva */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="fim"
                                 className="block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Fim
-                            </label>
+                            </p>
                             <input
                                 id="fim"
                                 name="fim"

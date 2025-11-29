@@ -53,12 +53,12 @@ export default function EntrarPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label
+                <p
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
                   E-mail
-                </label>
+                </p>
                 <input
                   id="email"
                   name="email"
@@ -72,12 +72,12 @@ export default function EntrarPage() {
               </div>
 
               <div>
-                <label
+                <p
                   htmlFor="senha"
                   className="text-black block text-sm font-medium text-gray-700 mb-1"
                 >
                   Senha
-                </label>
+                </p>
                 <input
                   id="senha"
                   name="senha"

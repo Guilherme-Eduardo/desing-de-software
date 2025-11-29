@@ -6,8 +6,9 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { atualizarEndereco, listarEnderecos } from "../lib/api.js";
 import { useEffect, useState } from "react";
 
-export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco }) {
+export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos }) {
     const [form, setForm] = useState({
+        id: "",
         rua: "",
         numero: "",
         bairro: "",
@@ -20,7 +21,7 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco 
     useEffect(() => {
         if (dados) {
             setForm({
-                id: dados.id || "",
+                id: dados.id,
                 rua: dados.rua || "",
                 numero: dados.numero || "",
                 bairro: dados.bairro || "",
@@ -39,11 +40,13 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco 
     async function handleSubmit(e) {
         e.preventDefault();
 
+        console.log ("ID: ", form.id);
+        console.log ("FORMS: ", form);
         await atualizarEndereco(form.id, form);
 
-        if (setEndereco) {
+        if (setEnderecos) {
             const atualizada = await listarEnderecos();
-            setEndereco(atualizada);
+            setEnderecos(atualizada);
         }
 
         onClose();
@@ -51,7 +54,7 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco 
 
     return (
         <Modal
-            aria-labelledby="modal-atualizar-endereco"
+            aria-pledby="modal-atualizar-endereco"
             aria-describedby="modal-atualizar-endereco-descricao"
             open={open}
             onClose={onClose}
@@ -83,14 +86,16 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco 
                     </h2>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
+                        <input type="hidden" name="id" value={form.id} />
+
                         {/* Rua */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="rua"
                                 className="text-black block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Rua
-                            </label>
+                            </p>
                             <input
                                 id="rua"
                                 name="rua"
@@ -106,12 +111,12 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco 
 
                         {/* Número */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="numero"
                                 className="text-black block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Número
-                            </label>
+                            </p>
                             <input
                                 id="numero"
                                 name="numero"
@@ -127,12 +132,12 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco 
 
                         {/* Bairro */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="bairro"
                                 className="text-black block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Bairro
-                            </label>
+                            </p>
                             <input
                                 id="bairro"
                                 name="bairro"
@@ -148,12 +153,12 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco 
 
                         {/* Cidade */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="cidade"
                                 className="text-black block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Cidade
-                            </label>
+                            </p>
                             <input
                                 id="cidade"
                                 name="cidade"
@@ -169,12 +174,12 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco 
 
                         {/* Estado */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="estado"
                                 className="text-black block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Estado
-                            </label>
+                            </p>
                             <input
                                 id="estado"
                                 name="estado"
@@ -191,12 +196,12 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco 
 
                         {/* Complemento (opcional) */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="complemento"
                                 className="text-black block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Complemento (opcional)
-                            </label>
+                            </p>
                             <input
                                 id="complemento"
                                 name="complemento"
@@ -213,7 +218,7 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEndereco 
                             className="mt-4 w-full rounded-md bg-orange-500 px-4 py-2 text-sm font-medium text-white shadow-sm
                 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-1"
                         >
-                            Atualizar cliente
+                            Atualizar endereço
                         </button>
                     </form>
                 </div>

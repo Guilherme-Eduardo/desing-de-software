@@ -43,8 +43,8 @@ export default class RepositorioEspaco {
       item.tipo === espaco.tipo &&
       item.capacidade === espaco.capacidade &&
       item.preco === espaco.preco &&
-      item.filialID === espaco.filialID &&
-      item.descricao === espaco.descricao 
+      item.filialId === espaco.filialId &&
+      item.enderecoId === espaco.enderecoId
       // item.endereco.rua === espaco.endereco.rua &&
       // item.endereco.numero === espaco.endereco.numero &&
       // item.endereco.bairro === espaco.endereco.bairro &&

@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 
 import ClearIcon from '@mui/icons-material/Clear';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
-
 import Header from "../components/Header.js";
 import { criarEspaco, listarEnderecos, listarEspacos } from "../lib/api.js";
 import ModalEspacoUpdate from "./components/ModalEspacoUpdate.js";
+import Image from "next/image";
+
+
 
 export default function CadastroEspacoPage() {
   const [openModal, setOpenModal] = useState(false);
@@ -22,7 +24,9 @@ export default function CadastroEspacoPage() {
       if (dados) setEspacos(dados);
 
       const end = await listarEnderecos();
+      console.log("teste: ", end);
       if (end) setEnderecos(end);
+      console.log("Dados: ", dados);
     }
     carregar();
   }, []);
@@ -31,26 +35,17 @@ export default function CadastroEspacoPage() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.target);  // mantém o arquivo!!
 
-    // Envia os dados incluindo a imagem
-    const dados = Object.fromEntries(formData.entries());
-    const imagem = formData.get("imagem"); // Captura o arquivo de imagem
+    await criarEspaco(formData);
 
-    // O backend vai receber o arquivo de imagem e o restante dos dados
-    const response = await fetch("http://localhost:3000/espacos", {
-      method: "POST",
-      body: formData,  // FormData inclui o arquivo de imagem
-    });
+    const atualizada = await listarEspacos();
+    setEspacos(atualizada);
 
-    if (response.ok) {
-      const atualizada = await listarEspacos();
-      setEspacos(atualizada);
-      e.target.reset();
-    } else {
-      console.error("Erro ao cadastrar espaço");
-    }
+    e.target.reset();
   }
+
+
 
   async function removerEspaco(id) {
     try {
@@ -59,7 +54,7 @@ export default function CadastroEspacoPage() {
       });
 
       // Atualiza a lista no front removendo a reserva deletada
-      setEspaco((prev) => prev.filter((r) => r.id !== id));
+      setEspacos((prev) => prev.filter((r) => r.id !== id));
 
     } catch (err) {
       console.error("Erro ao deletar espaco", err);
@@ -76,131 +71,78 @@ export default function CadastroEspacoPage() {
             Cadastro de Espaço
           </h1>
 
+
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Nome do espaço */}
+
             <div>
-              <label
-                htmlFor="nome"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Nome do espaço
-              </label>
+              <p className="block text-sm font-medium text-gray-700 mb-1">Nome</p>
               <input
-                id="nome"
                 name="nome"
-                type="text"
                 required
-                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-                         focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-                placeholder="Ex.: Salão Principal, Chácara Verde"
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                placeholder="Ex.: Major Antônio Couto Pereira"
               />
             </div>
 
-            {/* Tipo do espaço */}
             <div>
-              <label
-                htmlFor="tipo"
-                className="text-black block text-sm font-medium text-gray-700 mb-1"
-              >
-                Tipo de espaço
-              </label>
+              <p className="block text-sm font-medium text-gray-700 mb-1">Tipo</p>
               <input
-                id="tipo"
                 name="tipo"
-                type="text"
-                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-                         focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-                placeholder="Ex.: Salão de festas, Chácara, Quadra esportiva"
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                placeholder="Ex.: Estádio"
               />
             </div>
 
-            {/* Capacidade */}
             <div>
-              <label
-                htmlFor="capacidade"
-                className="text-black block text-sm font-medium text-gray-700 mb-1"
-              >
-                Capacidade (pessoas)
-              </label>
+              <p className="block text-sm font-medium text-gray-700 mb-1">Capacidade</p>
               <input
-                id="capacidade"
                 name="capacidade"
                 type="number"
-                min="0"
-                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-                         focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-                placeholder="Ex.: 100"
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                placeholder="Ex.: 45000"
               />
             </div>
 
-            {/* Preço por hora / diária */}
             <div>
-              <label
-                htmlFor="preco"
-                className="text-black block text-sm font-medium text-gray-700 mb-1"
-              >
-                Preço base (ex.: diária ou hora)
-              </label>
+              <p className="block text-sm font-medium text-gray-700 mb-1">Preço</p>
               <input
-                id="preco"
                 name="preco"
                 type="number"
-                min="0"
                 step="0.01"
-                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-                         focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-                placeholder="Ex.: 500.00"
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                placeholder="Ex.: R$90.000"
               />
             </div>
 
-
-
             <div>
-              <label
-                htmlFor="endereco"
-                className="text-black block text-sm font-medium text-gray-700 mb-1"
-              >
-                Endereco
-              </label>
-              <select
-                id="enderecoId"
+              <p className="block text-sm font-medium text-gray-700 mb-1">Endereço</p>
+              <div
                 name="enderecoId"
                 required
-                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-               focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
               >
-                <option value="">Selecione um endereço...</option>
-
-                {enderecos.map((end) => (
-                  <option key={end.id} value={end.id}>
-                    {end.rua}, {end.numero} — {end.cidade}/{end.estado}
-                  </option>
+                <p value="">Selecione...</p>
+                {enderecos.map(e => (
+                  <p key={e.id} value={e.id}>
+                    {e.rua}, {e.numero} — {e.cidade}/{e.estado}
+                  </p>
                 ))}
-              </select>
+              </div>
             </div>
-            {/* Imagem do espaço */}
+
             <div>
-              <label
-                htmlFor="imagem"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Imagem do espaço
-              </label>
+              <p className="block text-sm font-medium text-gray-700 mb-1">Imagem</p>
               <input
-                id="imagem"
                 name="imagem"
                 type="file"
                 accept="image/*"
-                required
-                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-      focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
               />
             </div>
 
             <button
               type="submit"
-              className="mt-4 w-full rounded-md bg-orange-500 px-4 py-2 text-sm font-medium text-white shadow-sm
-                       hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-1"
+              className="mt-4 w-full rounded-md bg-orange-500 px-4 py-2 text-sm font-medium text-white hover:bg-orange-600"
             >
               Cadastrar espaço
             </button>
@@ -217,43 +159,55 @@ export default function CadastroEspacoPage() {
             <p className="text-gray-600 text-center">Nenhum espaço cadastrado.</p>
           ) : (
             <ul className="space-y-3">
-              {espacos.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800"
-                >
-                  {item.imagemURL && (
-                    <Image
-                      src={`http://localhost:3000${item.imagemURL}`} // O caminho da imagem
-                      alt={item.nome}  // Descrição da imagem
-                      width={300}  // Tamanho da imagem (ajuste conforme necessário)
-                      height={200}  // Tamanho da imagem (ajuste conforme necessário)
-                      className="rounded-lg mb-4" // Classe para estilizar a imagem
-                    />
-                  )}
-                  {/* Botão de deletar */}
-                  <button
-                    onClick={() => removerEspaco(item.id)}
-                    className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+              {espacos.map((item) => {
+                const enderecoFilial = enderecos.find(e => e.id == item.enderecoId);
+
+                return (
+                  <div
+                    key={item.id}
+                    className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800"
                   >
-                    <ClearIcon fontSize="medium" />
-                  </button>
-                  {/* Atualizar */}
-                  <button
-                    onClick={() => { setOpenModal(true); setDadosEspaco(item) }}
-                    className="absolute top-10 right-2 text-blue-600 hover:text-blue-800"
-                  >
-                    <SyncAltIcon fontSize="medium" />
-                  </button>
-                  <li key={idx} className="rounded-md p-3 bg-orange-50 text-gray-800">
-                    <p><strong>Nome:</strong> {item.nome}</p>
-                    <p><strong>Tipo:</strong> {item.tipo}</p>
-                    <p><strong>Capacidade:</strong> {item.capacidade}</p>
-                    <p><strong>Endereco:</strong> {item.endereco}</p>
-                    <p><strong>Preço:</strong> {item.preco}</p>
-                  </li>
-                </div>
-              ))}
+                    {item.imagemURL && (
+                      <Image
+                        src={`http://localhost:3000${item.imagemURL}`}
+                        alt={item.nome}
+                        width={300}
+                        height={200}
+                        className="rounded-lg mb-4"
+                      />
+                    )}
+
+                    <button
+                      onClick={() => removerEspaco(item.id)}
+                      className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+                    >
+                      <ClearIcon fontSize="medium" />
+                    </button>
+
+                    <button
+                      onClick={() => { setOpenModal(true); setDadosEspaco(item); }}
+                      className="absolute top-10 right-2 text-blue-600 hover:text-blue-800"
+                    >
+                      <SyncAltIcon fontSize="medium" />
+                    </button>
+
+                    <li className="rounded-md p-3 bg-orange-50 text-gray-800">
+                      <p><span>Nome:</span> {item.nome}</p>
+                      <p><span>Tipo:</span> {item.tipo}</p>
+                      <p><span>Capacidade:</span> {item.capacidade}</p>
+                      <p><span>Preço:</span> {item.preco}</p>
+
+                      {enderecoFilial && (
+                        <>
+                          <p><span>Endereço:</span> {enderecoFilial.rua}, {enderecoFilial.numero}</p>
+                          <p><span>Cidade:</span> {enderecoFilial.cidade}/{enderecoFilial.estado}</p>
+                        </>
+                      )}
+                    </li>
+                  </div>
+                );
+              })}
+
             </ul>
           )}
 
@@ -263,7 +217,7 @@ export default function CadastroEspacoPage() {
         open={openModal}
         onClose={() => setOpenModal(false)}
         dados={dadosEspaco}
-        setReservas={setEspacos}
+        setEspacos={setEspacos}
         enderecos={enderecos}
       />
     </>

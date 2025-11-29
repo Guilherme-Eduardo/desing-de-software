@@ -3,43 +3,45 @@
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import ClearIcon from "@mui/icons-material/Clear";
-import { atualizarCliente, listarClientes } from "../../lib/api.js";
+import { atualizarFilial, listarFiliais } from "../../lib/api.js";
 import { useEffect, useState } from "react";
 
-export default function ModalFilialUpdate({ open, onClose, dados, setClientes }) {
+export default function ModalFilialUpdate({ open, onClose, dados, setFiliais, enderecos }) {
   const [form, setForm] = useState({
     id: "",
     nome: "",
     cnpj: "",
-    estado: "",
+    enderecoId: "",
   });
 
-  // Preenche o formulário quando os dados do cliente mudarem
+  // Preenche os campos ao abrir o modal
   useEffect(() => {
     if (dados) {
       setForm({
-        id: dados.id || "",
-        nome: dados.nome || "",
-        cnpj: dados.cnpj || "",
-        estado: dados.estado || "",
+        id: dados.id ?? "",
+        nome: dados.nome ?? "",
+        cnpj: dados.cnpj ?? "",
+        enderecoId: dados.enderecoId ?? "",
       });
     }
   }, [dados]);
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm(prev => ({ ...prev, [name]: value }));
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    await atualizarCliente(form.id, form);
+    console.log("ENVIANDO UPDATE:", form);
+    console.log("ID que estou mandando para atualizarFilial:", form.id);
 
+    await atualizarFilial(form.id, form);
 
-    if (setClientes) {
-      const atualizada = await listarClientes();
-      setClientes(atualizada);
+    if (setFiliais) {
+      const lista = await listarFiliais();
+      setFiliais(lista);
     }
 
     onClose();
@@ -47,22 +49,16 @@ export default function ModalFilialUpdate({ open, onClose, dados, setClientes })
 
   return (
     <Modal
-      aria-labelledby="modal-atualizar-cliente"
-      aria-describedby="modal-atualizar-cliente-descricao"
+      aria-pledby="modal-atualizar-filial"
       open={open}
       onClose={onClose}
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
-      slotProps={{
-        backdrop: {
-          timeout: 500,
-        },
-      }}
+      slotProps={{ backdrop: { timeout: 500 } }}
     >
-      {/* Wrapper para centralizar na tela */}
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="relative w-full max-w-lg p-6 pb-16 rounded-lg bg-[#fff7e6] shadow-lg">
-          {/* Botão X no canto superior direito */}
+
           <button
             type="button"
             onClick={onClose}
@@ -71,22 +67,20 @@ export default function ModalFilialUpdate({ open, onClose, dados, setClientes })
             <ClearIcon />
           </button>
 
-          <h2
-            id="modal-atualizar-cliente"
-            className="mb-4 text-xl font-semibold text-gray-800"
-          >
-            Atualizar cliente
+          <h2 className="mb-4 text-xl font-semibold text-gray-800">
+            Atualizar Filial
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+
+            {/* ID OCULTO */}
+            <input type="hidden" name="id" value={form.id} />
+
             {/* Nome */}
             <div>
-              <label
-                htmlFor="nome"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Nome completo
-              </label>
+              <p htmlFor="nome" className="block text-sm font-medium text-gray-700 mb-1">
+                Razão Social
+              </p>
               <input
                 id="nome"
                 name="nome"
@@ -95,19 +89,15 @@ export default function ModalFilialUpdate({ open, onClose, dados, setClientes })
                 value={form.nome}
                 onChange={handleChange}
                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-                  focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-                placeholder="Ex.: João da Silva"
+                focus:ring-2 focus:ring-orange-400"
               />
             </div>
 
-            {/* cnpj */}
+            {/* CNPJ */}
             <div>
-              <label
-                htmlFor="cnpj"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Documento (CPF ou RG)
-              </label>
+              <p htmlFor="cnpj" className="block text-sm font-medium text-gray-700 mb-1">
+                CNPJ
+              </p>
               <input
                 id="cnpj"
                 name="cnpj"
@@ -115,40 +105,41 @@ export default function ModalFilialUpdate({ open, onClose, dados, setClientes })
                 required
                 value={form.cnpj}
                 onChange={handleChange}
-                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-                  focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-                placeholder="Ex.: 123.456.789-00"
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
               />
             </div>
 
-            {/* Telefone */}
+            {/* Endereço */}
             <div>
-              <label
-                htmlFor="estado"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Telefone
-              </label>
-              <input
-                id="estado"
-                name="estado"
-                type="text"
-                value={form.estado}
+              <p htmlFor="enderecoId" className="block text-sm font-medium text-gray-700 mb-1">
+                Endereço
+              </p>
+              <div
+                id="enderecoId"
+                name="enderecoId"
+                required
+                value={form.enderecoId}
                 onChange={handleChange}
-                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
-                  focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-                placeholder="Ex.: Paraná"
-              />
+                className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+              >
+                <p value="">Selecione um endereço...</p>
+
+                {enderecos.map((end) => (
+                  <p key={end.id} value={end.id}>
+                    {end.rua}, {end.numero} — {end.cidade}/{end.estado}
+                  </p>
+                ))}
+              </div>
             </div>
-           
 
             <button
               type="submit"
               className="mt-4 w-full rounded-md bg-orange-500 px-4 py-2 text-sm font-medium text-white shadow-sm
-                hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-1"
+              hover:bg-orange-600 focus:ring-2 focus:ring-orange-400"
             >
               Atualizar filial
             </button>
+
           </form>
         </div>
       </div>

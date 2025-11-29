@@ -58,12 +58,12 @@ async function handleRemoveEndereco(id) {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Rua */}
             <div>
-              <label
+              <p
                 htmlFor="rua"
                 className="text-black block text-sm font-medium text-gray-700 mb-1"
               >
                 Rua
-              </label>
+              </p>
               <input
                 id="rua"
                 name="rua"
@@ -77,12 +77,12 @@ async function handleRemoveEndereco(id) {
 
             {/* Número */}
             <div>
-              <label
+              <p
                 htmlFor="numero"
                 className="text-black block text-sm font-medium text-gray-700 mb-1"
               >
                 Número
-              </label>
+              </p>
               <input
                 id="numero"
                 name="numero"
@@ -96,12 +96,12 @@ async function handleRemoveEndereco(id) {
 
             {/* Bairro */}
             <div>
-              <label
+              <p
                 htmlFor="bairro"
                 className="text-black block text-sm font-medium text-gray-700 mb-1"
               >
                 Bairro
-              </label>
+              </p>
               <input
                 id="bairro"
                 name="bairro"
@@ -115,12 +115,12 @@ async function handleRemoveEndereco(id) {
 
             {/* Cidade */}
             <div>
-              <label
+              <p
                 htmlFor="cidade"
                 className="text-black block text-sm font-medium text-gray-700 mb-1"
               >
                 Cidade
-              </label>
+              </p>
               <input
                 id="cidade"
                 name="cidade"
@@ -134,12 +134,12 @@ async function handleRemoveEndereco(id) {
 
             {/* Estado */}
             <div>
-              <label
+              <p
                 htmlFor="estado"
                 className="text-black block text-sm font-medium text-gray-700 mb-1"
               >
                 Estado
-              </label>
+              </p>
               <input
                 id="estado"
                 name="estado"
@@ -154,12 +154,12 @@ async function handleRemoveEndereco(id) {
 
             {/* Complemento (opcional) */}
             <div>
-              <label
+              <p
                 htmlFor="complemento"
                 className="text-black block text-sm font-medium text-gray-700 mb-1"
               >
                 Complemento (opcional)
-              </label>
+              </p>
               <input
                 id="complemento"
                 name="complemento"
@@ -190,8 +190,8 @@ async function handleRemoveEndereco(id) {
             <p className="text-gray-600 text-center">Nenhum endereço cadastrado.</p>
           ) : (
             <ul className="space-y-3">
-              {enderecos.map((item, idx) => (
-                <div key={idx} className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800">
+              {enderecos.map((item) => (
+                <div key={item.id} className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800">
                   {/* Botão de deletar */}
                   <button
                     onClick={() => handleRemoveEndereco(item.id)}
@@ -206,13 +206,13 @@ async function handleRemoveEndereco(id) {
                   >
                     <SyncAltIcon fontSize="medium" />
                   </button>
-                  <p><strong>Rua:</strong> {item.rua}</p>
-                  <p><strong>Número:</strong> {item.numero}</p>
-                  <p><strong>Bairro:</strong> {item.bairro}</p>
-                  <p><strong>Cidade:</strong> {item.cidade}</p>
-                  <p><strong>Estado:</strong> {item.estado}</p>
+                  <p><span>Rua:</span> {item.rua}</p>
+                  <p><span>Número:</span> {item.numero}</p>
+                  <p><span>Bairro:</span> {item.bairro}</p>
+                  <p><span>Cidade:</span> {item.cidade}</p>
+                  <p><span>Estado:</span> {item.estado}</p>
                   {item.complemento && (
-                    <p><strong>Complemento:</strong> {item.complemento}</p>
+                    <p><span>Complemento:</span> {item.complemento}</p>
                   )}
                 </div>
               ))}
@@ -224,7 +224,7 @@ async function handleRemoveEndereco(id) {
         open={openModal}
         onClose={() => setOpenModal(false)}
         dados={dadosEndereco}
-        setEndereco={setEnderecos}
+        setEnderecos={setEnderecos}
       />
     </>
   );

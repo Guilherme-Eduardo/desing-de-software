@@ -12,8 +12,8 @@ export default class Endereco {
    * @param {string} [params.complemento]
    */
 
-  constructor(id, rua, numero, bairro, cidade, estado, complemento = "" ) {
-    
+  constructor(id, rua, numero, bairro, cidade, estado, complemento = "") {
+
     this.id = id;
     this.rua = rua;
     this.numero = numero;
@@ -23,33 +23,29 @@ export default class Endereco {
     this.complemento = complemento;
   }
 
-  getRua () { return this.rua; }
+  getRua() { return this.rua; }
   getNumero() { return this.numero; }
-  getBairro () { return this.bairro; }
-  getCidade () { return this.cidade; }
-  getEstado () { return this.estado; }
+  getBairro() { return this.bairro; }
+  getCidade() { return this.cidade; }
+  getEstado() { return this.estado; }
   getComplemento() { return this.complemento; }
 
-  setRua (rua) { this.rua = rua; }
-  setNumero (numero) { this.numero = numero; }
-  setBairro (bairro) { this.bairro = bairro; }
-  setCidade (cidade) { this.cidade = cidade; }
-  setEstado (estado) { this.estado = estado; }
-  setComplemento (complemento) { this.complemento = complemento; }
+  setRua(rua) { this.rua = rua; }
+  setNumero(numero) { this.numero = numero; }
+  setBairro(bairro) { this.bairro = bairro; }
+  setCidade(cidade) { this.cidade = cidade; }
+  setEstado(estado) { this.estado = estado; }
+  setComplemento(complemento) { this.complemento = complemento; }
 
 
   /* Cria um Endereco a partir de um objeto “cru” (por exemplo, vindo de JSON). */
-  static fromObject(id, obj) {
-
+  static fromObject(obj) {
     if (!obj) {
       throw new Error("Objeto de endereço inválido");
     }
 
-    if (!obj.complemento)
-        obj.complemento = "";
-
     return new Endereco(
-      id,
+      obj.id,
       obj.rua,
       obj.numero,
       obj.bairro,
@@ -58,6 +54,7 @@ export default class Endereco {
       obj.complemento
     );
   }
+
 
   /* Retorna um JSON. */
   toJSON() {
