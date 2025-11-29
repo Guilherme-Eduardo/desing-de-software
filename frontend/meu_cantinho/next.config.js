@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  turbopack: {
-    root: "./",
-  },
   images: {
     remotePatterns: [
       {
@@ -16,9 +13,11 @@ const nextConfig = {
         hostname: "127.0.0.1",
         port: "3000",
         pathname: "/uploads/**",
-      }
-    ]
-  }
+      },
+    ],
+    dangerouslyAllowSVG: true,
+    unoptimized: true,
+  },
 };
 
 module.exports = nextConfig;

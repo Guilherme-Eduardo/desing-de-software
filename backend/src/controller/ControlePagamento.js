@@ -19,6 +19,9 @@ export async function listarPagamentos(req, res, next) {
 /* Registra um pagamento no sistema */
 export async function criarPagamento(req, res, next) {
   try {
+    if (req.body.id) req.body.id = Number(req.body.id);
+    if (req.body.reservaId) req.body.reservaId = Number(req.body.reservaId);
+
     const pagamento = await servicoPagamento.registrarPagamento(req.body);
     res.status(201).json(pagamento);
   } catch (err) {
@@ -26,14 +29,16 @@ export async function criarPagamento(req, res, next) {
   }
 }
 
-
 /* Atualiza um pagamento */
 export async function atualizarPagamento(req, res, next) {
   try {
-    const { reservaID } = req.params;
+    const { id } = req.params;
+
+    if (req.body.id) req.body.id = Number(req.body.id);
+    if (req.body.reservaId) req.body.reservaId = Number(req.body.reservaId);
 
     const pagamentoAtualizado = await servicoPagamento.processarPagamento(
-      id,
+      Number(id),
       req.body
     );
 
@@ -47,12 +52,12 @@ export async function atualizarPagamento(req, res, next) {
   }
 }
 
-
 /* Remove um pagamento */
 export async function removerPagamento(req, res, next) {
   try {
     const { id } = req.params;
-    const removido = await servicoPagamento.removerPagamento(id);
+
+    const removido = await servicoPagamento.removerPagamento(Number(id));
 
     if (!removido) {
       return res.status(404).json({ erro: "Pagamento não encontrado" });

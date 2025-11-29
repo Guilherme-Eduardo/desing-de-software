@@ -17,7 +17,7 @@ export async function listarClientes(req, res, next) {
 export async function obterCliente(req, res, next) {
   try {
     const { id } = req.params;
-    const cliente = await servicoCliente.obterClientePorId(id);
+    const cliente = await servicoCliente.obterClientePorId(Number(id));
     res.json(cliente);
   } catch (error) {
     next(error);
@@ -29,6 +29,8 @@ export async function obterCliente(req, res, next) {
 export async function criarCliente(req, res, next) {
   console.log("POST /clientes recebido — body:", req.body);
   try {
+    if (req.body.id) req.body.id = Number(req.body.id);
+
     const cliente = await servicoCliente.criaCliente(req.body);
     console.log("Cliente criado com sucesso:", cliente);
     res.status(201).json(cliente);
@@ -39,12 +41,12 @@ export async function criarCliente(req, res, next) {
 }
 
 
-
 /* Atualiza cliente */
 export async function atualizarCliente(req, res, next) {
   try {
     const { id } = req.params;
-    const cliente = await servicoCliente.atualizaCliente(id, req.body);
+
+    const cliente = await servicoCliente.atualizaCliente(Number(id), req.body);
     res.json(cliente);
   } catch (error) {
     next(error);
@@ -56,7 +58,7 @@ export async function atualizarCliente(req, res, next) {
 export async function removerCliente(req, res, next) {
   try {
     const { id } = req.params;
-    await servicoCliente.removeCliente(id);
+    await servicoCliente.removeCliente(Number(id));
     res.status(204).send();
   } catch (error) {
     next(error);

@@ -33,7 +33,7 @@ export default class RepositorioCliente {
     return index;
   }
 
-  async buscaCliente (cliente) {
+  async buscarCliente (cliente) {
 
     const lista = await this.lerJSON();
 

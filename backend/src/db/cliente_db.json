@@ -1,13 +1,5 @@
 [
   {
-    "id": "1",
-    "nome": "Guilherme da Silva",
-    "cpf": "12345678900",
-    "telefone": "41999999999",
-    "email": "guilherme@gmail.com",
-    "reservas": []
-  },
-  {
     "id": 3,
     "nome": "Eliane Mourão Dias",
     "cpf": "01992951900",

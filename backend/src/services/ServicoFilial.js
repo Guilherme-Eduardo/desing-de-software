@@ -27,7 +27,7 @@ export default class ServicoFilial {
   /*
    * Busca um filial pelo ID.
    */
-  async obterClientePorId(id) {
+  async obterFilial(id) {
     const filial = await this.repositorio.buscarPorId(id);
 
     if (!filial) {
@@ -43,9 +43,15 @@ export default class ServicoFilial {
    * Cria um novo filial.
    */
   async criaFilial(dadosFilial) {
+
+    // >>> ADICIONADO Number() AQUI <<<
+    dadosFilial.id = Number(this.count_id);
+    if (dadosFilial.enderecoId !== undefined)
+      dadosFilial.enderecoId = Number(dadosFilial.enderecoId);
+
     const filial = Filial.fromObject(this.count_id, dadosFilial);
     
-    if (await this.repositorio.buscaFilial(filial)) {
+    if (await this.repositorio.buscarFilial(filial)) {
       console.log ("Filial já cadastrado.")
       return false;
     }
@@ -60,6 +66,9 @@ export default class ServicoFilial {
    * Atualiza um filial existente.
    */
   async atualizaFilial(id, dadosFilial) {
+
+    id = Number(id);
+
     const existente = await this.repositorio.buscarPorId(id);
 
     if (!existente) {
@@ -67,6 +76,10 @@ export default class ServicoFilial {
       erro.status = 404;
       throw erro;
     }
+
+    // >>> ADICIONADO Number() AQUI TAMBÉM <<<
+    if (dadosFilial.enderecoId !== undefined)
+      dadosFilial.enderecoId = Number(dadosFilial.enderecoId);
 
     const filialAtualizado = Filial.fromObject(id, {
       ...existente,
@@ -81,7 +94,7 @@ export default class ServicoFilial {
    * Remove um filial do sistema.
    */
   async removeFilial(id) {
-    const removido = await this.repositorio.deletarFilial(id);
+    const removido = await this.repositorio.removerFilial(id);
 
     if (!removido) {
       const erro = new Error("Filial não encontrado");

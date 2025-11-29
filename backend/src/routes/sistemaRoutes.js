@@ -1,4 +1,5 @@
 import express from "express";
+import upload from "../config/upload.js";
 
 import * as ControleCliente from "../controller/ControleCliente.js";
 import * as ControleEndereco from "../controller/ControleEndereco.js";
@@ -19,8 +20,8 @@ router.delete("/reservas/:id", ControleReserva.removerReserva);
 
 /* Rotas destinadas ao Espaço*/
 router.get("/espacos", ControleEspaco.listarEspacos);
-router.post("/espacos", ControleEspaco.criarEspaco);
-router.patch("/espacos/:id", ControleEspaco.atualizarEspaco);
+router.post("/espacos", upload.single("imagem"), ControleEspaco.criarEspaco);
+router.patch("/espacos/:id", upload.single("imagem"), ControleEspaco.atualizarEspaco);
 router.delete("/espacos/:id", ControleEspaco.removerEspaco);
 
 

@@ -18,28 +18,36 @@ export async function listarReservas(req, res, next) {
   }
 }
 
-
 /* Cria uma nova reserva no sistema */
 export async function criarReserva(req, res, next) {
   try {
-    const { inicio, fim, espacoID, clienteID} = req.body;
+    const { inicio, fim, espacoID, clienteID } = req.body;
+
+    if (req.body.id) req.body.id = Number(req.body.id);
+    if (req.body.espacoID) req.body.espacoID = Number(req.body.espacoID);
+    if (req.body.clienteID) req.body.clienteID = Number(req.body.clienteID);
 
     // Verificar se cliente existe
-    const existeCliente = servicoCliente.verificaValidade (clienteID);
+    const existeCliente = servicoCliente.verificaValidade(Number(clienteID));
     if (!existeCliente)
-      return res.status(404).json({ erro: "Cliente não encontrado" })
+      return res.status(404).json({ erro: "Cliente não encontrado" });
 
-    // VErificar se espaço existe
-    const existeEspaco = servicoEspaco.verificaValidade (espacoID);
+    // Verificar se espaço existe
+    const existeEspaco = servicoEspaco.verificaValidade(Number(espacoID));
     if (!existeEspaco)
-      return res.status(404).json({ erro: "Espaço não encontrado" })
+      return res.status(404).json({ erro: "Espaço não encontrado" });
 
-    const total = await servicoEspaco.getTotal(espacoID);
+    const total = await servicoEspaco.getTotal(Number(espacoID));
 
-    // Verificar se espaço está disponível
-    const disponivel = servicoReserva.verificaDisponibilidade (espacoID, inicio, fim);
+    // Verificar disponibilidade
+    const disponivel = servicoReserva.verificaDisponibilidade(
+      Number(espacoID),
+      inicio,
+      fim
+    );
+
     if (!disponivel)
-        return res.status(404).json({ erro: "Não há disponibilidade" })
+      return res.status(404).json({ erro: "Não há disponibilidade" });
 
     const novaReserva = await servicoReserva.criarReserva(req.body, total);
     res.status(201).json(novaReserva);
@@ -52,7 +60,14 @@ export async function criarReserva(req, res, next) {
 export async function atualizarReserva(req, res, next) {
   try {
     const { id } = req.params;
-    const reservaAtualizada = await servicoReserva.atualizarReserva(id, req.body);
+    if (req.body.id) req.body.id = Number(req.body.id);
+    if (req.body.espacoID) req.body.espacoID = Number(req.body.espacoID);
+    if (req.body.clienteID) req.body.clienteID = Number(req.body.clienteID);
+
+    const reservaAtualizada = await servicoReserva.atualizarReserva(
+      Number(id),
+      req.body
+    );
 
     if (!reservaAtualizada) {
       return res.status(404).json({ erro: "Reserva não encontrada" });
@@ -64,41 +79,12 @@ export async function atualizarReserva(req, res, next) {
   }
 }
 
-
-// export async function pagarReserva (req, res, next) {
-
-//   try {
-//     const { reservaID, valor_pago } = req.body;
-
-//     const pagamentoID = servicoReserva.getPagamentoID(reservaID);
-
-//     const statusPagamento = servicoPagamento.processarPagamento(pagamentoID, valor_pago);
-
-//     if (statusPagamento == StatusPagamento.PENDENTE)
-//       return false;
-
-//     if (statusPagamento == StatusPagamento.SINAL) {
-//       servicoReserva.atualizarStatus(StatusReserva.RESERVADO);
-//     }
-
-//     if (statusPagamento == StatusPagamento.APROVADO) { 
-//       servicoReserva.atualizarStatus(StatusReserva.CONFIRMADO);
-//     }
-
-//     return true;
-
-//   }
-//   catch (next) {
-//     throw new Error ("Não foi possível atualizar o status do pagamento.");
-//   }
-// }
-
-
 /* Remove do sistema uma determinada reserva */
 export async function removerReserva(req, res, next) {
   try {
     const { id } = req.params;
-    const deleted = await servicoReserva.removerReserva(id);
+
+    const deleted = await servicoReserva.removerReserva(Number(id));
 
     if (!deleted) {
       return res.status(404).json({ erro: "Reserva não encontrada" });
@@ -109,6 +95,3 @@ export async function removerReserva(req, res, next) {
     next(error);
   }
 }
-
-
-

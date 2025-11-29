@@ -7,11 +7,11 @@ import SyncAltIcon from '@mui/icons-material/SyncAlt';
 
 import Header from "../components/Header.js";
 import ModalFilialUpdate from "./components/ModalFilialUpdate.js";
-import { criarFilial, listarEnderecos, listarFiliais } from "../lib/api.js";
+import { criarFilial, listarEnderecos, listarFiliais, removerFilial } from "../lib/api.js";
 
 
 export default function CadastroFilialPage() {
-  const [filiais, setfiliais] = useState([]);
+  const [filiais, setFiliais] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [dadosFilial, setDadosFilial] = useState(null);
   const [enderecos, setEnderecos] = useState([]);
@@ -20,7 +20,8 @@ export default function CadastroFilialPage() {
     async function carregar() {
       const dados = await listarFiliais();
       const end = await listarEnderecos();
-      if (dados) setfiliais(dados);
+      if (dados) setFiliais(dados);
+      console.log("Dadosfiliais:", dados)
       if (end) setEnderecos(end);
     }
     carregar();
@@ -35,16 +36,16 @@ export default function CadastroFilialPage() {
     await criarFilial(dados);
 
     const atualizada = await listarFiliais();
-    setfiliais(atualizada);
+    setFiliais(atualizada);
 
     e.target.reset();
   }
 
   async function handleRemoveFilial(id) {
     try {
-      await removerCliente(id);
+      await removerFilial(id);
       const atualizada = await listarFiliais();
-      setfiliais(atualizada);
+      setFiliais(atualizada);
     } catch (err) {
       console.error(err);
     }
@@ -65,12 +66,12 @@ export default function CadastroFilialPage() {
 
             {/* Nome */}
             <div>
-              <label htmlFor="razao_social" className="block text-sm font-medium text-gray-700 mb-1">
+              <p htmlFor="nome" className="block text-sm font-medium text-gray-700 mb-1">
                 Razão Social
-              </label>
+              </p>
               <input
-                id="razao_social"
-                name="razao_social"
+                id="nome"
+                name="nome"
                 type="text"
                 required
                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
@@ -81,9 +82,9 @@ export default function CadastroFilialPage() {
 
             {/* Documento */}
             <div>
-              <label htmlFor="cnpj" className="block text-sm font-medium text-gray-700 mb-1">
+              <p htmlFor="cnpj" className="block text-sm font-medium text-gray-700 mb-1">
                 Documento (CNPJ)
-              </label>
+              </p>
               <input
                 id="cnpj"
                 name="cnpj"
@@ -95,27 +96,27 @@ export default function CadastroFilialPage() {
               />
             </div>
             <div>
-              <label
+              <p
                 htmlFor="endereco"
                 className="text-black block text-sm font-medium text-gray-700 mb-1"
               >
                 Endereco
-              </label>
-              <select
+              </p>
+              <div
                 id="enderecoId"
                 name="enderecoId"
                 required
                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               >
-                <option value="">Selecione um endereço...</option>
+                <p value="">Selecione um endereço...</p>
 
                 {enderecos.map((end) => (
-                  <option key={end.id} value={end.id}>
+                  <p key={end.id} value={end.id}>
                     {end.rua}, {end.numero} — {end.cidade}/{end.estado}
-                  </option>
+                  </p>
                 ))}
-              </select>
+              </div>
             </div>
             <button
               type="submit"
@@ -137,32 +138,42 @@ export default function CadastroFilialPage() {
             <p className="text-gray-600 text-center">Nenhuma filial cadastrada.</p>
           ) : (
             <div className="space-y-3">
-              {filiais.map((item) => (
+              {filiais.map((item) => {
+                const enderecoFilial = enderecos.find(e => e.id == item.enderecoId);
 
-                <div
-                  key={item.id}
-                  className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800"
-                >
-                  {/* Botão de deletar */}
-                  <button
-                    onClick={() => handleRemoveCliente(item.id)}
-                    className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+                return (
+                  <div
+                    key={item.id}
+                    className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800"
                   >
-                    <ClearIcon fontSize="medium" />
-                  </button>
-                  {/* Atualizar */}
-                  <button
-                    onClick={() => { setOpenModal(true); setDadosFilial(item); }}
-                    className="absolute top-10 right-2 text-blue-600 hover:text-blue-800"
-                  >
-                    <SyncAltIcon fontSize="medium" />
-                  </button>
-                  <p><strong>Nome:</strong> {item.nome}</p>
-                  <p><strong>Documento:</strong> {item.cpf}</p>
-                  <p><strong>Telefone:</strong> {item.telefone}</p>
-                  <p><strong>estado:</strong> {item.estado}</p>
-                </div>
-              ))}
+                    <button
+                      onClick={() => handleRemoveFilial(item.id)}
+                      className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+                    >
+                      <ClearIcon fontSize="medium" />
+                    </button>
+
+                    <button
+                      onClick={() => { setOpenModal(true); setDadosFilial(item); }}
+                      className="absolute top-10 right-2 text-blue-600 hover:text-blue-800"
+                    >
+                      <SyncAltIcon fontSize="medium" />
+                    </button>
+
+                    <p><span>Razão Social:</span> {item.nome}</p>
+                    <p><span>CNPJ:</span> {item.cnpj}</p>
+
+                    {enderecoFilial && (
+                      <>
+                        <p><span>Endereço:</span> {enderecoFilial.rua}, {enderecoFilial.numero}</p>
+                        <p><span>Cidade:</span> {enderecoFilial.cidade}/{enderecoFilial.estado}</p>
+                      </>
+                    )}
+
+                  </div>
+                );
+              })}
+
             </div>
           )}
         </div>
@@ -171,7 +182,8 @@ export default function CadastroFilialPage() {
         open={openModal}
         onClose={() => setOpenModal(false)}
         dados={dadosFilial}
-        setfiliais={setfiliais}
+        setFiliais={setFiliais}
+        enderecos={enderecos}
       />
     </>
   );

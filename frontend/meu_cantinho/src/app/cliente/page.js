@@ -62,9 +62,9 @@ async function handleRemoveCliente(id) {
 
             {/* Nome */}
             <div>
-              <label htmlFor="nome" className="block text-sm font-medium text-gray-700 mb-1">
+              <p htmlFor="nome" className="block text-sm font-medium text-gray-700 mb-1">
                 Nome completo
-              </label>
+              </p>
               <input
                 id="nome"
                 name="nome"
@@ -78,9 +78,9 @@ async function handleRemoveCliente(id) {
 
             {/* Documento */}
             <div>
-              <label htmlFor="cpf" className="block text-sm font-medium text-gray-700 mb-1">
+              <p htmlFor="cpf" className="block text-sm font-medium text-gray-700 mb-1">
                 Documento (CPF ou RG)
-              </label>
+              </p>
               <input
                 id="cpf"
                 name="cpf"
@@ -94,9 +94,9 @@ async function handleRemoveCliente(id) {
 
             {/* Telefone */}
             <div>
-              <label htmlFor="telefone" className="block text-sm font-medium text-gray-700 mb-1">
+              <p htmlFor="telefone" className="block text-sm font-medium text-gray-700 mb-1">
                 Telefone
-              </label>
+              </p>
               <input
                 id="telefone"
                 name="telefone"
@@ -109,9 +109,9 @@ async function handleRemoveCliente(id) {
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <p htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 E-mail
-              </label>
+              </p>
               <input
                 id="email"
                 name="email"
@@ -162,10 +162,10 @@ async function handleRemoveCliente(id) {
                   >
                     <SyncAltIcon fontSize="medium" />
                   </button>
-                  <p><strong>Nome:</strong> {item.nome}</p>
-                  <p><strong>Documento:</strong> {item.cpf}</p>
-                  <p><strong>Telefone:</strong> {item.telefone}</p>
-                  <p><strong>Email:</strong> {item.email}</p>
+                  <p><span>Nome:</span> {item.nome}</p>
+                  <p><span>Documento:</span> {item.cpf}</p>
+                  <p><span>Telefone:</span> {item.telefone}</p>
+                  <p><span>Email:</span> {item.email}</p>
                 </div>
               ))}
             </div>

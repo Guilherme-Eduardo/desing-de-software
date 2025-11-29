@@ -35,10 +35,12 @@ export default function ReservaPage() {
 
     useEffect(() => {
         async function carregar() {
+
             const reservas = await listarReservas();
             const clientes = await listarClientes();
             const espacos = await listarEspacos();
 
+            console.log("dados, ", clientes);
             if (reservas && clientes && espacos) {
                 setReservas(reservas);
                 setClientes(clientes);
@@ -75,59 +77,61 @@ export default function ReservaPage() {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         {/* Nome do cliente */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="cliente"
                                 className="block text-sm font-medium text-gray-700 mb-1"
                             >
                                 nome do cliente
-                            </label>
-                            <select
-                                id="cliente"
-                                name="cliente"
+                            </p>
+                            <div
+                                id="clienteID"
+                                name="clienteID"
                                 required
                                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                                     focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
                             >
-                                <option value="">Selecione um cliente</option>
+                                <p value="">Selecione um cliente</p>
                                 {clientes.map((client) => (
-                                    <option key={client.id} value={client.id}>
-                                        {client.name}
-                                    </option>
+                                    <p key={client.id} value={client.id}>
+                                        {client.nome}
+                                    </p>
                                 ))}
-                            </select>
+
+                            </div>
                         </div>
 
                         {/* Espaço */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="espaco"
                                 className="block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Espaço
-                            </label>
-                            <select
-                                id="espaco"
-                                name="espaco"
+                            </p>
+                            <div
+                                id="espacoID"
+                                name="espacoID"
                                 required
                                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                                     focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
                             >
-                                <option value="">Selecione um espaço</option>
+                                <p value="">Selecione um espaço</p>
                                 {espacos.map((esp) => (
-                                    <option key={esp.id} value={esp.id}>
-                                        {esp.name}
-                                    </option>
+                                    <p key={esp.id} value={esp.id}>
+                                        {esp.nome}
+                                    </p>
                                 ))}
-                            </select>
+
+                            </div>
                         </div>
                         {/* Fim da reserva */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="inicio"
                                 className="block text-sm font-medium text-gray-700 mb-1"
                             >
                                 inicio
-                            </label>
+                            </p>
                             <input
                                 id="inicio"
                                 name="inicio"
@@ -140,12 +144,12 @@ export default function ReservaPage() {
 
                         {/* Fim da reserva */}
                         <div>
-                            <label
+                            <p
                                 htmlFor="fim"
                                 className="block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Fim
-                            </label>
+                            </p>
                             <input
                                 id="fim"
                                 name="fim"
@@ -174,40 +178,46 @@ export default function ReservaPage() {
                         <p className="text-gray-600 text-center">Nenhum reserva cadastrado.</p>
                     ) : (
                         <div className="space-y-3">
-                            {reservas.map((item, idx) => (
+                            {reservas.map((item, idx) => {
+                                const client = clientes.find(e => e.id == item.id);
+                                const esp = espacos.find(e => e.id == item.id);
+                                return (
 
-                                <div
-                                    key={idx}
-                                    className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800"
-                                >
-                                    {/* Botão de deletar */}
-                                    <button
-                                        onClick={() => HandleRemoveReserva(item.id)}
-                                        className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+                                    <div
+                                        key={idx}
+                                        className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800"
                                     >
-                                        <ClearIcon fontSize="medium" />
-                                    </button>
-                                    {/* Atualizar */}
-                                    <button
-                                        onClick={() => { setOpenModal(true); setDadosReserva(item); }}
-                                        className="absolute top-12 right-2 text-blue-600 hover:text-blue-800"
-                                    >
-                                        <SyncAltIcon fontSize="medium" />
-                                    </button>
-                                    <button
-                                        onClick={() => { setOpenModalPagamento(true); setDadosReserva(item); }}
-                                        className="absolute top-22 right-2 text-blue-600 hover:text-blue-800"
-                                    >
-                                        <AttachMoneyIcon fontSize="medium" />
-                                    </button>
-                                    <p><strong>cliente:</strong> {item.cliente}</p>
-                                    <p><strong>espaco:</strong> {item.espaco}</p>
-                                    <p><strong>início:</strong> {formatarData(item.inicio)}</p>
-                                    <p><strong>fim:</strong> {formatarData(item.fim)}</p>
-                                    <p><strong>Status:</strong> {item.status}</p>
+                                        <button
+                                            onClick={() => HandleRemoveReserva(item.id)}
+                                            className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+                                        >
+                                            <ClearIcon fontSize="medium" />
+                                        </button>
+                                        <button
+                                            onClick={() => { setOpenModal(true); setDadosReserva(item); }}
+                                            className="absolute top-12 right-2 text-blue-600 hover:text-blue-800"
+                                        >
+                                            <SyncAltIcon fontSize="medium" />
+                                        </button>
+                                        <button
+                                            onClick={() => { setOpenModalPagamento(true); setDadosReserva(item); }}
+                                            className="absolute top-22 right-2 text-blue-600 hover:text-blue-800"
+                                        >
+                                            <AttachMoneyIcon fontSize="medium" />
+                                        </button>
+                                        {client && esp && (
+                                            <>
+                                                <p><span>Cliente:</span> {client.nome}</p>
+                                                <p><span>Espaço:</span> {esp.nome}</p>
+                                                <p><span>início:</span> {formatarData(item.inicio)}</p>
+                                                <p><span>fim:</span> {formatarData(item.fim)}</p>
+                                                <p><span>Status:</span> {item.status}</p>
+                                            </>
+                                        )}
 
-                                </div>
-                            ))}
+                                    </div>
+                                );
+                            })}
                         </div>
                     )}
                 </div>

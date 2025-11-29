@@ -1,4 +1,4 @@
-import Endereco from "./Endereco";
+import Endereco from "./Endereco.js";
 
 // src/entities/Filial.js
 export default class Filial {
@@ -10,11 +10,11 @@ export default class Filial {
    * @param {string}        cnpj         CNPJ da filial
    * @param {Endereco}      endereco     Endereço da filial
    */
-  constructor(id, nome, cnpj, endereco) {
+  constructor(id, nome, cnpj, enderecoId) {
     this.id = id;
     this.nome = nome;
     this.cnpj = cnpj;
-    this.endereco = endereco;
+    this.enderecoId = Number(enderecoId);
   }
 
   /**
@@ -28,22 +28,16 @@ export default class Filial {
    * }
    */
   static fromObject(id, obj) {
-    if (!obj) {
-      throw new Error("Objeto de filial inválido");
-    }
-
-    const endereco =
-      obj.endereco instanceof Endereco
-        ? obj.endereco
-        : Endereco.fromObject(obj.endereco);
+    if (!obj) throw new Error("Objeto de filial inválido");
 
     return new Filial(
-      id,
+      Number(id),
       obj.nome,
       obj.cnpj,
-      endereco
+      obj.enderecoId
     );
   }
+
 
   /**
    * Retorna uma representação JSON da filial.
@@ -53,7 +47,7 @@ export default class Filial {
       id: this.id,
       nome: this.nome,
       cnpj: this.cnpj,
-      endereco: this.endereco ? this.endereco.toJSON() : null
+      enderecoId: this.enderecoId
     };
   }
 }

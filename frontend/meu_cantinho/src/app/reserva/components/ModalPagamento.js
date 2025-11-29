@@ -43,7 +43,7 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
 
     return (
         <Modal
-            aria-labelledby="modal-atualizar-reserva"
+            aria-pledby="modal-atualizar-reserva"
             aria-describedby="modal-atualizar-reserva-descricao"
             open={open}
             onClose={onClose}
@@ -74,12 +74,12 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
-                            <label
+                            <p
                                 htmlFor="preco"
                                 className="text-black block text-sm font-medium text-gray-700 mb-1"
                             >
                                 Valor total ou um sinal...
-                            </label>
+                            </p>
                             <input
                                 id="valorPago"
                                 name="valorPago"

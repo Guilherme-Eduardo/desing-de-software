@@ -1,61 +1,63 @@
 export default class Espaco {
 
-    constructor (id, nome, tipo, capacidade, preco, filialID, descricao) {
-
+    constructor(id, nome, tipo, capacidade, preco, filialId, enderecoId, imagemURL = null) {
         this.id = id;
         this.nome = nome;
         this.tipo = tipo;
         this.capacidade = capacidade;
         this.preco = preco;
-        this.filialID = filialID;
-        this.descricao = descricao;
-        //this.endereco = endereco;
+        this.filialId = filialId;
+        this.enderecoId = enderecoId;
+        this.imagemURL = imagemURL;
     }
 
-    async getNome () { return this.nome; }
-    async getTipo () { return this.tipo; }
-    async getCapacidade () { return this.capacidade; }
-    async getPreco () { return this.preco; }
-    async getFilialID () { return this.filialID; }
-    async getDescricao () { return this.descricao; }
+    // Getters
+    getNome() { return this.nome; }
+    getTipo() { return this.tipo; }
+    getCapacidade() { return this.capacidade; }
+    getPreco() { return this.preco; }
+    getFilialId() { return this.filialId; }
+    getEnderecoId() { return this.enderecoId; }
+    getImagemURL() { return this.imagemURL; } 
 
-    async setNome (nome) { this.nome = nome; }
-    async setTipo (tipo) { this.tipo = tipo; }
-    async setCapacidade (capacidade) { this.capacidade = capacidade; }
-    async setPreco (preco) { this.preco = preco; }
-    async setFilialID (filialID) {this.filialID = filialID; }
-    async setDescricao (descricao) { this.descricao = descricao; }
+    // Setters
+    setNome(nome) { this.nome = nome; }
+    setTipo(tipo) { this.tipo = tipo; }
+    setCapacidade(capacidade) { this.capacidade = capacidade; }
+    setPreco(preco) { this.preco = preco; }
+    setFilialId(filialId) { this.filialId = filialId; }
+    setEnderecoId(enderecoId) { this.enderecoId = enderecoId; }
+    setImagemURL(url) { this.imagemURL = url; }
 
     // Cria um obejto a partir de um objeto
     static fromObject(id, obj) {
-
         if (!obj) {
-            throw new Error ("Objeto não encontrado.");
+            throw new Error("Objeto de espaço inválido");
         }
 
-        return new Espaco (id,
-                           obj.nome,
-                           obj.tipo,
-                           obj.capacidade, 
-                           obj.preco, 
-                           obj.filialID,
-                           obj.descricao )
-                           //new Endereco(obj.endereco));
+        return new Espaco(
+            Number(id),
+            obj.nome,
+            obj.tipo,
+            obj.capacidade,
+            obj.preco,
+            obj.filialId,
+            obj.enderecoId,
+            obj.imagemURL || null
+        );
     }
 
-    // Cria um JSON a partir de um Espaço
     toJSON() {
-
         return {
             id: this.id,
-            nome : this.nome,
-            tipo : this.tipo,
+            nome: this.nome,
+            tipo: this.tipo,
             capacidade: this.capacidade,
             preco: this.preco,
-            filialID : this.filialID,
-            descricao : this.descricao
-           // endereco: this.endereco.toJSON(),
-        }
+            filialId: this.filialId,
+            enderecoId: this.enderecoId,
+            imagemURL: this.imagemURL
+        };
     }
 
 }

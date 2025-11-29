@@ -1,5 +1,5 @@
 {
-  "compilerOptions": {
+  "compilerps": {
     "paths": {
       "@/*": ["./src/*"]
     }
