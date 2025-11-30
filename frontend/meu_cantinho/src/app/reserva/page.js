@@ -6,6 +6,8 @@ import Header from "../components/Header.js";
 import ClearIcon from '@mui/icons-material/Clear';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import WarningIcon from '@mui/icons-material/Warning';
+import CheckIcon from '@mui/icons-material/Check';
 
 import { criarReserva, listarClientes, listarEspacos, listarReservas, removerReserva } from "../lib/api.js";
 import ModalReservaUpdate from "./components/ModalReservaUpdate.js";
@@ -25,7 +27,7 @@ export default function ReservaPage() {
 
         const formData = new FormData(e.target);
         const dados = Object.fromEntries(formData.entries());
-        
+
         await criarReserva(dados);
 
         const atualizada = await listarReservas();
@@ -36,22 +38,15 @@ export default function ReservaPage() {
 
     useEffect(() => {
         async function carregar() {
-            console.log("[useEffect] Carregando dados...");
 
             const reservas = await listarReservas();
             const clientes = await listarClientes();
             const espacos = await listarEspacos();
 
-            console.log("[useEffect] Reservas do backend:", reservas);
-            console.log("[useEffect] Clientes do backend:", clientes);
-            console.log("[useEffect] Espaços do backend:", espacos);
-
             if (reservas && clientes && espacos) {
                 setReservas(reservas);
                 setClientes(clientes);
                 setEspacos(espacos);
-            } else {
-                console.warn("[useEffect] Alguma lista veio vazia ou undefined");
             }
         }
         carregar();
@@ -210,19 +205,55 @@ export default function ReservaPage() {
                                         </button>
                                         <button
                                             onClick={() => { setOpenModalPagamento(true); setDadosReserva(item); }}
-                                            className="absolute top-22 right-2 text-green-600 hover:text-green-800"
+                                            className="absolute top-28 right-2 text-green-600 hover:text-green-800"
                                         >
-                                            <AttachMoneyIcon fontSize="medium"  />
+                                            <AttachMoneyIcon fontSize="medium" />
                                         </button>
+                                        {item.status === "confirmado" ? (
+                                            <button
+                                                type="button"
+                                                className="absolute top-38 right-2 text-green-500"
+                                            >
+                                                <CheckIcon fontSize="medium" />
+                                            </button>
+                                        ) : (
+                                            <button
+                                                type="button"
+                                                className="absolute top-38 right-2 text-yellow-500"
+                                            >
+                                                <WarningIcon fontSize="medium" />
+                                            </button>
+                                        )}
+
+
                                         {client && esp && (
-                                            <>
-                                                <p><span>Cliente:</span> {client.nome}</p>
-                                                <p><span>Espaço:</span> {esp.nome}</p>
-                                                <p><span>Início:</span> {formatarData(item.inicio)}</p>
-                                                <p><span>Fim:</span> {formatarData(item.fim)}</p>
-                                                <p><span>Preço:</span> {esp.preco}</p>
-                                                <p><span>Status:</span> {item.status}</p>
-                                            </>
+                                            <div className="flex flex-col">
+                                                <p className="py-0.5">
+                                                    <span className="font-medium">Nome do Cliente: </span>
+                                                    {client.nome}
+                                                </p>
+                                                <p className="py-0.5">
+                                                    <span className="font-medium">Nome do Espaço: </span>
+                                                    {esp.nome}
+                                                </p>
+                                                <p className="py-0.5">
+                                                    <span className="font-medium">Período Inicial: </span>
+                                                    {formatarData(item.inicio)}
+                                                </p>
+                                                <p className="py-0.5">
+                                                    <span className="font-medium">Período Final: </span>
+                                                    {formatarData(item.fim)}
+                                                </p>
+                                                <p className="py-0.5">
+                                                    <span className="font-medium">Valor a pagar: R$</span>
+                                                    {esp.preco}.00
+                                                </p>
+                                                <p className="py-0.5">
+                                                    <span className="font-medium">Status da Reserva: </span>
+                                                    {item.status}
+                                                </p>
+                                            </div>
+
                                         )}
 
                                     </div>

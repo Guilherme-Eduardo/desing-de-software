@@ -1,11 +1,1 @@
-[
-  {
-    "id": 0,
-    "nome": "Helo",
-    "tipo": "Helo",
-    "capacidade": "123",
-    "preco": "123",
-    "enderecoId": 1,
-    "imagemURL": "/uploads/8a146b706fe4e57f49fed878f8f710a1.png"
-  }
-]
+[]

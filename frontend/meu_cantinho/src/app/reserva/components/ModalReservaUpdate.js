@@ -26,8 +26,6 @@ export default function ModalReservaUpdate({
   useEffect(() => {
     if (!dados) return;
 
-    console.log("[ModalReservaUpdate] dados recebidos:", dados);
-
     setForm({
       id: dados.id ?? "",
       clienteId: dados.clienteId ?? dados.cliente ?? "",
@@ -37,9 +35,6 @@ export default function ModalReservaUpdate({
     });
   }, [dados]);
 
-  useEffect(() => {
-    console.log("[ModalReservaUpdate] form depois de setForm:", form);
-  }, [form]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -49,7 +44,6 @@ export default function ModalReservaUpdate({
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log("[ModalReservaUpdate] Enviando para atualizarReserva:", form);
     await atualizarReserva(form.id, form);
 
     if (setReservas) {

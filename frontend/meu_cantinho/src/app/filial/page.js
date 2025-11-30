@@ -22,7 +22,6 @@ export default function CadastroFilialPage() {
       const end = await listarEnderecos();
       if (dados) setFiliais(dados);
       if (end) setEnderecos(end);
-      console.log("Dadosfiliais:", dados)
     }
     carregar();
   }, []);
@@ -160,15 +159,40 @@ export default function CadastroFilialPage() {
                       <SyncAltIcon fontSize="medium" />
                     </button>
 
-                    <p><span>Razão Social:</span> {item.nome}</p>
-                    <p><span>CNPJ:</span> {item.cnpj}</p>
+                    <li className="rounded-md p-3 bg-orange-50 text-gray-800">
+                      <div className="flex flex-col">
+                        <p className="py-0.5">
+                          <span className="font-medium">Nome: </span>
+                          {item.nome}
+                        </p>
+                        <p className="py-0.5">
+                          <span className="font-medium">Tipo: </span>
+                          {item.tipo}
+                        </p>
+                        <p className="py-0.5">
+                          <span className="font-medium">Capacidade: </span>
+                          {item.capacidade}
+                        </p>
+                        <p className="py-0.5">
+                          <span className="font-medium">Preço: </span>
+                          {item.preco}
+                        </p>
 
-                    {enderecoFilial && (
-                      <>
-                        <p><span>Endereço:</span> {enderecoFilial.rua}, {enderecoFilial.numero}</p>
-                        <p><span>Cidade:</span> {enderecoFilial.cidade}/{enderecoFilial.estado}</p>
-                      </>
-                    )}
+                        {enderecoFilial && (
+                          <>
+                            <p className="py-0.5">
+                              <span className="font-medium">Endereço: </span>
+                              {enderecoFilial.rua}, {enderecoFilial.numero}
+                            </p>
+                            <p className="py-0.5">
+                              <span className="font-medium">Cidade: </span>
+                              {enderecoFilial.cidade}/{enderecoFilial.estado}
+                            </p>
+                          </>
+                        )}
+                      </div>
+                    </li>
+
 
                   </div>
                 );

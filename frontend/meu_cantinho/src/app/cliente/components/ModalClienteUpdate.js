@@ -36,10 +36,7 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log ("Dados do cliente: ", form);
-
     await atualizarCliente(form.id, form);
-
 
     if (setClientes) {
       const atualizada = await listarClientes();
