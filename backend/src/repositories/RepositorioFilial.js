@@ -6,6 +6,10 @@ export default class RepositorioFilial {
     this.path = "./db/filial_db.json";
   }
 
+   async proxID () {
+    return this.lerJSON().length;
+  }
+
   /* Lê arquivo JSON (lista de filiais) */
   async lerJSON() {
     try {

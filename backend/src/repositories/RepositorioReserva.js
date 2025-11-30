@@ -6,6 +6,11 @@ export default class RepositorioReserva {
     this.path = "./db/reservas_db.json";
   }
 
+  async proxID () {
+    return this.lerJSON().length;
+  }
+
+
   /* Ler Arquivo de Dados de Reserva */
   async lerJSON() {
 
@@ -107,25 +112,4 @@ export default class RepositorioReserva {
 
   }
 
-  async verificaDisponibilidade(espacoId, inicio, fim) {
-
-    const reservas = await this.lerJSON();
-    if (reservas.length == 0)
-      return false;
-
-    const lista = reservas.filter(item => item.espaco == espacoId);
-    if (lista.length == 0)
-      return false;
-
-    for (const item of lista) {
-      const item_inicio = new Date(item.inicio);
-      const item_fim = new Date(item.fim);
-
-      const colisao = (inicio < item_fim) && (item_inicio < fim);
-      if (colisao)
-        return false;
-    }
-
-    return true;
-  }
 }

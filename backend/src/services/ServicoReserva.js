@@ -9,7 +9,6 @@ export default class ServicoReserva {
   constructor() {
     this.repositorio = new RepositorioReserva();
     this.servicoPagamento = new ServicoPagamento();
-    this.countID = 0;
   }
 
   async listarReservas() {
@@ -23,7 +22,7 @@ export default class ServicoReserva {
     const pagamento = await this.servicoPagamento.criarPagamento(total);
 
     const reserva = new Reserva(
-      Number(this.countID),
+      Number(this.repositorio.proxID()),
       inicio,
       fim,
       espacoId,
@@ -55,8 +54,9 @@ export default class ServicoReserva {
     if (!existente) {
       return null;
     }
-
+    
     const obj = Reserva.fromObject(id, existente);
+    console.log (obj);
 
     if (dadosAtualizados.inicio !== undefined) {
       obj.setInicio(dadosAtualizados.inicio);
@@ -101,14 +101,50 @@ export default class ServicoReserva {
     return reserva.getStatus();
   }
 
-  async verificaDisponibilidade(espacoId, inicio, fim) {
-    return this.repositorio.verificaDisponibilidade(espacoId, inicio, fim);
+async verificarDisponibilidade(espacoId, inicio, fim) {
+
+  const dataInicio = new Date(inicio);
+  const dataFim = new Date(fim);
+
+  const reservas = await this.repositorio.lerJSON();
+
+  // Sem reservas
+  if (reservas.length === 0) {
+    return true;
   }
+
+  // Filtra reservas do espaço
+  const lista = reservas.filter(r => String(r.espaco) === String(espacoId));
+
+  if (lista.length === 0) {
+    return true;
+  }
+
+  for (const item of lista) {
+    const itemInicio = new Date(item.inicio);
+    const itemFim = new Date(item.fim);
+
+    // Verificar se datas foram convertidas corretamente
+    if (isNaN(itemInicio) || isNaN(itemFim)) {
+      continue;
+    }
+
+    const colisao = (dataInicio < itemFim) && (itemInicio < dataFim);
+
+    if (colisao) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+
 
 
 
   // ServicoReserva.js
-  async pagarReserva({ reservaId, valorPago }) {
+  async pagarReserva(reservaId, valorPago) {
     reservaId = Number(reservaId);
 
     const reserva = await this.repositorio.buscarPorId(reservaId);
@@ -127,9 +163,11 @@ export default class ServicoReserva {
     }
 
     // AQUI: pegar o id do pagamento dentro da reserva
-    const pagamentoID = reserva.pagamento?.id;
+    const pagamentoID = reserva.pagamento.id;
 
-    if (!pagamentoID && pagamentoID !== 0) {
+    console.log("PAGAMENTOID: ", pagamentoID);
+
+    if (pagamentoID == -1) {
       return {
         erro: "Pagamento associado à reserva não encontrado.",
         statusCode: 500,
@@ -141,6 +179,8 @@ export default class ServicoReserva {
       pagamentoID,
       valorPago
     );
+
+    console.log("PAGAMENTO: ", pagamento);
 
     if (!pagamento) {
       return {

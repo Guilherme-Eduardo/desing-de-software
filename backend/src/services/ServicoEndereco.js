@@ -5,7 +5,6 @@ export default class ServicoEndereco {
 
     constructor() {
         this.repositorio = new RepositorioEndereco();
-        this.countId = 0;
     }
     
     async criarEndereco (dadosEndereco) {
@@ -13,7 +12,7 @@ export default class ServicoEndereco {
         const {rua, numero, bairro, cidade, estado, complemento } = dadosEndereco;
 
         const novoEndereco = new Endereco(
-            this.countId,
+            this.repositorio.proxID(),
             rua, numero, bairro, cidade, estado, complemento);
 
         if (await this.repositorio.buscarEndereco(novoEndereco)) {

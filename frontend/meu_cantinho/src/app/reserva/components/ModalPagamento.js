@@ -9,7 +9,7 @@ import { listarReservas, pagarReserva } from "../../lib/api.js";
 export default function ModalPagamento({ open, onClose, dados, setReservas }) {
     const [form, setForm] = useState({
         id: "",
-        valorPago: ""
+        valor_pago: ""
     });
 
     // Preenche o formulário quando os dados do cliente mudarem
@@ -19,7 +19,7 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
             console.log("ModalPagamento recebeu dados:", dados);
             setForm({
                 id: dados.id ?? "",   // agora 0 continua 0
-                valorPago: "",
+                valor_pago: "",
             });
         }
     }, [dados]);
@@ -29,14 +29,12 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const valor = parseFloat(form.valorPago);
+        const valor = form.valor_pago;
 
         if (Number.isNaN(valor) || valor <= 0) {
-            alert("Por favor, insira um valor válido para o pagamento.");
+            alert("Por favor, insira um valor válido.");
             return;
         }
-
-        console.log("handleSubmit -> form.id:", form.id, "valor:", valor);
 
         await pagarReserva(form.id, valor);
 
@@ -47,6 +45,7 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
 
         onClose();
     }
+
 
 
     function handleChange(e) {
@@ -96,11 +95,11 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
                                 Valor total ou um sinal...
                             </p>
                             <input
-                                id="valorPago"
-                                name="valorPago"
+                                id="valor_pago"
+                                name="valor_pago"
                                 type="number"
-                                min="0"
                                 onChange={handleChange}
+                                min="0"
                                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
                                 placeholder="Ex.: 500.00"
                             />

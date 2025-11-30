@@ -6,6 +6,10 @@ export default class RepositorioEndereco {
     this.path = "./db/endereco_db.json";
   }
 
+   async proxID () {
+    return this.lerJSON().length;
+  }
+
   /* Ler Arquivo de Dados de Endereço */
   async lerJSON() {
     

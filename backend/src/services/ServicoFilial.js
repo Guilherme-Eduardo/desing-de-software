@@ -5,7 +5,6 @@ import Filial from "../entities/Filial.js";
 export default class ServicoFilial {
   constructor() {
     this.repositorio = new RespositorioFilial();
-    this.count_id = 0;
   }
 
   /**
@@ -44,8 +43,7 @@ export default class ServicoFilial {
    */
   async criaFilial(dadosFilial) {
 
-    // >>> ADICIONADO Number() AQUI <<<
-    dadosFilial.id = Number(this.count_id);
+    dadosFilial.id = Number(this.repositorio.proxID());
     if (dadosFilial.enderecoId !== undefined)
       dadosFilial.enderecoId = Number(dadosFilial.enderecoId);
 

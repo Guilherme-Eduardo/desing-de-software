@@ -6,6 +6,10 @@ export default class RepositorioEspaco {
     this.path = "./db/espaco_db.json";
   }
 
+   async proxID () {
+    return this.lerJSON().length;
+  }
+
   /* Ler Arquivo de Dados de Espaço */
   async lerJSON() {
     

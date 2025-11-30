@@ -6,6 +6,10 @@ export default class RepositorioCliente {
     this.path = "./db/cliente_db.json";
   }
 
+   async proxID () {
+    return this.lerJSON().length;
+  }
+
   /* Ler Arquivo de Dados de Cliente */
   async lerJSON() {
     

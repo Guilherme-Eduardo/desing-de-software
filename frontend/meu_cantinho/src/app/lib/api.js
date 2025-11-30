@@ -9,13 +9,10 @@ export async function listarReservas() {
 
 // lib/api.js
 export async function pagarReserva(id, valorPago) {
-
   const res = await fetch(`${API_BASE_URL}/reservas/${id}`, {
-    method: "PATCH",
+    method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      valor_pago: Number(valorPago),
-    }),
+    body: JSON.stringify({ valor_pago: valorPago })
   });
 
   if (!res.ok) {
@@ -25,6 +22,7 @@ export async function pagarReserva(id, valorPago) {
 
   return res.json();
 }
+
 
 
 

@@ -15,7 +15,7 @@ export default class Pagamento {
     getPago() { return this.valor_pago; }
     getTotal() { return this.total; }
 
-    setStatus (status) { this.staus = status; }
+    setStatus (status) { this.status = status; }
     setPago(pago) { this.valor_pago = pago; }
     setTotal(total){ this.total = total; }
     

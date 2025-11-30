@@ -6,12 +6,11 @@ export default class ServicoPagamento {
 
     constructor() {
         this.repositorio = new RepositorioPagamento();
-        this.count_id = 0;
     }
 
     async criarPagamento(total) {
 
-        const novoId = this.count_id;
+        const novoId = this.repositorio.proxID();
         this.count_id++;
 
         const pagamento = new Pagamento(novoId, total);
@@ -27,16 +26,7 @@ export default class ServicoPagamento {
 
     }
 
-    async estornarPagamento(id) {
-        const pagamento = await this.repositorio.buscarPorId(id);
-        if (!pagamento) return null;
 
-        pagamento.setStatus(StatusPagamento.ESTORNADO);
-        await this.repositorio.atualizarPagamento(pagamento);
-        return pagamento;
-    }
-
-    // ServicoPagamento.js
     async processarPagamento(id, valorPago) {
         const pagamento = await this.repositorio.buscarPorId(id);
         if (!pagamento) {
@@ -45,33 +35,31 @@ export default class ServicoPagamento {
 
         const valor = Number(valorPago);
 
-        // Valor inválido: não altera nada
-        if (Number.isNaN(valor) || valor <= 0) {
-            return pagamento; // devolve como está
-        }
+        const pagamento_obj = new Pagamento (pagamento.id, pagamento.total, pagamento.valor_pago, pagamento.status);
 
-        const total = pagamento.getTotal();
-        const pagoAtual = pagamento.getPago();
+        const total = pagamento_obj.getTotal();
+        const pagoAtual = pagamento_obj.getPago();
 
         let novoPago = pagoAtual + valor;
         if (novoPago > total) {
             novoPago = total;
         }
 
-        pagamento.setPago(novoPago);
+        pagamento_obj.setPago(novoPago);
 
+        
         if (novoPago >= total) {
-            pagamento.setStatus(StatusPagamento.APROVADO);
+            pagamento_obj.setStatus(StatusPagamento.APROVADO);
         } else if (novoPago > 0) {
-            pagamento.setStatus(StatusPagamento.SINAL);
+            pagamento_obj.setStatus(StatusPagamento.SINAL);
         } else {
-            pagamento.setStatus(StatusPagamento.PENDENTE);
+            pagamento_obj.setStatus(StatusPagamento.PENDENTE);
         }
+        
+        console.log (pagamento_obj);
+        await this.repositorio.atualizarPagamento(pagamento_obj);
 
-        await this.repositorio.atualizarPagamento(pagamento);
-
-        // AGORA: retorna o pagamento inteiro atualizado
-        return pagamento;
+        return pagamento_obj;
     }
 
 
