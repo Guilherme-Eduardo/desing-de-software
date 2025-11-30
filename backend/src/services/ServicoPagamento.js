@@ -8,26 +8,27 @@ export default class ServicoPagamento {
         this.repositorio = new RepositorioPagamento();
     }
 
+    // Cria um novo pagamento
     async criarPagamento(total) {
 
-        const novoId = this.repositorio.proxID();
-        this.count_id++;
+        const novoId = await this.repositorio.proxID();
 
         const pagamento = new Pagamento(novoId, total);
-        console.log("TEstes", pagamento);
+
         await this.repositorio.inserirPagamento(pagamento);
 
         return pagamento;
     }
 
+    // Remove um pagamento cadatsratdo através de seu ID
     removerPagamento(id) {
 
         return this.repositorio.deletarPagamento(id);
-
     }
 
-
+    // Realiza o processamento de um pagamento 
     async processarPagamento(id, valorPago) {
+        
         const pagamento = await this.repositorio.buscarPorId(id);
         if (!pagamento) {
             return null;
@@ -35,7 +36,7 @@ export default class ServicoPagamento {
 
         const valor = Number(valorPago);
 
-        const pagamento_obj = new Pagamento (pagamento.id, pagamento.total, pagamento.valor_pago, pagamento.status);
+        const pagamento_obj = new Pagamento(pagamento.id, pagamento.total, pagamento.valor_pago, pagamento.status);
 
         const total = pagamento_obj.getTotal();
         const pagoAtual = pagamento_obj.getPago();
@@ -47,7 +48,7 @@ export default class ServicoPagamento {
 
         pagamento_obj.setPago(novoPago);
 
-        
+
         if (novoPago >= total) {
             pagamento_obj.setStatus(StatusPagamento.APROVADO);
         } else if (novoPago > 0) {
@@ -55,27 +56,13 @@ export default class ServicoPagamento {
         } else {
             pagamento_obj.setStatus(StatusPagamento.PENDENTE);
         }
-        
-        console.log (pagamento_obj);
+
         await this.repositorio.atualizarPagamento(pagamento_obj);
 
         return pagamento_obj;
     }
 
-
-
-
-    async recusarPagamento(id) {
-        const pagamento = await this.repositorio.buscarPorId(id);
-        if (!pagamento) {
-            return null;
-        }
-
-        pagamento.setStatus(StatusPagamento.RECUSADO);
-        await this.repositorio.atualizarPagamento(pagamento);
-        return pagamento;
-    }
-
+    // Verifica o status de um pagamento através de seu ID
     async verificarStatus(id) {
         const pagamento = await this.repositorio.buscarPorId(id);
         if (!pagamento) return null;

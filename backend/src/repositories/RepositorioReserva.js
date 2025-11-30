@@ -6,10 +6,11 @@ export default class RepositorioReserva {
     this.path = "./db/reservas_db.json";
   }
 
-  async proxID () {
-    return this.lerJSON().length;
+  // Retorna o tamanho da lista
+  async proxID() {
+    const list = await this.lerJSON();
+    return list.length;
   }
-
 
   /* Ler Arquivo de Dados de Reserva */
   async lerJSON() {
@@ -25,6 +26,7 @@ export default class RepositorioReserva {
     }
   }
 
+  // Salva uma lista como um JSON
   async salvarJSON(lista) {
 
     await writeFile(this.path, JSON.stringify(lista, null, 2));
@@ -36,10 +38,10 @@ export default class RepositorioReserva {
     const idNum = Number(id);
 
     const reserva = reservas.find((item) => Number(item.id) === idNum);
-    return reserva || null;   // se não achar, devolve null
+    return reserva || null;
   }
 
-
+  // Busca uma reserva na lista
   async buscarReserva(reserva) {
 
     const lista = await this.lerJSON();
@@ -96,7 +98,6 @@ export default class RepositorioReserva {
     const lista_2 = lista_1.filter(item => item.id != id);
 
     if (lista_1.length === lista_2.length) {
-      // nada foi removido
       return false;
     }
 
@@ -105,7 +106,7 @@ export default class RepositorioReserva {
     return true;
   }
 
-
+  // Lista todas as reservas cadastradas
   async listarReservas() {
 
     return await this.lerJSON();

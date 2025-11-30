@@ -2,6 +2,7 @@ import ServicoEndereco from "../services/ServicoEndereco.js";
 
 const servicoEndereco = new ServicoEndereco ();
 
+/* Cria um novo enderço */
 export async function criarEndereco (req, res, next) {
   try {
     if (req.body.id) req.body.id = Number(req.body.id);
@@ -13,6 +14,7 @@ export async function criarEndereco (req, res, next) {
   }
 }
 
+/* Lista os endereços */
 export async function listarEnderecos(req, res, next) {
   try {
     const enderecos = await servicoEndereco.listarEnderecos();

@@ -6,46 +6,51 @@ export default class RepositorioCliente {
     this.path = "./db/cliente_db.json";
   }
 
-   async proxID () {
-    return this.lerJSON().length;
+  // Retorna o tamanho da lista
+  async proxID() {
+    const list = await this.lerJSON();
+    return list.length;
   }
 
   /* Ler Arquivo de Dados de Cliente */
   async lerJSON() {
-    
+
     try {
       const texto = await readFile(this.path, "utf-8");
-      return JSON.parse(texto); 
-    } 
-    
+      return JSON.parse(texto);
+    }
+
     // Se o arquivo não existir ou estiver vazio
     catch (err) {
       return [];
     }
   }
 
-  async salvarJSON (lista) {
+  // Salva uma lista em um arquivo JSON
+  async salvarJSON(lista) {
     await writeFile(this.path, JSON.stringify(lista, null, 2));
   }
 
-  async buscarPorId (id) {
+  // Bsca por um Cliente através do seu ID
+  async buscarPorId(id) {
 
     const lista = await this.lerJSON();
 
     const index = lista.find(item => item.id == id);
-    
+
     return index;
   }
 
-  async buscarCliente (cliente) {
+  // Verifica se já existe um cliente 
+  async buscarCliente(cliente) {
 
     const lista = await this.lerJSON();
 
     const ind = lista.find(item => item.nome === cliente.nome &&
-                                   item.cpf === cliente.cpf &&
-                                   item.data === cliente.data &&
-                                   item.email === cliente.email &&
-                                   item.telefone === cliente.telefone 
+      item.cpf === cliente.cpf &&
+      item.data === cliente.data &&
+      item.email === cliente.email &&
+      item.telefone === cliente.telefone
     )
 
     if (ind == undefined)
@@ -57,10 +62,10 @@ export default class RepositorioCliente {
   // Insere cliente já criado no arquivo
   async inserirCliente(cliente) {
 
-    const lista = await this.lerJSON ();
-    
+    const lista = await this.lerJSON();
+
     lista.push(cliente);
-    
+
     await this.salvarJSON(lista);
 
     return true;
@@ -70,37 +75,39 @@ export default class RepositorioCliente {
   // Atualiza um cliente
   async atualizarCliente(cliente) {
 
-      const lista = await this.lerJSON ();
+    const lista = await this.lerJSON();
 
-      const index = lista.findIndex(item => item.id == cliente.id);
-      if (index == -1) {
-          console.log ("ERRO! Não foi encontrado o Cliente de atualização.");
-          return;
-      }
-      
-      lista[index] = cliente;
-      
-      await this.salvarJSON(lista);
+    const index = lista.findIndex(item => item.id == cliente.id);
+    if (index == -1) {
+      console.log("ERRO! Não foi encontrado o Cliente de atualização.");
+      return;
+    }
 
-      return cliente;
+    lista[index] = cliente;
+
+    await this.salvarJSON(lista);
+
+    return cliente;
   }
 
   // Deleta cliente
   async deletarCliente(id) {
 
-    const lista_1 = await this.lerJSON ();
-    if (lista_1.length == 0) 
-        return false;
+    const lista_1 = await this.lerJSON();
+    if (lista_1.length == 0)
+      return false;
 
     const lista_2 = lista_1.filter(item => item.id != id);
     if (lista_1.length == lista_2.length)
       return false;
-      
-    await this.salvarJSON (lista_2);
+
+    await this.salvarJSON(lista_2);
     return true;
   }
 
-  async listarClientes () {
+
+  // Retorna uma lista com todos os clientes cadastrados
+  async listarClientes() {
 
     return await this.lerJSON();
   }

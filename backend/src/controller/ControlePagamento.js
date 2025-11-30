@@ -1,8 +1,5 @@
 // src/Controller/SistemaController.js
 import ServicoPagamento from "../services/ServicoPagamento.js";
-import ServicoReserva from "../services/ServicoReserva.js";
-import { StatusReserva } from "../entities/StatusReserva.js";
-import { StatusPagamento } from "../entities/StatusPagamento.js";
 
 const servicoPagamento = new ServicoPagamento();
 

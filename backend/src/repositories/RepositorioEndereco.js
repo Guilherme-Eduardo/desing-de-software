@@ -6,49 +6,53 @@ export default class RepositorioEndereco {
     this.path = "./db/endereco_db.json";
   }
 
-   async proxID () {
-    return this.lerJSON().length;
+  // Retorna o tamanho de uma lista
+  async proxID() {
+    const list = await this.lerJSON();
+    return list.length;
   }
+
 
   /* Ler Arquivo de Dados de Endereço */
   async lerJSON() {
-    
+
     try {
       const texto = await readFile(this.path, "utf-8");
       return JSON.parse(texto); // transforma texto em objeto/array
-    } 
-    
+    }
+
     // Se o arquivo não existir ou estiver vazio
     catch (err) {
       return [];
     }
   }
 
-  async salvarJSON (lista) {
+  // Salva uma lista em um arquivo JSON
+  async salvarJSON(lista) {
     await writeFile(this.path, JSON.stringify(lista, null, 2));
   }
 
-
-  async buscarPorId (id) {
+  // Realiza uma busca por um Endereço através de seu ID
+  async buscarPorId(id) {
 
     const lista = await this.lerJSON();
 
     const endereco = lista.find(item => item.id == id);
-    
+
     return endereco;
   }
 
-
-  async buscarEndereco (endereco) {
+  // Verifica se um enderço existe
+  async buscarEndereco(endereco) {
 
     const lista = await this.lerJSON();
 
-    const ind = lista.find(item => item.rua === endereco.rua & 
-                                   item.numero === endereco.numero &
-                                   item.bairro === endereco.bairro &
-                                   item.cidade === endereco.cidade &
-                                   item.estado === endereco.estado &
-                                   item.complemento === endereco.complemento
+    const ind = lista.find(item => item.rua === endereco.rua &
+      item.numero === endereco.numero &
+      item.bairro === endereco.bairro &
+      item.cidade === endereco.cidade &
+      item.estado === endereco.estado &
+      item.complemento === endereco.complemento
     )
 
     if (ind == undefined)
@@ -58,9 +62,9 @@ export default class RepositorioEndereco {
   }
 
   // Insere endereço já criado no arquivo
-  async inserirEndereco (endereco) {
+  async inserirEndereco(endereco) {
 
-    const lista = await this.lerJSON ();
+    const lista = await this.lerJSON();
 
     lista.push(endereco);
 
@@ -69,29 +73,29 @@ export default class RepositorioEndereco {
 
 
   // Atualiza um endereço
-  async atualizarEndereco (endereco) {
+  async atualizarEndereco(endereco) {
 
-    const lista = await this.lerJSON ();
+    const lista = await this.lerJSON();
 
     const index = lista.findIndex(item => item.id == endereco.id);
     if (index == -1) {
-      console.log ("ERRO! Não foi encontrado o Endereço de atualização.");
+      console.log("ERRO! Não foi encontrado o Endereço de atualização.");
       return null;
     }
-      
+
     lista[index] = endereco;
-      
+
     await this.salvarJSON(lista);
 
     return endereco;
   }
 
   // Deleta endereço
-  async deletarEndereco (id) {
+  async deletarEndereco(id) {
 
-    const lista_1 = await this.lerJSON ();
-    if (lista_1.length == 0) 
-        return false;
+    const lista_1 = await this.lerJSON();
+    if (lista_1.length == 0)
+      return false;
 
     const lista_2 = lista_1.filter(item => item.id != id);
     if (lista_1.length == lista_2.length)
@@ -101,8 +105,9 @@ export default class RepositorioEndereco {
     return true;
   }
 
-  async listarEnderecos () {
-      return await this.lerJSON();
+  // Retorna uma lista com todos os endereços
+  async listarEnderecos() {
+    return await this.lerJSON();
   }
-  
+
 }

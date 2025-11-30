@@ -43,7 +43,7 @@ export default class ServicoFilial {
    */
   async criaFilial(dadosFilial) {
 
-    dadosFilial.id = Number(this.repositorio.proxID());
+    dadosFilial.id = await this.repositorio.proxID();
     if (dadosFilial.enderecoId !== undefined)
       dadosFilial.enderecoId = Number(dadosFilial.enderecoId);
 
@@ -53,8 +53,6 @@ export default class ServicoFilial {
       console.log ("Filial já cadastrado.")
       return false;
     }
-
-    this.count_id++;
     
     const criado = await this.repositorio.inserirFilial(filial);
     return criado;
@@ -75,7 +73,6 @@ export default class ServicoFilial {
       throw erro;
     }
 
-    // >>> ADICIONADO Number() AQUI TAMBÉM <<<
     if (dadosFilial.enderecoId !== undefined)
       dadosFilial.enderecoId = Number(dadosFilial.enderecoId);
 

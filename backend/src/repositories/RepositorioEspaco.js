@@ -6,8 +6,10 @@ export default class RepositorioEspaco {
     this.path = "./db/espaco_db.json";
   }
 
+    // Retorna o tamanho da lista
    async proxID () {
-    return this.lerJSON().length;
+    const list = await this.lerJSON();
+    return list.length;
   }
 
   /* Ler Arquivo de Dados de Espaço */
@@ -24,10 +26,12 @@ export default class RepositorioEspaco {
     }
   }
 
+  // Salva uma lista em um arquivo JSON
   async salvarJSON (lista) {
     await writeFile(this.path, JSON.stringify(lista, null, 2));
   }
 
+  // Retorna um Espaço aprtir do seu ID
   async buscarPorId (id) {
 
     const lista = await this.lerJSON();
@@ -37,7 +41,7 @@ export default class RepositorioEspaco {
     return espaco;
   }
 
-
+// Verifica se já existe um espaço com as mesmas informações cadastrado
   async buscarEspaco(espaco) {
     
     const lista = await this.lerJSON();
@@ -49,12 +53,6 @@ export default class RepositorioEspaco {
       item.preco === espaco.preco &&
       item.filialId === espaco.filialId &&
       item.enderecoId === espaco.enderecoId
-      // item.endereco.rua === espaco.endereco.rua &&
-      // item.endereco.numero === espaco.endereco.numero &&
-      // item.endereco.bairro === espaco.endereco.bairro &&
-      // item.endereco.cidade === espaco.endereco.cidade &&
-      // item.endereco.estado === espaco.endereco.estado &&
-      // item.endereco.cep === espaco.endereco.cep
     );
 
     if (ind == undefined)
@@ -108,7 +106,8 @@ export default class RepositorioEspaco {
 
     return true;
   }
-  
+
+  // Retorna uma lista com todos os espaços disponíveis 
   async listarEspacos () {
     return await this.lerJSON();
   }
