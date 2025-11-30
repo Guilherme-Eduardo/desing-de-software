@@ -9,7 +9,7 @@ export default class ServicoPagamento {
         this.count_id = 0;
     }
 
-    async criarPagamento (total) {
+    async criarPagamento(total) {
 
         const novoId = this.count_id;
         this.count_id++;
@@ -21,7 +21,7 @@ export default class ServicoPagamento {
         return pagamento;
     }
 
-    removerPagamento (id) {
+    removerPagamento(id) {
 
         return this.repositorio.deletarPagamento(id);
 
@@ -36,35 +36,51 @@ export default class ServicoPagamento {
         return pagamento;
     }
 
+    // ServicoPagamento.js
     async processarPagamento(id, valorPago) {
         const pagamento = await this.repositorio.buscarPorId(id);
         if (!pagamento) {
             return null;
         }
 
+        const valor = Number(valorPago);
+
+        // Valor inválido: não altera nada
+        if (Number.isNaN(valor) || valor <= 0) {
+            return pagamento; // devolve como está
+        }
+
         const total = pagamento.getTotal();
         const pagoAtual = pagamento.getPago();
-        const restante = total - pagoAtual;
 
-        const novoPago = pagoAtual + valorPago;
+        let novoPago = pagoAtual + valor;
+        if (novoPago > total) {
+            novoPago = total;
+        }
+
         pagamento.setPago(novoPago);
 
-        if (valorPago === restante) {
+        if (novoPago >= total) {
             pagamento.setStatus(StatusPagamento.APROVADO);
-        } else {
+        } else if (novoPago > 0) {
             pagamento.setStatus(StatusPagamento.SINAL);
+        } else {
+            pagamento.setStatus(StatusPagamento.PENDENTE);
         }
 
         await this.repositorio.atualizarPagamento(pagamento);
-        
-        return pagamento.getStatus();
+
+        // AGORA: retorna o pagamento inteiro atualizado
+        return pagamento;
     }
+
+
 
 
     async recusarPagamento(id) {
         const pagamento = await this.repositorio.buscarPorId(id);
         if (!pagamento) {
-        return null;
+            return null;
         }
 
         pagamento.setStatus(StatusPagamento.RECUSADO);
@@ -75,8 +91,8 @@ export default class ServicoPagamento {
     async verificarStatus(id) {
         const pagamento = await this.repositorio.buscarPorId(id);
         if (!pagamento) return null;
-            return pagamento.getStatus();
-         
+        return pagamento.getStatus();
+
 
     }
 }

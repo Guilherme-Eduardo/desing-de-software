@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": 0,
+    "inicio": "2025-11-05",
+    "fim": "2025-11-19",
+    "espaco": 0,
+    "cliente": 3,
+    "status": "pendente",
+    "pagamento": {
+      "id": 0,
+      "valor_pago": 0,
+      "total": "123",
+      "status": "pendente"
+    }
+  }
+]

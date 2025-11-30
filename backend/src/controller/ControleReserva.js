@@ -11,7 +11,7 @@ export async function listarReservas(req, res, next) {
   try {
     const reservas = await servicoReserva.listarReservas();
     res.json(reservas);
-    console.log ("Testando listar reservas: ", reservas);
+    console.log("Testando listar reservas: ", reservas);
   } catch (error) {
     console.log("Erro ao retornar reservas => [GET /reservas]", error);
     next(error);
@@ -57,9 +57,6 @@ export async function criarReserva(req, res, next) {
 }
 
 /* Atualiza uma determinada reserva do sistema */
-// src/controller/ControleReserva.js
-
-/* Atualiza uma determinada reserva do sistema */
 export async function atualizarReserva(req, res, next) {
   try {
     const id = Number(req.params.id);
@@ -94,5 +91,32 @@ export async function removerReserva(req, res, next) {
     res.status(204).send();
   } catch (error) {
     next(error);
+  }
+}
+
+
+export async function pagarReserva(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { valor_pago } = req.body;
+
+    const reservaId = Number(id);
+    const valorNum = Number(valor_pago);
+
+    const resultado = await servicoReserva.pagarReserva({
+      reservaId,
+      valorPago: valorNum,
+    });
+
+    if (resultado.erro) {
+      return res.status(resultado.statusCode || 400).json({
+        erro: resultado.erro,
+      });
+    }
+
+    return res.status(200).json(resultado);
+  } catch (error) {
+    console.error("Erro ao pagar reserva:", error);
+    return next(error);
   }
 }

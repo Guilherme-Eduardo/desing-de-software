@@ -5,7 +5,6 @@ import * as ControleCliente from "../controller/ControleCliente.js";
 import * as ControleEndereco from "../controller/ControleEndereco.js";
 import * as ControleEspaco from "../controller/ControleEspaco.js";
 import * as ControlePagamento from "../controller/ControlePagamento.js";
-import * as ControleProprietário from "../controller/ControleProprietário.js";
 import * as ControleReserva from "../controller/ControleReserva.js";
 import * as ControleFilial from "../controller/ControleFilial.js"
 
@@ -15,6 +14,7 @@ const router = express.Router();
 router.get("/reservas", ControleReserva.listarReservas);
 router.post("/reservas", ControleReserva.criarReserva);
 router.patch("/reservas/:id", ControleReserva.atualizarReserva);
+router.patch("/reservas/:id", ControleReserva.pagarReserva);
 router.delete("/reservas/:id", ControleReserva.removerReserva);
 
 
@@ -45,12 +45,6 @@ router.post("/filiais", ControleFilial.criarFilial);
 router.patch("/filiais/:id", ControleFilial.atualizarFilial);
 router.delete("/filiais/:id", ControleFilial.removerFilial);
 
-
-/* Rotas destinadas ao Proprietario*/
-router.get("/proprietarios", ControleProprietário.listarProprietarios);
-router.get("/proprietarios/:id", ControleProprietário.obterProprietario);
-router.post("/proprietarios", ControleProprietário.criarProprietario);
-router.delete("/proprietarios/:id", ControleProprietário.removerProprietario);
 
 /* Rotas destinadas ao endereço */
 router.post("/enderecos", ControleEndereco.criarEndereco);

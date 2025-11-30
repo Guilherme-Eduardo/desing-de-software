@@ -27,15 +27,13 @@ export default class RepositorioReserva {
 
   // Busca uma reserva de acordo com o ID passado por parâmetro
   async buscarPorId(id) {
-
     const reservas = await this.lerJSON();
+    const idNum = Number(id);
 
-     const reserva = reservas.find(item => Number(item.id) === Number(id));
-
-    return reserva;
-
-
+    const reserva = reservas.find((item) => Number(item.id) === idNum);
+    return reserva || null;   // se não achar, devolve null
   }
+
 
   async buscarReserva(reserva) {
 

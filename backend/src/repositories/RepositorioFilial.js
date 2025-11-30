@@ -31,12 +31,7 @@ export default class RepositorioFilial {
 async buscarPorId(id) {
   const lista = await this.lerJSON();
 
-  console.log(">>> buscarPorId(id) recebendo:", id);
-  console.log(">>> lista lida:", lista);
-
   const encontrado = lista.find(item => item.id == id);
-
-  console.log(">>> resultado encontrado:", encontrado);
 
   return encontrado || null;
 }

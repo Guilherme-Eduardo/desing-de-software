@@ -4,34 +4,41 @@ import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useEffect, useState } from "react";
-import { listarReservas } from "../../lib/api.js";
+import { listarReservas, pagarReserva } from "../../lib/api.js";
 
 export default function ModalPagamento({ open, onClose, dados, setReservas }) {
     const [form, setForm] = useState({
-        id_reserva: "",
+        id: "",
         valorPago: ""
     });
 
     // Preenche o formulário quando os dados do cliente mudarem
+    // no useEffect
     useEffect(() => {
         if (dados) {
+            console.log("ModalPagamento recebeu dados:", dados);
             setForm({
-                id_reserva: dados.id || "",
+                id: dados.id ?? "",   // agora 0 continua 0
                 valorPago: "",
             });
         }
     }, [dados]);
 
 
+    // no handleSubmit
     async function handleSubmit(e) {
         e.preventDefault();
-        if (form.valorPago <= 0) {
+
+        const valor = parseFloat(form.valorPago);
+
+        if (Number.isNaN(valor) || valor <= 0) {
             alert("Por favor, insira um valor válido para o pagamento.");
             return;
         }
 
+        console.log("handleSubmit -> form.id:", form.id, "valor:", valor);
 
-        await atualizarReserva(form);
+        await pagarReserva(form.id, valor);
 
         if (setReservas) {
             const atualizada = await listarReservas();
@@ -39,6 +46,15 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
         }
 
         onClose();
+    }
+
+
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setForm((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     }
 
     return (
@@ -71,6 +87,7 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
                     </h2>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
+                        <input type="hidden" name="id" value={form.id} />
                         <div>
                             <p
                                 htmlFor="preco"
@@ -83,7 +100,7 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
                                 name="valorPago"
                                 type="number"
                                 min="0"
-                                step="0.01"
+                                onChange={handleChange}
                                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
                                 placeholder="Ex.: 500.00"
                             />

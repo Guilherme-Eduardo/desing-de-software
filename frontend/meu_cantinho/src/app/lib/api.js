@@ -7,6 +7,27 @@ export async function listarReservas() {
   return res.json();
 }
 
+// lib/api.js
+export async function pagarReserva(id, valorPago) {
+
+  const res = await fetch(`${API_BASE_URL}/reservas/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      valor_pago: Number(valorPago),
+    }),
+  });
+
+  if (!res.ok) {
+    const erro = await res.text();
+    throw new Error(`Erro ao pagar reserva: ${erro}`);
+  }
+
+  return res.json();
+}
+
+
+
 export async function obterReserva(id) {
   const res = await fetch(`${API_BASE_URL}/reservas/${id}`);
   if (!res.ok) throw new Error("Erro");
@@ -175,53 +196,6 @@ export async function atualizarCliente(id, dados) {
 
 export async function removerCliente(id) {
   const res = await fetch(`${API_BASE_URL}/clientes/${id}`, {
-    method: "DELETE",
-  });
-
-  if (!res.ok) throw new Error("Erro");
-
-  if (res.status === 204) return;
-
-  return res.json();
-}
-
-
-
-// PROPRIETÁRIOS
-export async function listarProprietarios() {
-  const res = await fetch(`${API_BASE_URL}/proprietarios`);
-  if (!res.ok) throw new Error("Erro");
-  return res.json();
-}
-
-export async function obterProprietario(id) {
-  const res = await fetch(`${API_BASE_URL}/proprietarios/${id}`);
-  if (!res.ok) throw new Error("Erro");
-  return res.json();
-}
-
-export async function criarProprietario(dados) {
-  const res = await fetch(`${API_BASE_URL}/proprietarios`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(dados),
-  });
-  if (!res.ok) throw new Error("Erro");
-  return res.json();
-}
-
-export async function atualizarProprietario(id, dados) {
-  const res = await fetch(`${API_BASE_URL}/proprietarios/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(dados),
-  });
-  if (!res.ok) throw new Error("Erro");
-  return res.json();
-}
-
-export async function removerProprietario(id) {
-  const res = await fetch(`${API_BASE_URL}/proprietarios/${id}`, {
     method: "DELETE",
   });
 
