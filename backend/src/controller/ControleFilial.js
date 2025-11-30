@@ -35,7 +35,6 @@ export async function criarFilial(req, res, next) {
     if (req.body.id) req.body.id = Number(req.body.id);
     if (req.body.enderecoId) req.body.enderecoId = Number(req.body.enderecoId);
 
-    // valida se o endereço existe
     const endereco = await servicoEndereco.buscarPorId(Number(enderecoId));
     if (!endereco) {
       return res.status(404).json({ error: "Endereço não encontrado" });
@@ -47,7 +46,6 @@ export async function criarFilial(req, res, next) {
       enderecoId: Number(enderecoId)
     });
 
-    console.log("Filial criada com sucesso:", filial);
     res.status(201).json(filial);
 
   } catch (error) {
@@ -64,7 +62,6 @@ export async function atualizarFilial(req, res, next) {
     if (req.body.id) req.body.id = Number(req.body.id);
     if (req.body.enderecoId) req.body.enderecoId = Number(req.body.enderecoId);
 
-    // se enviou enderecoId, validar antes
     if (req.body.enderecoId) {
       const existe = await servicoEndereco.buscarPorId(Number(req.body.enderecoId));
       if (!existe) {

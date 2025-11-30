@@ -11,18 +11,20 @@ export default class ServicoReserva {
     this.servicoPagamento = new ServicoPagamento();
   }
 
+  // Retona uma lista das reservas cadastradas.
   async listarReservas() {
     return this.repositorio.listarReservas();
   }
 
+  // Cria uma reserva com DADOS de preço TOTAL.
   async criarReserva(dados, total) {
 
     const { inicio, fim, espacoId, clienteId } = dados;
-
+    const id = await this.repositorio.proxID();
     const pagamento = await this.servicoPagamento.criarPagamento(total);
 
     const reserva = new Reserva(
-      Number(this.repositorio.proxID()),
+      id,
       inicio,
       fim,
       espacoId,
@@ -30,8 +32,8 @@ export default class ServicoReserva {
       StatusReserva.PENDENTE,
       {
         id: pagamento.id,
-        valor_pago: pagamento.getPago(),   // 0
-        status: pagamento.getStatus(),    // "pendente"
+        valor_pago: pagamento.getPago(),
+        status: pagamento.getStatus(),
       }
     );
 
@@ -47,6 +49,7 @@ export default class ServicoReserva {
     return reserva;
   }
 
+  // Atualiza os dados de uma reserva apartir do seu ID
   async atualizarReserva(id, dadosAtualizados) {
     id = Number(id);
 
@@ -54,9 +57,9 @@ export default class ServicoReserva {
     if (!existente) {
       return null;
     }
-    
+
     const obj = Reserva.fromObject(id, existente);
-    console.log (obj);
+    console.log(obj);
 
     if (dadosAtualizados.inicio !== undefined) {
       obj.setInicio(dadosAtualizados.inicio);
@@ -83,67 +86,48 @@ export default class ServicoReserva {
   }
 
 
+  // Remove uma reserva cadastrada
   async removerReserva(id) {
-    // repositório retorna true/false
     return this.repositorio.deletarReserva(id);
   }
 
-  async cancelarReserva(id) {
-    const reserva = await this.repositorio.buscarPorId(id);
-    if (!reserva) return null;
+  // Verfica se o espaço está disponível para ser reservado
+  async verificarDisponibilidade(espacoId, inicio, fim) {
 
-    reserva.setStatus(StatusReserva.CANCELADA);
-    await this.repositorio.atualizarReserva(reserva);
-    return reserva;
-  }
+    const dataInicio = new Date(inicio);
+    const dataFim = new Date(fim);
 
-  verificarStatus(reserva) {
-    return reserva.getStatus();
-  }
+    const reservas = await this.repositorio.lerJSON();
 
-async verificarDisponibilidade(espacoId, inicio, fim) {
+    if (reservas.length === 0) {
+      return true;
+    }
 
-  const dataInicio = new Date(inicio);
-  const dataFim = new Date(fim);
+    const lista = reservas.filter(r => String(r.espaco) === String(espacoId));
 
-  const reservas = await this.repositorio.lerJSON();
+    if (lista.length === 0) {
+      return true;
+    }
 
-  // Sem reservas
-  if (reservas.length === 0) {
+    for (const item of lista) {
+      const itemInicio = new Date(item.inicio);
+      const itemFim = new Date(item.fim);
+
+      if (isNaN(itemInicio) || isNaN(itemFim)) {
+        continue;
+      }
+
+      const colisao = (dataInicio < itemFim) && (itemInicio < dataFim);
+
+      if (colisao) {
+        return false;
+      }
+    }
+
     return true;
   }
 
-  // Filtra reservas do espaço
-  const lista = reservas.filter(r => String(r.espaco) === String(espacoId));
-
-  if (lista.length === 0) {
-    return true;
-  }
-
-  for (const item of lista) {
-    const itemInicio = new Date(item.inicio);
-    const itemFim = new Date(item.fim);
-
-    // Verificar se datas foram convertidas corretamente
-    if (isNaN(itemInicio) || isNaN(itemFim)) {
-      continue;
-    }
-
-    const colisao = (dataInicio < itemFim) && (itemInicio < dataFim);
-
-    if (colisao) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-
-
-
-
-  // ServicoReserva.js
+  // Realiza o pagamnto da reserva
   async pagarReserva(reservaId, valorPago) {
     reservaId = Number(reservaId);
 
@@ -162,7 +146,6 @@ async verificarDisponibilidade(espacoId, inicio, fim) {
       };
     }
 
-    // AQUI: pegar o id do pagamento dentro da reserva
     const pagamentoID = reserva.pagamento.id;
 
     console.log("PAGAMENTOID: ", pagamentoID);
@@ -174,13 +157,10 @@ async verificarDisponibilidade(espacoId, inicio, fim) {
       };
     }
 
-    // processarPagamento agora devolve o pagamento inteiro
     const pagamento = await this.servicoPagamento.processarPagamento(
       pagamentoID,
       valorPago
     );
-
-    console.log("PAGAMENTO: ", pagamento);
 
     if (!pagamento) {
       return {
@@ -192,7 +172,6 @@ async verificarDisponibilidade(espacoId, inicio, fim) {
     const statusPagamento = pagamento.getStatus();
     const valorPagoAtual = pagamento.getPago();
 
-    // SINCRONIZA o resumo de pagamento dentro da reserva
     reserva.pagamento = {
       id: pagamentoID,
       valor_pago: valorPagoAtual,
@@ -211,7 +190,6 @@ async verificarDisponibilidade(espacoId, inicio, fim) {
 
     reserva.status = novoStatusReserva;
 
-    // usa o método que você JÁ tem para atualizar a reserva
     await this.repositorio.atualizarReserva(reserva);
 
     return {
@@ -221,5 +199,4 @@ async verificarDisponibilidade(espacoId, inicio, fim) {
       pagamento: reserva.pagamento,
     };
   }
-
 }

@@ -94,7 +94,7 @@ export async function removerReserva(req, res, next) {
   }
 }
 
-
+/* Realiza o pagamento de uma reserva, ou um sinal */
 export async function pagarReserva(req, res, next) {
 
   try {

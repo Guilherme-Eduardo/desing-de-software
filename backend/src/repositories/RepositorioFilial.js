@@ -6,8 +6,10 @@ export default class RepositorioFilial {
     this.path = "./db/filial_db.json";
   }
 
-   async proxID () {
-    return this.lerJSON().length;
+  // Retorna o tamanho da lista
+  async proxID() {
+    const list = await this.lerJSON();
+    return list.length;
   }
 
   /* Lê arquivo JSON (lista de filiais) */
@@ -32,19 +34,19 @@ export default class RepositorioFilial {
   }
 
   /* Busca uma filial pelo id */
-async buscarPorId(id) {
-  const lista = await this.lerJSON();
+  async buscarPorId(id) {
+    const lista = await this.lerJSON();
 
-  const encontrado = lista.find(item => item.id == id);
+    const encontrado = lista.find(item => item.id == id);
 
-  return encontrado || null;
-}
+    return encontrado || null;
+  }
 
-
+  // Verifica se uma filial já existe
   async buscarFilial(filial) {
     const lista = await this.lerJSON();
 
-    const ind = lista.find(item => 
+    const ind = lista.find(item =>
       item.nome === filial.nome &&
       item.cnpj === filial.cnpj
     );
@@ -68,33 +70,24 @@ async buscarPorId(id) {
   }
 
   /* Atualiza uma filial existente */
-  // RepositorioFilial.js
-async atualizarFilial(filial) {
-  const lista = await this.lerJSON();
+  async atualizarFilial(filial) {
+    const lista = await this.lerJSON();
 
-  // id da filial que chegou para atualizar
-  const id = filial.id;  // pode ser string ou número
+    const id = filial.id;
 
-  console.log(">>> atualizarFilial: id recebido:", id);
-  console.log(">>> atualizarFilial: lista atual:", lista);
+    const index = lista.findIndex((item) => item.id == id);
 
-  // comparação "frouxa" pra aceitar '0' e 0
-  const index = lista.findIndex((item) => item.id == id);
+    if (index === -1) {
+      console.log("ERRO! Não foi encontrado filial de atualização.");
+      return null;
+    }
 
-  console.log(">>> atualizarFilial: index encontrado:", index);
+    lista[index] = filial;
 
-  if (index === -1) {
-    console.log("ERRO! Não foi encontrado filial de atualização.");
-    return null;
+    await this.salvarJSON(lista);
+
+    return filial;
   }
-
-  // sobrescreve a posição com o objeto novo
-  lista[index] = filial;
-
-  await this.salvarJSON(lista);
-
-  return filial;
-}
 
   /* Remove uma filial */
   async removerFilial(id) {

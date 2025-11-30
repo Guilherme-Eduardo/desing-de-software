@@ -42,14 +42,14 @@ export default class ServicoCliente {
    * Cria um novo cliente.
    */
   async criaCliente(dadosCliente) {
-    const cliente = Cliente.fromObject(this.repositorio.proxID(), dadosCliente);
+    const id = await this.repositorio.proxID();
+
+    const cliente = Cliente.fromObject(id, dadosCliente);
     
     if (await this.repositorio.buscarCliente(cliente)) {
       console.log ("Cliente já cadastrado.")
       return false;
     }
-
-    this.count_id++;
     
     const criado = await this.repositorio.inserirCliente(cliente);
     return criado;

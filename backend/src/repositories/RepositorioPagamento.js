@@ -6,8 +6,10 @@ export default class RepositorioPagamento {
     this.path = "./db/pagamentos_db.json";
   }  
   
+  // Retorna o tamanho da lista
    async proxID () {
-    return this.lerJSON().length;
+    const list = await this.lerJSON();
+    return list.length;
   }
 
   /* Ler Arquivo de Dados de Pagamento */
@@ -24,11 +26,13 @@ export default class RepositorioPagamento {
     }
   }
 
+  // Salva uma lista como um arquivo
   async salvarJSON (lista) {
 
     await writeFile(this.path, JSON.stringify (lista, null, 2));
   }
 
+  // Realiza uma busca por um pagamento através do seu ID
   async buscarPorId(id) {
     const lista = await this.lerJSON();
     const encontrado = lista.find((item) => item.id === id);
@@ -82,7 +86,6 @@ export default class RepositorioPagamento {
       const lista_2 = lista_1.filter(item => item.id != pagamento.id);
       
       if (lista_1.length === lista_2.length) {
-        // nada foi removido
         return false;
       }
 
@@ -91,11 +94,11 @@ export default class RepositorioPagamento {
       return true;
   }
 
+  // Retorna uma lista de Pagamentos
   async listarPagamentos () {
 
     const lista =  await this.lerJSON();
 
-    return lista.map((item) => Filial.fromObject(item));
+    return lista;
   }
-
 }

@@ -1,5 +1,6 @@
 // Reserva.js
 export default class Reserva {
+  
   constructor(id, inicio, fim, espaco, cliente, status, pagamento) {
     this.id = Number(id);
     this.inicio = inicio;
@@ -7,7 +8,6 @@ export default class Reserva {
     this.espaco = espaco;
     this.cliente = cliente;
     this.status = status;
-    // pagamento: { id, total, valor_pago, status }
     this.pagamento = pagamento;
   }
 

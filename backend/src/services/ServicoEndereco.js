@@ -3,30 +3,30 @@ import RepositorioEndereco from "../repositories/RepositorioEndereco.js"
 
 export default class ServicoEndereco {
 
-    constructor() {
-        this.repositorio = new RepositorioEndereco();
+  constructor() {
+    this.repositorio = new RepositorioEndereco();
+  }
+
+  // Cria um endereço
+  async criarEndereco(dadosEndereco) {
+
+    const { rua, numero, bairro, cidade, estado, complemento } = dadosEndereco;
+    const id = await this.repositorio.proxID();
+
+    const novoEndereco = new Endereco(
+      id,
+      rua, numero, bairro, cidade, estado, complemento);
+
+    if (await this.repositorio.buscarEndereco(novoEndereco)) {
+      console.log("Endereco já criado")
+      return null;
     }
-    
-    async criarEndereco (dadosEndereco) {
 
-        const {rua, numero, bairro, cidade, estado, complemento } = dadosEndereco;
+    await this.repositorio.inserirEndereco(novoEndereco);
+    return novoEndereco;
+  }
 
-        const novoEndereco = new Endereco(
-            this.repositorio.proxID(),
-            rua, numero, bairro, cidade, estado, complemento);
-
-        if (await this.repositorio.buscarEndereco(novoEndereco)) {
-            console.log("Endereco já criado")
-            return null;
-        }
-
-        this.countId++;
-
-        await this.repositorio.inserirEndereco(novoEndereco);
-        return novoEndereco;
-    }
-        
-
+  // Atualiza os dados de um endereco aprtir do seu ID
   async atualizarEndereco(id, dadosAtualizados) {
     id = Number(id);
 
@@ -37,7 +37,6 @@ export default class ServicoEndereco {
       return null;
     }
 
-    // monta usando o id EXPLÍCITO, não usando fromObject incorreto
     const obj = new Endereco(
       id,
       dadosAtualizados.rua ?? existente.rua,
@@ -52,17 +51,19 @@ export default class ServicoEndereco {
     return atualizado;
   }
 
-    removerEndereco (id) {
+  // Remove um enedereço cadastrado através do seu ID
+  removerEndereco(id) {
+    return this.repositorio.deletarEndereco(id);
+  }
 
-        return this.repositorio.deletarEndereco(id);
-    }
+  // Retorna uma lista contendo todos os endereços cadastrados
+  async listarEnderecos() {
+    return this.repositorio.listarEnderecos();
+  }
 
-    async listarEnderecos() {
-        return this.repositorio.listarEnderecos(); 
-    }
-
-    async buscarPorId (id) {
-        const endereco = this.repositorio.buscarPorId(id);
-        return endereco;
-    }
+  // Busca um endereço a partir do seu ID
+  async buscarPorId(id) {
+    const endereco = this.repositorio.buscarPorId(id);
+    return endereco;
+  }
 }
