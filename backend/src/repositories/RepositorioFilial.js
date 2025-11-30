@@ -64,6 +64,8 @@ async buscarPorId(id) {
     lista.push(filial);
 
     await this.salvarJSON(lista);
+
+    return true;
   }
 
   /* Atualiza uma filial existente */

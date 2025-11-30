@@ -7,7 +7,7 @@ import ClearIcon from '@mui/icons-material/Clear';   // <-- FALTAVA ISSO !!!
 
 import Header from "../components/Header.js";
 import { criarEndereco, listarEnderecos, removerEndereco } from "../lib/api.js";
-import ModalEnderecoUpdate from "./ModalEnderecoUpdate.js";
+import ModalEnderecoUpdate from "./components/ModalEnderecoUpdate.js";
 
 
 export default function CadastroEnderecoPage() {

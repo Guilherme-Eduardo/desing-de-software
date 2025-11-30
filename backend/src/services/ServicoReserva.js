@@ -12,28 +12,28 @@ export default class ServicoReserva {
   }
 
   async listarReservas() {
-    return this.repositorio.listarReservas(); 
+    return this.repositorio.listarReservas();
   }
 
   async criarReserva(dados, total) {
-    
-    const { inicio, fim, espacoID, clienteID} = dados;
+
+    const { inicio, fim, espacoId, clienteId } = dados;
 
     const pagamento = await this.servicoPagamento.criarPagamento(total);
-    
+
     const reserva = new Reserva(
       Number(this.countID),
       inicio,
       fim,
-      espacoID,
-      clienteID,
+      espacoId,
+      clienteId,
       StatusReserva.PENDENTE,
       pagamento
     );
 
     if (await this.repositorio.buscarReserva(reserva)) {
-       console.log("Reserva já cadastrada");
-       return null;
+      console.log("Reserva já cadastrada");
+      return null;
     }
 
     this.countID++;
@@ -45,6 +45,7 @@ export default class ServicoReserva {
 
   async atualizarReserva(id, dadosAtualizados) {
     id = Number(id);
+
     const existente = await this.repositorio.buscarPorId(id);
     if (!existente) {
       return null;
@@ -52,27 +53,30 @@ export default class ServicoReserva {
 
     const obj = Reserva.fromObject(id, existente);
 
-    // atualiza só o que chegou
     if (dadosAtualizados.inicio !== undefined) {
       obj.setInicio(dadosAtualizados.inicio);
     }
+
     if (dadosAtualizados.fim !== undefined) {
       obj.setFim(dadosAtualizados.fim);
     }
-    if (dadosAtualizados.espaco !== undefined) {
-      obj.setEspaco(dadosAtualizados.espaco);
+
+    if (dadosAtualizados.espacoId !== undefined) {
+      obj.setEspaco(Number(dadosAtualizados.espacoId));
     }
-    if (dadosAtualizados.cliente !== undefined) {
-      obj.setCliente(dadosAtualizados.cliente);
+
+    if (dadosAtualizados.clienteId !== undefined) {
+      obj.setCliente(Number(dadosAtualizados.clienteId));
     }
+
     if (dadosAtualizados.status !== undefined) {
       obj.setStatus(dadosAtualizados.status);
     }
 
     await this.repositorio.atualizarReserva(obj);
-    
     return obj;
   }
+
 
   async removerReserva(id) {
     // repositório retorna true/false
@@ -92,8 +96,8 @@ export default class ServicoReserva {
     return reserva.getStatus();
   }
 
-  async verificaDisponibilidade (espacoID, inicio, fim) {
-    return this.repositorio.verificaDisponibilidade(espacoID, inicio, fim);
+  async verificaDisponibilidade(espacoId, inicio, fim) {
+    return this.repositorio.verificaDisponibilidade(espacoId, inicio, fim);
   }
 }
 

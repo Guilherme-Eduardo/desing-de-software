@@ -19,32 +19,39 @@ export default function ReservaPage() {
     const [dadosReserva, setDadosReserva] = useState(null);
     const [openModalPagamento, setOpenModalPagamento] = useState(false);
 
+
     async function handleSubmit(e) {
         e.preventDefault();
 
         const formData = new FormData(e.target);
         const dados = Object.fromEntries(formData.entries());
-        console.log("Dados da reserva:", dados);
-
+        
         await criarReserva(dados);
 
         const atualizada = await listarReservas();
+
         setReservas(atualizada);
         e.target.reset();
     }
 
     useEffect(() => {
         async function carregar() {
+            console.log("[useEffect] Carregando dados...");
 
             const reservas = await listarReservas();
             const clientes = await listarClientes();
             const espacos = await listarEspacos();
 
-            console.log("dados, ", clientes);
+            console.log("[useEffect] Reservas do backend:", reservas);
+            console.log("[useEffect] Clientes do backend:", clientes);
+            console.log("[useEffect] Espaços do backend:", espacos);
+
             if (reservas && clientes && espacos) {
                 setReservas(reservas);
                 setClientes(clientes);
                 setEspacos(espacos);
+            } else {
+                console.warn("[useEffect] Alguma lista veio vazia ou undefined");
             }
         }
         carregar();
@@ -83,21 +90,21 @@ export default function ReservaPage() {
                             >
                                 nome do cliente
                             </p>
-                            <div
-                                id="clienteID"
-                                name="clienteID"
+                            <select
+                                id="clienteId"
+                                name="clienteId"
                                 required
                                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                                     focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
                             >
-                                <p value="">Selecione um cliente</p>
+                                <option value="">Selecione um cliente</option>
                                 {clientes.map((client) => (
-                                    <p key={client.id} value={client.id}>
+                                    <option key={client.id} value={client.id}>
                                         {client.nome}
-                                    </p>
+                                    </option>
                                 ))}
 
-                            </div>
+                            </select>
                         </div>
 
                         {/* Espaço */}
@@ -108,21 +115,21 @@ export default function ReservaPage() {
                             >
                                 Espaço
                             </p>
-                            <div
-                                id="espacoID"
-                                name="espacoID"
+                            <select
+                                id="espacoId"
+                                name="espacoId"
                                 required
                                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                                     focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
                             >
-                                <p value="">Selecione um espaço</p>
+                                <option value="">Selecione um espaço</option>
                                 {espacos.map((esp) => (
-                                    <p key={esp.id} value={esp.id}>
+                                    <option key={esp.id} value={esp.id}>
                                         {esp.nome}
-                                    </p>
+                                    </option>
                                 ))}
 
-                            </div>
+                            </select>
                         </div>
                         {/* Fim da reserva */}
                         <div>
@@ -179,8 +186,10 @@ export default function ReservaPage() {
                     ) : (
                         <div className="space-y-3">
                             {reservas.map((item, idx) => {
-                                const client = clientes.find(e => e.id == item.id);
-                                const esp = espacos.find(e => e.id == item.id);
+
+                                const client = clientes.find(e => e.id == (item.clienteId ?? item.cliente));
+                                const esp = espacos.find(e => e.id == (item.espacoId ?? item.espaco));
+
                                 return (
 
                                     <div
@@ -201,16 +210,17 @@ export default function ReservaPage() {
                                         </button>
                                         <button
                                             onClick={() => { setOpenModalPagamento(true); setDadosReserva(item); }}
-                                            className="absolute top-22 right-2 text-blue-600 hover:text-blue-800"
+                                            className="absolute top-22 right-2 text-green-600 hover:text-green-800"
                                         >
-                                            <AttachMoneyIcon fontSize="medium" />
+                                            <AttachMoneyIcon fontSize="medium"  />
                                         </button>
                                         {client && esp && (
                                             <>
                                                 <p><span>Cliente:</span> {client.nome}</p>
                                                 <p><span>Espaço:</span> {esp.nome}</p>
-                                                <p><span>início:</span> {formatarData(item.inicio)}</p>
-                                                <p><span>fim:</span> {formatarData(item.fim)}</p>
+                                                <p><span>Início:</span> {formatarData(item.inicio)}</p>
+                                                <p><span>Fim:</span> {formatarData(item.fim)}</p>
+                                                <p><span>Preço:</span> {esp.preco}</p>
                                                 <p><span>Status:</span> {item.status}</p>
                                             </>
                                         )}
@@ -227,6 +237,8 @@ export default function ReservaPage() {
                 onClose={() => setOpenModal(false)}
                 dados={dadosReserva}
                 setReservas={setReservas}
+                clientes={clientes}
+                espacos={espacos}
             />
             <ModalPagamento
                 open={openModalPagamento}

@@ -41,7 +41,6 @@ export async function criarFilial(req, res, next) {
       return res.status(404).json({ error: "Endereço não encontrado" });
     }
 
-    // cria filial passando SOMENTE enderecoId
     const filial = await servicoFilial.criaFilial({
       nome: req.body.nome,
       cnpj: req.body.cnpj,

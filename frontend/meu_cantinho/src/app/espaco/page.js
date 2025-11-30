@@ -116,18 +116,18 @@ export default function CadastroEspacoPage() {
 
             <div>
               <p className="block text-sm font-medium text-gray-700 mb-1">Endereço</p>
-              <div
+              <select
                 name="enderecoId"
                 required
                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
               >
-                <p value="">Selecione...</p>
+                <option value="">Selecione um endereço.</option>
                 {enderecos.map(e => (
-                  <p key={e.id} value={e.id}>
+                  <option key={e.id} value={e.id}>
                     {e.rua}, {e.numero} — {e.cidade}/{e.estado}
-                  </p>
+                  </option>
                 ))}
-              </div>
+              </select>
             </div>
 
             <div>

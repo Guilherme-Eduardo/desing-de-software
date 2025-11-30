@@ -54,8 +54,6 @@ export default function ModalEspacoUpdate({ open, onClose, dados, setEspacos, en
 
   return (
     <Modal
-      aria-pledby="modal-atualizar-espaco"
-      aria-describedby="modal-atualizar-espaco-descricao"
       open={open}
       onClose={onClose}
       closeAfterTransition
@@ -179,7 +177,7 @@ export default function ModalEspacoUpdate({ open, onClose, dados, setEspacos, en
               >
                 Endereco
               </p>
-              <div
+              <select
                 id="enderecoId"
                 name="enderecoId"
                 required
@@ -188,14 +186,14 @@ export default function ModalEspacoUpdate({ open, onClose, dados, setEspacos, en
                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               >
-                <p value="">Selecione um endereço...</p>
+                <option value="">Selecione um endereço...</option>
 
                 {enderecos.map((end) => (
-                  <p key={end.id} value={end.id}>
+                  <option key={end.id} value={end.id}>
                     {end.rua}, {end.numero} — {end.cidade}/{end.estado}
-                  </p>
+                  </option>
                 ))}
-              </div>
+              </select>
             </div>
 
             <button

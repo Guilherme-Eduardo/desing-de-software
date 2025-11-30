@@ -25,7 +25,7 @@ export async function criarReserva(dados) {
 
 export async function atualizarReserva(id, dados) {
   const res = await fetch(`${API_BASE_URL}/reservas/${id}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
@@ -37,12 +37,17 @@ export async function removerReserva(id) {
   const res = await fetch(`${API_BASE_URL}/reservas/${id}`, {
     method: "DELETE",
   });
+
   if (!res.ok) throw new Error("Erro");
+
+  if (res.status === 204) return;
+
   return res.json();
 }
 
 
 
+// ESPAÇOS
 export async function listarEspacos() {
   const res = await fetch(`${API_BASE_URL}/espacos`);
   if (!res.ok) throw new Error("Erro");
@@ -83,12 +88,17 @@ export async function removerEspaco(id) {
   const res = await fetch(`${API_BASE_URL}/espacos/${id}`, {
     method: "DELETE",
   });
+
   if (!res.ok) throw new Error("Erro");
+
+  if (res.status === 204) return;
+
   return res.json();
 }
 
 
 
+// PAGAMENTOS
 export async function listarPagamentos() {
   const res = await fetch(`${API_BASE_URL}/pagamentos`);
   if (!res.ok) throw new Error("Erro");
@@ -115,12 +125,17 @@ export async function removerPagamento(id) {
   const res = await fetch(`${API_BASE_URL}/pagamentos/${id}`, {
     method: "DELETE",
   });
+
   if (!res.ok) throw new Error("Erro");
+
+  if (res.status === 204) return;
+
   return res.json();
 }
 
 
 
+// CLIENTES
 export async function listarClientes() {
   const res = await fetch(`${API_BASE_URL}/clientes`);
   if (!res.ok) throw new Error("Erro");
@@ -162,11 +177,17 @@ export async function removerCliente(id) {
   const res = await fetch(`${API_BASE_URL}/clientes/${id}`, {
     method: "DELETE",
   });
+
   if (!res.ok) throw new Error("Erro");
+
+  if (res.status === 204) return;
+
   return res.json();
 }
 
 
+
+// PROPRIETÁRIOS
 export async function listarProprietarios() {
   const res = await fetch(`${API_BASE_URL}/proprietarios`);
   if (!res.ok) throw new Error("Erro");
@@ -203,10 +224,17 @@ export async function removerProprietario(id) {
   const res = await fetch(`${API_BASE_URL}/proprietarios/${id}`, {
     method: "DELETE",
   });
+
   if (!res.ok) throw new Error("Erro");
+
+  if (res.status === 204) return;
+
   return res.json();
 }
 
+
+
+// ENDEREÇOS
 export async function criarEndereco(dados) {
   const res = await fetch(`${API_BASE_URL}/enderecos`, {
     method: "POST",
@@ -245,10 +273,17 @@ export async function removerEndereco(id) {
   const res = await fetch(`${API_BASE_URL}/enderecos/${id}`, {
     method: "DELETE",
   });
+
   if (!res.ok) throw new Error("Erro");
+
+  if (res.status === 204) return;
+
   return res.json();
 }
 
+
+
+// ATUALIZAR PAGAMENTO
 export async function atualizarPagamento(id, dados) {
   const res = await fetch(`${API_BASE_URL}/pagamento/${id}`, {
     method: "PATCH",
@@ -260,6 +295,8 @@ export async function atualizarPagamento(id, dados) {
 }
 
 
+
+// FILIAIS
 export async function listarFiliais() {
   const res = await fetch(`${API_BASE_URL}/filiais`);
   if (!res.ok) throw new Error("Erro");
@@ -301,6 +338,10 @@ export async function removerFilial(id) {
   const res = await fetch(`${API_BASE_URL}/filiais/${id}`, {
     method: "DELETE",
   });
+
   if (!res.ok) throw new Error("Erro");
+
+  if (res.status === 204) return;
+
   return res.json();
 }

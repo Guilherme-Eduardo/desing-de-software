@@ -49,7 +49,6 @@ export default function ModalFilialUpdate({ open, onClose, dados, setFiliais, en
 
   return (
     <Modal
-      aria-pledby="modal-atualizar-filial"
       open={open}
       onClose={onClose}
       closeAfterTransition

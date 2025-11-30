@@ -4,7 +4,7 @@ import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useEffect, useState } from "react";
-import { listarReservas } from "@/app/lib/api";
+import { listarReservas } from "../../lib/api.js";
 
 export default function ModalPagamento({ open, onClose, dados, setReservas }) {
     const [form, setForm] = useState({
@@ -43,8 +43,6 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
 
     return (
         <Modal
-            aria-pledby="modal-atualizar-reserva"
-            aria-describedby="modal-atualizar-reserva-descricao"
             open={open}
             onClose={onClose}
             closeAfterTransition

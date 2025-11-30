@@ -51,8 +51,6 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
 
   return (
     <Modal
-      aria-pledby="modal-atualizar-cliente"
-      aria-describedby="modal-atualizar-cliente-descricao"
       open={open}
       onClose={onClose}
       closeAfterTransition

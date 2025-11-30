@@ -21,8 +21,8 @@ export default function CadastroFilialPage() {
       const dados = await listarFiliais();
       const end = await listarEnderecos();
       if (dados) setFiliais(dados);
-      console.log("Dadosfiliais:", dados)
       if (end) setEnderecos(end);
+      console.log("Dadosfiliais:", dados)
     }
     carregar();
   }, []);
@@ -102,21 +102,21 @@ export default function CadastroFilialPage() {
               >
                 Endereco
               </p>
-              <div
+              <select
                 id="enderecoId"
                 name="enderecoId"
                 required
                 className="text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm
                focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               >
-                <p value="">Selecione um endereço...</p>
+                <option value="">Selecione um endereço...</option>
 
                 {enderecos.map((end) => (
-                  <p key={end.id} value={end.id}>
+                  <option key={end.id} value={end.id}>
                     {end.rua}, {end.numero} — {end.cidade}/{end.estado}
-                  </p>
+                  </option>
                 ))}
-              </div>
+              </select>
             </div>
             <button
               type="submit"

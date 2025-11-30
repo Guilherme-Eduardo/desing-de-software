@@ -3,7 +3,7 @@
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import ClearIcon from "@mui/icons-material/Clear";
-import { atualizarEndereco, listarEnderecos } from "../lib/api.js";
+import { atualizarEndereco, listarEnderecos } from "../../lib/api.js";
 import { useEffect, useState } from "react";
 
 export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos }) {
@@ -54,8 +54,6 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos
 
     return (
         <Modal
-            aria-pledby="modal-atualizar-endereco"
-            aria-describedby="modal-atualizar-endereco-descricao"
             open={open}
             onClose={onClose}
             closeAfterTransition
