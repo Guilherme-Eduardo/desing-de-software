@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 18, "column": 0}, "map": {"version":3,"sources":["file:///home/guilherme/Projetos/desing-de-software/src/frontend/src/app/page.js"],"sourcesContent":["\nimport { redirect } from \"next/navigation\";\n\nexport default function Home () {\n  return redirect(\"/iniciar\")\n}"],"names":[],"mappings":";;;;AACA;AAAA;;AAEe,SAAS;IACtB,OAAO,IAAA,sZAAQ,EAAC;AAClB"}}]
+}
