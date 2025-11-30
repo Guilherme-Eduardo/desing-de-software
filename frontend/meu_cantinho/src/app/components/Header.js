@@ -23,7 +23,7 @@ export default function Header() {
                         width={120}
                         height={120}
                         href="/reserva"
-                        className="ml-10 m-5"                    />
+                        className="ml-10 m-5"/>
 
                 </Link>
 
@@ -34,7 +34,7 @@ export default function Header() {
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className="px-3 py-2 rounded hover:bg-gray-200 transition"
+                                className="px-3 py-1 rounded hover:bg-orange-200 transition text-lg underline"
                             >
                                 {item.titulo}
                             </Link>

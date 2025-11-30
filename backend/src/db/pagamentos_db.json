@@ -19,9 +19,9 @@
   },
   {
     "id": 1,
-    "valor_pago": 0,
     "total": "123",
-    "status": "pendente"
+    "valor_pago": "123",
+    "status": "aprovado"
   },
   {
     "id": 0,

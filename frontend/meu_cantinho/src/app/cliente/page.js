@@ -37,15 +37,15 @@ export default function CadastroClientePage() {
     e.target.reset();
   }
 
-async function handleRemoveCliente(id) {
-  try {
-    await removerCliente(id);   
-     const atualizada = await listarClientes();
-    setClientes(atualizada);
-  } catch (err) {
-    console.error(err);
+  async function handleRemoveCliente(id) {
+    try {
+      await removerCliente(id);
+      const atualizada = await listarClientes();
+      setClientes(atualizada);
+    } catch (err) {
+      console.error(err);
+    }
   }
-}
 
 
   return (
@@ -162,10 +162,25 @@ async function handleRemoveCliente(id) {
                   >
                     <SyncAltIcon fontSize="medium" />
                   </button>
-                  <p><span>Nome:</span> {item.nome}</p>
-                  <p><span>Documento:</span> {item.cpf}</p>
-                  <p><span>Telefone:</span> {item.telefone}</p>
-                  <p><span>Email:</span> {item.email}</p>
+                  <div className="flex flex-col">
+                    <p className="py-0.5">
+                      <span className="font-medium">Nome: </span>
+                      {item.nome}
+                    </p>
+                    <p className="py-0.5">
+                      <span className="font-medium">Documento: </span>
+                      {item.cpf}
+                    </p>
+                    <p className="py-0.5">
+                      <span className="font-medium">Telefone: </span>
+                      {item.telefone}
+                    </p>
+                    <p className="py-0.5">
+                      <span className="font-medium">Email: </span>
+                      {item.email}
+                    </p>
+                  </div>
+
                 </div>
               ))}
             </div>

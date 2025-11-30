@@ -16,9 +16,8 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
     // no useEffect
     useEffect(() => {
         if (dados) {
-            console.log("ModalPagamento recebeu dados:", dados);
             setForm({
-                id: dados.id ?? "",   // agora 0 continua 0
+                id: dados.id ?? "",
                 valor_pago: "",
             });
         }

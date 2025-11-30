@@ -24,9 +24,7 @@ export default function CadastroEspacoPage() {
       if (dados) setEspacos(dados);
 
       const end = await listarEnderecos();
-      console.log("teste: ", end);
       if (end) setEnderecos(end);
-      console.log("Dados: ", dados);
     }
     carregar();
   }, []);
@@ -192,18 +190,39 @@ export default function CadastroEspacoPage() {
                     </button>
 
                     <li className="rounded-md p-3 bg-orange-50 text-gray-800">
-                      <p><span>Nome:</span> {item.nome}</p>
-                      <p><span>Tipo:</span> {item.tipo}</p>
-                      <p><span>Capacidade:</span> {item.capacidade}</p>
-                      <p><span>Preço:</span> {item.preco}</p>
+                      <div className="flex flex-col">
+                        <p className="py-0.5">
+                          <span className="font-medium">Nome: </span>
+                          {item.nome}
+                        </p>
+                        <p className="py-0.5">
+                          <span className="font-medium">Tipo: </span>
+                          {item.tipo}
+                        </p>
+                        <p className="py-0.5">
+                          <span className="font-medium">Capacidade: </span>
+                          {item.capacidade}
+                        </p>
+                        <p className="py-0.5">
+                          <span className="font-medium">Preço: </span>
+                          {item.preco}
+                        </p>
 
-                      {enderecoFilial && (
-                        <>
-                          <p><span>Endereço:</span> {enderecoFilial.rua}, {enderecoFilial.numero}</p>
-                          <p><span>Cidade:</span> {enderecoFilial.cidade}/{enderecoFilial.estado}</p>
-                        </>
-                      )}
+                        {enderecoFilial && (
+                          <>
+                            <p className="py-0.5">
+                              <span className="font-medium">Endereço: </span>
+                              {enderecoFilial.rua}, {enderecoFilial.numero}
+                            </p>
+                            <p className="py-0.5">
+                              <span className="font-medium">Cidade: </span>
+                              {enderecoFilial.cidade}/{enderecoFilial.estado}
+                            </p>
+                          </>
+                        )}
+                      </div>
                     </li>
+
                   </div>
                 );
               })}

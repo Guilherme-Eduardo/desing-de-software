@@ -40,8 +40,6 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos
     async function handleSubmit(e) {
         e.preventDefault();
 
-        console.log ("ID: ", form.id);
-        console.log ("FORMS: ", form);
         await atualizarEndereco(form.id, form);
 
         if (setEnderecos) {

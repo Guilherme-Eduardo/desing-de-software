@@ -39,10 +39,10 @@ export default function CadastroEnderecoPage() {
     e.target.reset(); // limpa o formulário
   }
 
-async function handleRemoveEndereco(id) {
-  await removerEndereco(id);
-  setEnderecos((prev) => prev.filter(e => e.id !== id));
-}
+  async function handleRemoveEndereco(id) {
+    await removerEndereco(id);
+    setEnderecos((prev) => prev.filter(e => e.id !== id));
+  }
 
 
 
@@ -206,14 +206,36 @@ async function handleRemoveEndereco(id) {
                   >
                     <SyncAltIcon fontSize="medium" />
                   </button>
-                  <p><span>Rua:</span> {item.rua}</p>
-                  <p><span>Número:</span> {item.numero}</p>
-                  <p><span>Bairro:</span> {item.bairro}</p>
-                  <p><span>Cidade:</span> {item.cidade}</p>
-                  <p><span>Estado:</span> {item.estado}</p>
-                  {item.complemento && (
-                    <p><span>Complemento:</span> {item.complemento}</p>
-                  )}
+                  <div className="flex flex-col">
+                    <p className="py-0.5">
+                      <span className="font-medium">Rua: </span>
+                      {item.rua}
+                    </p>
+                    <p className="py-0.5">
+                      <span className="font-medium">Número: </span>
+                      {item.numero}
+                    </p>
+                    <p className="py-0.5">
+                      <span className="font-medium">Bairro: </span>
+                      {item.bairro}
+                    </p>
+                    <p className="py-0.5">
+                      <span className="font-medium">Cidade: </span>
+                      {item.cidade}
+                    </p>
+                    <p className="py-0.5">
+                      <span className="font-medium">Estado: </span>
+                      {item.estado}
+                    </p>
+
+                    {item.complemento && (
+                      <p className="py-0.5">
+                        <span className="font-medium">Complemento: </span>
+                        {item.complemento}
+                      </p>
+                    )}
+                  </div>
+
                 </div>
               ))}
             </ul>
