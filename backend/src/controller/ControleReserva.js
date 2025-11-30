@@ -40,7 +40,7 @@ export async function criarReserva(req, res, next) {
     const total = await servicoEspaco.getTotal(Number(espacoId));
 
     // Verificar disponibilidade
-    const disponivel = servicoReserva.verificaDisponibilidade(
+    const disponivel = await servicoReserva.verificarDisponibilidade(
       Number(espacoId),
       inicio,
       fim
@@ -96,6 +96,7 @@ export async function removerReserva(req, res, next) {
 
 
 export async function pagarReserva(req, res, next) {
+
   try {
     const { id } = req.params;
     const { valor_pago } = req.body;
@@ -103,10 +104,10 @@ export async function pagarReserva(req, res, next) {
     const reservaId = Number(id);
     const valorNum = Number(valor_pago);
 
-    const resultado = await servicoReserva.pagarReserva({
+    const resultado = await servicoReserva.pagarReserva(
       reservaId,
-      valorPago: valorNum,
-    });
+      valorNum,
+    );
 
     if (resultado.erro) {
       return res.status(resultado.statusCode || 400).json({

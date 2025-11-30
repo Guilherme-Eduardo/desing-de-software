@@ -32,11 +32,11 @@ export default class Reserva {
    * Reconstrói uma Reserva a partir de um objeto simples (JSON),
    * como o lido do arquivo.
    */
-  static fromObject(obj) {
+  static fromObject(id, obj) {
     if (!obj) return null;
 
     return new Reserva(
-      obj.id,
+      id,
       obj.inicio,
       obj.fim,
       // dependendo de como você salva:

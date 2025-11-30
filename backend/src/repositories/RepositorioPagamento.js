@@ -6,6 +6,10 @@ export default class RepositorioPagamento {
     this.path = "./db/pagamentos_db.json";
   }  
   
+   async proxID () {
+    return this.lerJSON().length;
+  }
+
   /* Ler Arquivo de Dados de Pagamento */
   async lerJSON() {
     
@@ -46,7 +50,7 @@ export default class RepositorioPagamento {
   // Atualiza um pagamento
   async atualizarPagamento(pagamento) {
 
-      const lista = await lerJSON ();
+      const lista = await this.lerJSON ();
 
       const index = lista.findIndex(item => item.id == pagamento.id);
       if (index == -1) {
@@ -54,9 +58,16 @@ export default class RepositorioPagamento {
           return false;
       }
       
-      lista[index] = pagamento;
+      lista[index] = {
+        id: pagamento.id,
+        total: pagamento.total,
+        valor_pago: pagamento.valor_pago, 
+        status: pagamento.status
+      };
 
       await this.salvarJSON(lista);
+
+      return true;
   }
 
     // Deleta pagamento

@@ -14,7 +14,7 @@ const router = express.Router();
 router.get("/reservas", ControleReserva.listarReservas);
 router.post("/reservas", ControleReserva.criarReserva);
 router.patch("/reservas/:id", ControleReserva.atualizarReserva);
-router.patch("/reservas/:id", ControleReserva.pagarReserva);
+router.put("/reservas/:id", ControleReserva.pagarReserva);
 router.delete("/reservas/:id", ControleReserva.removerReserva);
 
 

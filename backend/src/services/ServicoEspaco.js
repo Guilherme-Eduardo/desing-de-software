@@ -5,7 +5,6 @@ export default class ServicoEspaco {
 
     constructor() {
         this.repositorio = new RepositorioEspaco();
-        this.countId = 0;
     }
 
     async criarEspaco(dadosEspaco, imagem) {
@@ -13,7 +12,7 @@ export default class ServicoEspaco {
         const { nome, tipo, capacidade, preco, filialId, enderecoId } = dadosEspaco;
 
         const novoEspaco = new Espaco(
-            Number(this.countId),
+            Number(this.repositorio.proxID()),
             nome,
             tipo,
             capacidade,

@@ -5,7 +5,6 @@ import Cliente from "../entities/Cliente.js";
 export default class ServicoCliente {
   constructor() {
     this.repositorio = new RespositorioCliente();
-    this.count_id = 0;
   }
 
   /**
@@ -43,7 +42,7 @@ export default class ServicoCliente {
    * Cria um novo cliente.
    */
   async criaCliente(dadosCliente) {
-    const cliente = Cliente.fromObject(this.count_id, dadosCliente);
+    const cliente = Cliente.fromObject(this.repositorio.proxID(), dadosCliente);
     
     if (await this.repositorio.buscarCliente(cliente)) {
       console.log ("Cliente já cadastrado.")
