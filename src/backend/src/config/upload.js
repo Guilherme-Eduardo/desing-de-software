@@ -3,7 +3,6 @@ import path from "path";
 import crypto from "crypto";
 import { fileURLToPath } from "url";
 
-// Correção do __dirname no ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -18,7 +17,6 @@ destination:(req,file,cb) =>{
   }
 });
 
-// exporta já o multer configurado
 const upload = multer({ storage });
 
 export default upload;

@@ -7,7 +7,6 @@ export async function listarReservas() {
   return res.json();
 }
 
-// lib/api.js
 export async function pagarReserva(id, valorPago) {
   const res = await fetch(`${API_BASE_URL}/reservas/${id}`, {
     method: "PUT",
@@ -22,8 +21,6 @@ export async function pagarReserva(id, valorPago) {
 
   return res.json();
 }
-
-
 
 
 export async function obterReserva(id) {
@@ -73,7 +70,6 @@ export async function removerReserva(id) {
 
 
 
-// ESPAÇOS
 export async function listarEspacos() {
   const res = await fetch(`${API_BASE_URL}/espacos`);
   if (!res.ok) throw new Error("Erro");
@@ -89,7 +85,7 @@ export async function obterEspaco(id) {
 export async function criarEspaco(dados) {
   const res = await fetch(`${API_BASE_URL}/espacos`, {
     method: "POST",
-    body: dados  // AQUI vai o FormData SEM headers
+    body: dados
   });
 
   if (!res.ok) throw new Error(await res.text());
@@ -124,7 +120,6 @@ export async function removerEspaco(id) {
 
 
 
-// PAGAMENTOS
 export async function listarPagamentos() {
   const res = await fetch(`${API_BASE_URL}/pagamentos`);
   if (!res.ok) throw new Error("Erro");
@@ -161,7 +156,6 @@ export async function removerPagamento(id) {
 
 
 
-// CLIENTES
 export async function listarClientes() {
   const res = await fetch(`${API_BASE_URL}/clientes`);
   if (!res.ok) throw new Error("Erro");
@@ -213,7 +207,6 @@ export async function removerCliente(id) {
 
 
 
-// ENDEREÇOS
 export async function criarEndereco(dados) {
   const res = await fetch(`${API_BASE_URL}/enderecos`, {
     method: "POST",
@@ -262,7 +255,6 @@ export async function removerEndereco(id) {
 
 
 
-// ATUALIZAR PAGAMENTO
 export async function atualizarPagamento(id, dados) {
   const res = await fetch(`${API_BASE_URL}/pagamento/${id}`, {
     method: "PATCH",

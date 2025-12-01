@@ -17,7 +17,7 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos
         complemento: "",
     });
 
-    // Preenche o formulário quando os dados do cliente mudarem
+    /* Preenche o forms com dados do endereço */
     useEffect(() => {
         if (dados) {
             setForm({
@@ -37,16 +37,15 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos
         setForm((prev) => ({ ...prev, [name]: value }));
     }
 
+    /* Envia a solicitação de atualizacao de endereco pro back */
     async function handleSubmit(e) {
         e.preventDefault();
-
         await atualizarEndereco(form.id, form);
 
         if (setEnderecos) {
             const atualizada = await listarEnderecos();
             setEnderecos(atualizada);
         }
-
         onClose();
     }
 
@@ -62,10 +61,8 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos
                 },
             }}
         >
-            {/* Wrapper para centralizar na tela */}
             <div className="fixed inset-0 flex items-center justify-center">
                 <div className="relative w-full max-w-lg p-6 pb-16 rounded-lg bg-[#fff7e6] shadow-lg">
-                    {/* Botão X no canto superior direito */}
                     <button
                         type="button"
                         onClick={onClose}
@@ -84,7 +81,6 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <input type="hidden" name="id" value={form.id} />
 
-                        {/* Rua */}
                         <div>
                             <p
                                 htmlFor="rua"
@@ -105,7 +101,6 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos
                             />
                         </div>
 
-                        {/* Número */}
                         <div>
                             <p
                                 htmlFor="numero"
@@ -126,7 +121,6 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos
                             />
                         </div>
 
-                        {/* Bairro */}
                         <div>
                             <p
                                 htmlFor="bairro"
@@ -147,7 +141,6 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos
                             />
                         </div>
 
-                        {/* Cidade */}
                         <div>
                             <p
                                 htmlFor="cidade"
@@ -168,7 +161,6 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos
                             />
                         </div>
 
-                        {/* Estado */}
                         <div>
                             <p
                                 htmlFor="estado"
@@ -190,7 +182,6 @@ export default function ModalEnderecoUpdate({ open, onClose, dados, setEnderecos
                             />
                         </div>
 
-                        {/* Complemento (opcional) */}
                         <div>
                             <p
                                 htmlFor="complemento"

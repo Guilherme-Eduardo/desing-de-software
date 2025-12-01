@@ -17,7 +17,8 @@ export default function CadastroEspacoPage() {
   const [enderecos, setEnderecos] = useState([]);
   const [dadosEspaco, setDadosEspaco] = useState([]);
 
-  // Carregar endereços ao abrir a página
+  
+  /* Pega os dados do backend */
   useEffect(() => {
     async function carregar() {
       const dados = await listarEspacos();
@@ -29,12 +30,11 @@ export default function CadastroEspacoPage() {
     carregar();
   }, []);
 
-  // Enviar o formulário
+  /* Envia a requisição para o backend*/
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const formData = new FormData(e.target);  // mantém o arquivo!!
-
+    const formData = new FormData(e.target);
     await criarEspaco(formData);
 
     const atualizada = await listarEspacos();
@@ -44,14 +44,13 @@ export default function CadastroEspacoPage() {
   }
 
 
-
+ /* Função responsavel por remover os espacos e mante-los atualizados na listagem*/
   async function removerEspaco(id) {
     try {
       await fetch(`http://localhost:3000/espacos/${id}`, {
         method: "DELETE",
       });
 
-      // Atualiza a lista no front removendo a reserva deletada
       setEspacos((prev) => prev.filter((r) => r.id !== id));
 
     } catch (err) {

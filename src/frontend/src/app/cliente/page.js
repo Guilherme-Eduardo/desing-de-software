@@ -15,6 +15,7 @@ export default function CadastroClientePage() {
   const [openModal, setOpenModal] = useState(false);
   const [dadosCliente, setDadosCliente] = useState(null);
 
+  /* Carrega os dados pro front */
   useEffect(() => {
     async function carregar() {
       const dados = await listarClientes();
@@ -23,6 +24,7 @@ export default function CadastroClientePage() {
     carregar();
   }, []);
 
+  /* Envia o cadastro de cliente pro back */
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -37,6 +39,7 @@ export default function CadastroClientePage() {
     e.target.reset();
   }
 
+  /* Remove e atualiza o back */
   async function handleRemoveCliente(id) {
     try {
       await removerCliente(id);
@@ -60,7 +63,6 @@ export default function CadastroClientePage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
 
-            {/* Nome */}
             <div>
               <p htmlFor="nome" className="block text-sm font-medium text-gray-700 mb-1">
                 Nome completo
@@ -76,7 +78,6 @@ export default function CadastroClientePage() {
               />
             </div>
 
-            {/* Documento */}
             <div>
               <p htmlFor="cpf" className="block text-sm font-medium text-gray-700 mb-1">
                 Documento (CPF ou RG)
@@ -92,7 +93,6 @@ export default function CadastroClientePage() {
               />
             </div>
 
-            {/* Telefone */}
             <div>
               <p htmlFor="telefone" className="block text-sm font-medium text-gray-700 mb-1">
                 Telefone
@@ -107,7 +107,6 @@ export default function CadastroClientePage() {
               />
             </div>
 
-            {/* Email */}
             <div>
               <p htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 E-mail
@@ -132,7 +131,6 @@ export default function CadastroClientePage() {
           </form>
         </div>
 
-        {/* --- LISTAGEM --- */}
         <div className="w-full max-w-md bg-white shadow-lg rounded-xl border border-orange-200 p-8">
           <h1 className="text-2xl text-gray-700 font-semibold text-center mb-6">
             Lista de Clientes
@@ -148,14 +146,12 @@ export default function CadastroClientePage() {
                   key={item.id}
                   className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800"
                 >
-                  {/* Botão de deletar */}
                   <button
                     onClick={() => handleRemoveCliente(item.id)}
                     className="absolute top-2 right-2 text-red-600 hover:text-red-800"
                   >
                     <ClearIcon fontSize="medium" />
                   </button>
-                  {/* Atualizar */}
                   <button
                     onClick={() => { setOpenModal(true); setDadosCliente(item); }}
                     className="absolute top-10 right-2 text-blue-600 hover:text-blue-800"

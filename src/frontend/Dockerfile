@@ -17,6 +17,6 @@ RUN pnpm install
 # Agora copia o restante do código
 COPY . .
 
-EXPOSE 3002
+EXPOSE 3001
 
-CMD ["pnpm", "start"]
+CMD ["pnpm", "run", "dev" ,"--port", "3001"]

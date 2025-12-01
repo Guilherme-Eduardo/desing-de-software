@@ -6,7 +6,6 @@ export default class RepositorioFilial {
     this.path = "./db/filial_db.json";
   }
 
-  // Retorna o tamanho da lista
   async proxID() {
     const list = await this.lerJSON();
     return list.length;
@@ -18,7 +17,6 @@ export default class RepositorioFilial {
       const texto = await readFile(this.path, "utf-8");
       return JSON.parse(texto);
     } catch (err) {
-      // Se o arquivo não existir ou estiver vazio, retornamos lista vazia
       return [];
     }
   }
@@ -42,7 +40,6 @@ export default class RepositorioFilial {
     return encontrado || null;
   }
 
-  // Verifica se uma filial já existe
   async buscarFilial(filial) {
     const lista = await this.lerJSON();
 
@@ -98,7 +95,6 @@ export default class RepositorioFilial {
     const lista_2 = lista_1.filter(item => item.id !== id);
 
     if (lista_1.length === lista_2.length) {
-      // nada foi removido
       return false;
     }
 

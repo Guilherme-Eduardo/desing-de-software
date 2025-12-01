@@ -6,7 +6,6 @@ export default class RepositorioEndereco {
     this.path = "./db/endereco_db.json";
   }
 
-  // Retorna o tamanho de uma lista
   async proxID() {
     const list = await this.lerJSON();
     return list.length;
@@ -21,18 +20,15 @@ export default class RepositorioEndereco {
       return JSON.parse(texto); // transforma texto em objeto/array
     }
 
-    // Se o arquivo não existir ou estiver vazio
     catch (err) {
       return [];
     }
   }
 
-  // Salva uma lista em um arquivo JSON
   async salvarJSON(lista) {
     await writeFile(this.path, JSON.stringify(lista, null, 2));
   }
 
-  // Realiza uma busca por um Endereço através de seu ID
   async buscarPorId(id) {
 
     const lista = await this.lerJSON();
@@ -42,7 +38,6 @@ export default class RepositorioEndereco {
     return endereco;
   }
 
-  // Verifica se um enderço existe
   async buscarEndereco(endereco) {
 
     const lista = await this.lerJSON();
@@ -61,7 +56,6 @@ export default class RepositorioEndereco {
     return true;
   }
 
-  // Insere endereço já criado no arquivo
   async inserirEndereco(endereco) {
 
     const lista = await this.lerJSON();
@@ -72,7 +66,6 @@ export default class RepositorioEndereco {
   }
 
 
-  // Atualiza um endereço
   async atualizarEndereco(endereco) {
 
     const lista = await this.lerJSON();
@@ -90,7 +83,6 @@ export default class RepositorioEndereco {
     return endereco;
   }
 
-  // Deleta endereço
   async deletarEndereco(id) {
 
     const lista_1 = await this.lerJSON();
@@ -105,7 +97,6 @@ export default class RepositorioEndereco {
     return true;
   }
 
-  // Retorna uma lista com todos os endereços
   async listarEnderecos() {
     return await this.lerJSON();
   }

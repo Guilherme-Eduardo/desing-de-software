@@ -11,7 +11,6 @@ export default class Reserva {
     this.pagamento = pagamento;
   }
 
-  // GETTERS
   getPagamento() {
     return this.pagamento;
   }
@@ -20,7 +19,6 @@ export default class Reserva {
     return this.pagamento?.id;
   }
 
-  // SETTERS
   setInicio(inicio) { this.inicio = inicio; }
   setFim(fim) { this.fim = fim; }
   setEspaco(espaco) { this.espaco = espaco; }
@@ -28,10 +26,6 @@ export default class Reserva {
   setStatus(status) { this.status = status; }
   setPagamento(pagamento) { this.pagamento = pagamento; }
 
-  /**
-   * Reconstrói uma Reserva a partir de um objeto simples (JSON),
-   * como o lido do arquivo.
-   */
   static fromObject(id, obj) {
     if (!obj) return null;
 
@@ -39,17 +33,13 @@ export default class Reserva {
       id,
       obj.inicio,
       obj.fim,
-      // dependendo de como você salva:
       obj.espaco ?? obj.espacoId,
       obj.cliente ?? obj.clienteId,
       obj.status,
-      obj.pagamento // { id, total, valor_pago, status }
+      obj.pagamento
     );
   }
 
-  /**
-   * Serializa a reserva para JSON, incluindo o pagamento.
-   */
   toJSON() {
     return {
       id: this.id,

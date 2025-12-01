@@ -6,7 +6,6 @@ export default class RepositorioPagamento {
     this.path = "./db/pagamentos_db.json";
   }  
   
-  // Retorna o tamanho da lista
    async proxID () {
     const list = await this.lerJSON();
     return list.length;
@@ -20,19 +19,16 @@ export default class RepositorioPagamento {
       return JSON.parse(texto); 
     }  
   
-    // Se o arquivo não existir ou estiver vazio
     catch (err) {
       return [];
     }
   }
 
-  // Salva uma lista como um arquivo
   async salvarJSON (lista) {
 
     await writeFile(this.path, JSON.stringify (lista, null, 2));
   }
 
-  // Realiza uma busca por um pagamento através do seu ID
   async buscarPorId(id) {
     const lista = await this.lerJSON();
     const encontrado = lista.find((item) => item.id === id);
@@ -40,7 +36,6 @@ export default class RepositorioPagamento {
     return encontrado ? encontrado : null;
   }
 
-  // Insere pagamento já criado no arquivo
   async inserirPagamento(pagamento) {
 
       const lista = await this.lerJSON ();
@@ -51,7 +46,6 @@ export default class RepositorioPagamento {
   }
 
 
-  // Atualiza um pagamento
   async atualizarPagamento(pagamento) {
 
       const lista = await this.lerJSON ();
@@ -74,7 +68,6 @@ export default class RepositorioPagamento {
       return true;
   }
 
-    // Deleta pagamento
   async deletarPagamento(pagamento) {
 
       const lista_1 = await this.lerJSON ();
@@ -94,7 +87,6 @@ export default class RepositorioPagamento {
       return true;
   }
 
-  // Retorna uma lista de Pagamentos
   async listarPagamentos () {
 
     const lista =  await this.lerJSON();

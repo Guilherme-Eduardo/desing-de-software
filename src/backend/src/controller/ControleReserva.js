@@ -27,19 +27,16 @@ export async function criarReserva(req, res, next) {
     if (req.body.espacoId) req.body.espacoId = Number(req.body.espacoId);
     if (req.body.clienteId) req.body.clienteId = Number(req.body.clienteId);
 
-    // Verificar se cliente existe
     const existeCliente = servicoCliente.verificaValidade(Number(clienteId));
     if (!existeCliente)
       return res.status(404).json({ erro: "Cliente não encontrado" });
 
-    // Verificar se espaço existe
     const existeEspaco = servicoEspaco.verificaValidade(Number(espacoId));
     if (!existeEspaco)
       return res.status(404).json({ erro: "Espaço não encontrado" });
 
     const total = await servicoEspaco.getTotal(Number(espacoId));
 
-    // Verificar disponibilidade
     const disponivel = await servicoReserva.verificarDisponibilidade(
       Number(espacoId),
       inicio,

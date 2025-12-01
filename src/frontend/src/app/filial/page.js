@@ -16,6 +16,7 @@ export default function CadastroFilialPage() {
   const [dadosFilial, setDadosFilial] = useState(null);
   const [enderecos, setEnderecos] = useState([]);
 
+  /* Carrega as informações de filiais para o front*/ 
   useEffect(() => {
     async function carregar() {
       const dados = await listarFiliais();
@@ -26,13 +27,13 @@ export default function CadastroFilialPage() {
     carregar();
   }, []);
 
+  /* Envia uma requisicao para criar uma filial*/
   async function handleSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const dados = Object.fromEntries(formData.entries());
 
-    console.log ("Dados filial: ", dados);
     await criarFilial(dados);
 
     const atualizada = await listarFiliais();
@@ -41,6 +42,7 @@ export default function CadastroFilialPage() {
     e.target.reset();
   }
 
+  /* Remove uma filial e mantem os dados atualizados no front*/
   async function handleRemoveFilial(id) {
     try {
       await removerFilial(id);
@@ -64,7 +66,6 @@ export default function CadastroFilialPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
 
-            {/* Nome */}
             <div>
               <p htmlFor="nome" className="block text-sm font-medium text-gray-700 mb-1">
                 Razão Social
@@ -80,7 +81,6 @@ export default function CadastroFilialPage() {
               />
             </div>
 
-            {/* Documento */}
             <div>
               <p htmlFor="cnpj" className="block text-sm font-medium text-gray-700 mb-1">
                 Documento (CNPJ)
@@ -128,7 +128,6 @@ export default function CadastroFilialPage() {
           </form>
         </div>
 
-        {/* --- LISTAGEM --- */}
         <div className="w-full max-w-md bg-white shadow-lg rounded-xl border border-orange-200 p-8">
           <h1 className="text-2xl text-gray-700 font-semibold text-center mb-6">
             Lista de filiais

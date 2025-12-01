@@ -6,7 +6,6 @@ export default class RepositorioCliente {
     this.path = "./db/cliente_db.json";
   }
 
-  // Retorna o tamanho da lista
   async proxID() {
     const list = await this.lerJSON();
     return list.length;
@@ -20,18 +19,15 @@ export default class RepositorioCliente {
       return JSON.parse(texto);
     }
 
-    // Se o arquivo não existir ou estiver vazio
     catch (err) {
       return [];
     }
   }
 
-  // Salva uma lista em um arquivo JSON
   async salvarJSON(lista) {
     await writeFile(this.path, JSON.stringify(lista, null, 2));
   }
 
-  // Bsca por um Cliente através do seu ID
   async buscarPorId(id) {
 
     const lista = await this.lerJSON();
@@ -41,7 +37,6 @@ export default class RepositorioCliente {
     return index;
   }
 
-  // Verifica se já existe um cliente 
   async buscarCliente(cliente) {
 
     const lista = await this.lerJSON();
@@ -59,7 +54,6 @@ export default class RepositorioCliente {
     return true;
   }
 
-  // Insere cliente já criado no arquivo
   async inserirCliente(cliente) {
 
     const lista = await this.lerJSON();
@@ -72,7 +66,6 @@ export default class RepositorioCliente {
   }
 
 
-  // Atualiza um cliente
   async atualizarCliente(cliente) {
 
     const lista = await this.lerJSON();
@@ -90,7 +83,6 @@ export default class RepositorioCliente {
     return cliente;
   }
 
-  // Deleta cliente
   async deletarCliente(id) {
 
     const lista_1 = await this.lerJSON();
@@ -106,7 +98,6 @@ export default class RepositorioCliente {
   }
 
 
-  // Retorna uma lista com todos os clientes cadastrados
   async listarClientes() {
 
     return await this.lerJSON();

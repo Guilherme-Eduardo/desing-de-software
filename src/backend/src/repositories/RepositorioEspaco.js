@@ -6,7 +6,6 @@ export default class RepositorioEspaco {
     this.path = "./db/espaco_db.json";
   }
 
-    // Retorna o tamanho da lista
    async proxID () {
     const list = await this.lerJSON();
     return list.length;
@@ -20,18 +19,15 @@ export default class RepositorioEspaco {
       return JSON.parse(texto); 
     } 
   
-    // Se o arquivo não existir ou estiver vazio
     catch (err) {
       return [];
     }
   }
 
-  // Salva uma lista em um arquivo JSON
   async salvarJSON (lista) {
     await writeFile(this.path, JSON.stringify(lista, null, 2));
   }
 
-  // Retorna um Espaço aprtir do seu ID
   async buscarPorId (id) {
 
     const lista = await this.lerJSON();
@@ -41,7 +37,6 @@ export default class RepositorioEspaco {
     return espaco;
   }
 
-// Verifica se já existe um espaço com as mesmas informações cadastrado
   async buscarEspaco(espaco) {
     
     const lista = await this.lerJSON();
@@ -62,7 +57,6 @@ export default class RepositorioEspaco {
   }
 
 
-  // Insere espaco já criado no arquivo
   async inserirEspaco (espaco) {
     
       const lista = await this.lerJSON ();
@@ -73,7 +67,6 @@ export default class RepositorioEspaco {
   }
 
 
-  // Atualiza um Espaço
   async atualizarEspaco (espaco) {
     
     const lista = await this.lerJSON ();
@@ -91,7 +84,6 @@ export default class RepositorioEspaco {
     return true;
   }
 
-  // Deleta Espaço  
   async deletarEspaco (id) {
 
     const lista_1 = await this.lerJSON ();
@@ -107,7 +99,6 @@ export default class RepositorioEspaco {
     return true;
   }
 
-  // Retorna uma lista com todos os espaços disponíveis 
   async listarEspacos () {
     return await this.lerJSON();
   }
