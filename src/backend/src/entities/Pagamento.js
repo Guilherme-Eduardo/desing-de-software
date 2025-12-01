@@ -1,0 +1,44 @@
+import { StatusPagamento } from "./StatusPagamento.js";
+
+export default class Pagamento {
+
+    constructor (id, total, pago = 0, status = StatusPagamento.PENDENTE) {
+
+        this.id = id;
+        this.valor_pago = pago;
+        this.total = total;
+        this.status = status;
+    }
+
+    getID () { return this.id; }
+    getStatus () { return this.status; }
+    getPago() { return this.valor_pago; }
+    getTotal() { return this.total; }
+
+    setStatus (status) { this.status = status; }
+    setPago(pago) { this.valor_pago = pago; }
+    setTotal(total){ this.total = total; }
+    
+    static fromObject (id, obj) {
+
+        if (!obj)
+            throw new Error ("Objeto Pagamento não encontrado.");
+
+        return new Pagamento (
+            id,
+            obj.total,
+            obj.valor_pago,
+            obj.status
+        )
+    }
+
+    toJSON() {
+
+        return {
+            id: this.id,
+            valor_pago: this.valor_pago,
+            total: this.total,
+            status: this.status
+        }
+    }
+}
