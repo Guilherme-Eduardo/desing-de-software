@@ -2,18 +2,18 @@ services:
   backend:
     container_name: backend_seu_cantinho
     build:
-      context: ./backend
+      context: ./src/backend
       dockerfile: Dockerfile
     ports:
-      - "3002:3002"
+      - "3000:3000"
 
   frontend:
     container_name: frontend-seu_cantinho
     build:
-      context: ./frontend/meu_cantinho
+      context: ./src/frontend
       dockerfile: Dockerfile
     ports:
-    - '3000:3000'
+    - '3001:3001'
     depends_on:
     - backend
 

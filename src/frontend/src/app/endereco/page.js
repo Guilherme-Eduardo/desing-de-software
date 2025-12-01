@@ -15,7 +15,7 @@ export default function CadastroEnderecoPage() {
   const [openModal, setOpenModal] = useState(false);
   const [dadosEndereco, setDadosEndereco] = useState(null);
 
-  // Carregar endereços ao abrir a página
+  /* Carrega os enderecos que vieram do back*/
   useEffect(() => {
     async function carregar() {
       const dados = await listarEnderecos();
@@ -24,21 +24,22 @@ export default function CadastroEnderecoPage() {
     carregar();
   }, []);
 
-  // Enviar o formulário
+  /* Envia requisicao para a criação de enderecos*/
   async function handleSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const dados = Object.fromEntries(formData.entries());
 
-    await criarEndereco(dados);              // cria o endereço
+    await criarEndereco(dados);
 
-    const atualizada = await listarEnderecos(); // recarrega a lista
+    const atualizada = await listarEnderecos();
     setEnderecos(atualizada);
 
-    e.target.reset(); // limpa o formulário
+    e.target.reset();
   }
 
+  /* Remove os enderecos e mantem a lista atualizada */
   async function handleRemoveEndereco(id) {
     await removerEndereco(id);
     setEnderecos((prev) => prev.filter(e => e.id !== id));
@@ -56,7 +57,6 @@ export default function CadastroEnderecoPage() {
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Rua */}
             <div>
               <p
                 htmlFor="rua"
@@ -75,7 +75,6 @@ export default function CadastroEnderecoPage() {
               />
             </div>
 
-            {/* Número */}
             <div>
               <p
                 htmlFor="numero"
@@ -94,7 +93,6 @@ export default function CadastroEnderecoPage() {
               />
             </div>
 
-            {/* Bairro */}
             <div>
               <p
                 htmlFor="bairro"
@@ -113,7 +111,6 @@ export default function CadastroEnderecoPage() {
               />
             </div>
 
-            {/* Cidade */}
             <div>
               <p
                 htmlFor="cidade"
@@ -132,7 +129,6 @@ export default function CadastroEnderecoPage() {
               />
             </div>
 
-            {/* Estado */}
             <div>
               <p
                 htmlFor="estado"
@@ -152,7 +148,6 @@ export default function CadastroEnderecoPage() {
               />
             </div>
 
-            {/* Complemento (opcional) */}
             <div>
               <p
                 htmlFor="complemento"
@@ -192,14 +187,12 @@ export default function CadastroEnderecoPage() {
             <ul className="space-y-3">
               {enderecos.map((item) => (
                 <div key={item.id} className="relative border rounded-md p-3 shadow-sm bg-orange-50 text-gray-800">
-                  {/* Botão de deletar */}
                   <button
                     onClick={() => handleRemoveEndereco(item.id)}
                     className="absolute top-2 right-2 text-red-600 hover:text-red-800"
                   >
                     <ClearIcon fontSize="medium" />
                   </button>
-                  {/* Atualizar */}
                   <button
                     onClick={() => { setOpenModal(true); setDadosEndereco(item); }}
                     className="absolute top-10 right-2 text-blue-600 hover:text-blue-800"

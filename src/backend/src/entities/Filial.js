@@ -17,16 +17,7 @@ export default class Filial {
     this.enderecoId = Number(enderecoId);
   }
 
-  /**
-   * Cria uma Filial a partir de um objeto "cru" (por exemplo, vindo de JSON).
-   * Espera algo como:
-   * {
-   *   id,
-   *   nome,
-   *   cnpj,
-   *   endereco: { ... }
-   * }
-   */
+
   static fromObject(id, obj) {
     if (!obj) throw new Error("Objeto de filial inválido");
 
@@ -39,9 +30,7 @@ export default class Filial {
   }
 
 
-  /**
-   * Retorna uma representação JSON da filial.
-   */
+ 
   toJSON() {
     return {
       id: this.id,

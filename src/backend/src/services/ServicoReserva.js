@@ -119,15 +119,14 @@ export default class ServicoReserva {
 
       const colisao = (dataInicio < itemFim) && (itemInicio < dataFim);
 
-      const sentido = (dataFim > dataInicio)
-
-      if (colisao || sentido) {
+      if (colisao) {
         return false;
       }
     }
 
     return true;
   }
+
 
   // Realiza o pagamnto da reserva
   async pagarReserva(reservaId, valorPago) {

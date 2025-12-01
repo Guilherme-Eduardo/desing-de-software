@@ -12,8 +12,7 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
         valor_pago: ""
     });
 
-    // Preenche o formulário quando os dados do cliente mudarem
-    // no useEffect
+    /* Carrega os dados para serem exibidos no front*/
     useEffect(() => {
         if (dados) {
             setForm({
@@ -24,7 +23,7 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
     }, [dados]);
 
 
-    // no handleSubmit
+    /* Envia uma requisicao para criar uma reserva */
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -44,7 +43,6 @@ export default function ModalPagamento({ open, onClose, dados, setReservas }) {
 
         onClose();
     }
-
 
 
     function handleChange(e) {

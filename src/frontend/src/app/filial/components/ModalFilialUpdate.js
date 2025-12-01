@@ -14,7 +14,7 @@ export default function ModalFilialUpdate({ open, onClose, dados, setFiliais, en
     enderecoId: "",
   });
 
-  // Preenche os campos ao abrir o modal
+  /* Atualiza as informações do formulario */
   useEffect(() => {
     if (dados) {
       setForm({
@@ -31,11 +31,9 @@ export default function ModalFilialUpdate({ open, onClose, dados, setFiliais, en
     setForm(prev => ({ ...prev, [name]: value }));
   }
 
+  /* Envia a requisicao para atualizar uma filial */
   async function handleSubmit(e) {
     e.preventDefault();
-
-    console.log("ENVIANDO UPDATE:", form);
-    console.log("ID que estou mandando para atualizarFilial:", form.id);
 
     await atualizarFilial(form.id, form);
 
@@ -72,10 +70,8 @@ export default function ModalFilialUpdate({ open, onClose, dados, setFiliais, en
 
           <form onSubmit={handleSubmit} className="space-y-4">
 
-            {/* ID OCULTO */}
             <input type="hidden" name="id" value={form.id} />
 
-            {/* Nome */}
             <div>
               <p htmlFor="nome" className="block text-sm font-medium text-gray-700 mb-1">
                 Razão Social
@@ -92,7 +88,6 @@ export default function ModalFilialUpdate({ open, onClose, dados, setFiliais, en
               />
             </div>
 
-            {/* CNPJ */}
             <div>
               <p htmlFor="cnpj" className="block text-sm font-medium text-gray-700 mb-1">
                 CNPJ
@@ -108,7 +103,6 @@ export default function ModalFilialUpdate({ open, onClose, dados, setFiliais, en
               />
             </div>
 
-            {/* Endereço */}
             <div>
               <p htmlFor="enderecoId" className="block text-sm font-medium text-gray-700 mb-1">
                 Endereço

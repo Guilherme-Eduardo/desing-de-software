@@ -15,7 +15,6 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
     email: "",
   });
 
-  // Preenche o formulário quando os dados do cliente mudarem
   useEffect(() => {
     if (dados) {
       setForm({
@@ -28,11 +27,13 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
     }
   }, [dados]);
 
+  /* Atualização */
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   }
 
+  /* Envia a requisição de criar cliente para o back */
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -58,10 +59,8 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
         },
       }}
     >
-      {/* Wrapper para centralizar na tela */}
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="relative w-full max-w-lg p-6 pb-16 rounded-lg bg-[#fff7e6] shadow-lg">
-          {/* Botão X no canto superior direito */}
           <button
             type="button"
             onClick={onClose}
@@ -79,7 +78,6 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <input type="hidden" name="id" value={form.id} />
-            {/* Nome */}
             <div>
               <p
                 htmlFor="nome"
@@ -100,7 +98,6 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
               />
             </div>
 
-            {/* cpf */}
             <div>
               <p
                 htmlFor="cpf"
@@ -121,7 +118,6 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
               />
             </div>
 
-            {/* Telefone */}
             <div>
               <p
                 htmlFor="telefone"
@@ -141,7 +137,6 @@ export default function ModalClienteUpdate({ open, onClose, dados, setClientes }
               />
             </div>
 
-            {/* Email */}
             <div>
               <p
                 htmlFor="email"

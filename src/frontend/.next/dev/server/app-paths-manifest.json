@@ -1,9 +1,3 @@
 {
-  "/cliente/page": "app/cliente/page.js",
-  "/endereco/page": "app/endereco/page.js",
-  "/espaco/page": "app/espaco/page.js",
-  "/filial/page": "app/filial/page.js",
-  "/iniciar/page": "app/iniciar/page.js",
-  "/page": "app/page.js",
   "/reserva/page": "app/reserva/page.js"
 }

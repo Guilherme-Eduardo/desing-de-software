@@ -1,377 +1,801 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info:
-  title: API de Reserva de Espaços
+  title: Seu Cantinho API
   version: 1.0.0
-  description: >
-    API para gestão de reservas de espaços e pagamentos.
-    Os dados são persistidos em arquivos JSON (sem uso de banco de dados relacional).
+  description: |
+    API de reservas, espaços, clientes, endereços, filiais e pagamentos
+    do sistema "Seu Cantinho". Os dados são armazenados em arquivos JSON.
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local de desenvolvimento
 
 paths:
   /reservas:
     get:
-      summary: Lista todas as reservas
       tags: [Reservas]
+      summary: Lista todas as reservas
       responses:
-        '200':
+        "200":
           description: Lista de reservas
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Reserva'
+                  $ref: "#/components/schemas/Reserva"
     post:
-      summary: Cria uma nova reserva
       tags: [Reservas]
+      summary: Cria uma nova reserva
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NovaReserva'
+              $ref: "#/components/schemas/ReservaCreate"
       responses:
-        '201':
+        "201":
           description: Reserva criada com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Reserva'
-        '400':
-          description: Dados inválidos
+                $ref: "#/components/schemas/Reserva"
+        "404":
+          description: Cliente ou espaço não encontrado, ou sem disponibilidade
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /reservas/{id}:
-    put:
-      summary: Atualiza uma reserva existente
+    patch:
       tags: [Reservas]
+      summary: Atualiza uma reserva existente
       parameters:
-        - in: path
-          name: id
+        - name: id
+          in: path
           required: true
+          description: ID da reserva
           schema:
             type: integer
-            format: int64
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NovaReserva'
+              $ref: "#/components/schemas/ReservaUpdate"
       responses:
-        '200':
+        "200":
           description: Reserva atualizada com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Reserva'
-        '404':
-          description: Reserva não encontrada
-    delete:
-      summary: Remove uma reserva
+                $ref: "#/components/schemas/Reserva"
+        "404":
+          description: Reserva não encontrada ou indisponibilidade de datas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
       tags: [Reservas]
+      summary: Registra pagamento de uma reserva
+      description: Atualiza o pagamento de uma reserva (pagar reserva).
       parameters:
-        - in: path
-          name: id
+        - name: id
+          in: path
           required: true
+          description: ID da reserva
           schema:
             type: integer
-            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReservaPagar"
       responses:
-        '204':
-          description: Reserva removida com sucesso
-        '404':
+        "200":
+          description: Reserva paga/atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reserva"
+        "404":
           description: Reserva não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags: [Reservas]
+      summary: Remove uma reserva
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da reserva
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Reserva removida com sucesso
+        "404":
+          description: Reserva não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /espacos:
     get:
-      summary: Lista todos os espaços
       tags: [Espaços]
+      summary: Lista todos os espaços
       responses:
-        '200':
+        "200":
           description: Lista de espaços
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Espaco'
+                  $ref: "#/components/schemas/Espaco"
     post:
-      summary: Cria um novo espaço
       tags: [Espaços]
+      summary: Cria um novo espaço
+      description: Cria um novo espaço com upload de imagem.
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/NovoEspaco'
+              type: object
+              properties:
+                nome:
+                  type: string
+                tipo:
+                  type: string
+                capacidade:
+                  type: string
+                preco:
+                  type: string
+                enderecoId:
+                  type: integer
+                imagem:
+                  type: string
+                  format: binary
+              required:
+                - nome
+                - tipo
+                - capacidade
+                - preco
+                - enderecoId
       responses:
-        '201':
+        "201":
           description: Espaço criado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Espaco'
-        '400':
+                $ref: "#/components/schemas/Espaco"
+        "400":
           description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /espacos/{id}:
-    put:
-      summary: Atualiza um espaço existente
+    patch:
       tags: [Espaços]
+      summary: Atualiza um espaço
+      description: Atualiza um espaço, permitindo trocar a imagem.
       parameters:
-        - in: path
-          name: id
+        - name: id
+          in: path
           required: true
+          description: ID do espaço
           schema:
             type: integer
-            format: int64
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/NovoEspaco'
+              type: object
+              properties:
+                nome:
+                  type: string
+                tipo:
+                  type: string
+                capacidade:
+                  type: string
+                preco:
+                  type: string
+                enderecoId:
+                  type: integer
+                imagem:
+                  type: string
+                  format: binary
       responses:
-        '200':
+        "200":
           description: Espaço atualizado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Espaco'
-        '404':
+                $ref: "#/components/schemas/Espaco"
+        "404":
           description: Espaço não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
-      summary: Remove um espaço
       tags: [Espaços]
+      summary: Remove um espaço
       parameters:
-        - in: path
-          name: id
+        - name: id
+          in: path
           required: true
+          description: ID do espaço
           schema:
             type: integer
-            format: int64
       responses:
-        '204':
+        "204":
           description: Espaço removido com sucesso
-        '404':
+        "404":
           description: Espaço não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /pagamentos:
     get:
-      summary: Lista todos os pagamentos
       tags: [Pagamentos]
+      summary: Lista todos os pagamentos
       responses:
-        '200':
+        "200":
           description: Lista de pagamentos
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pagamento'
+                  $ref: "#/components/schemas/Pagamento"
     post:
-      summary: Registra um novo pagamento
       tags: [Pagamentos]
+      summary: Cria um novo pagamento
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NovoPagamento'
+              $ref: "#/components/schemas/PagamentoCreate"
       responses:
-        '201':
-          description: Pagamento registrado com sucesso
+        "201":
+          description: Pagamento criado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pagamento'
-        '400':
+                $ref: "#/components/schemas/Pagamento"
+        "400":
           description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /pagamentos/{id}:
-    put:
-      summary: Atualiza dados de um pagamento
+    patch:
       tags: [Pagamentos]
+      summary: Atualiza um pagamento
       parameters:
-        - in: path
-          name: id
+        - name: id
+          in: path
           required: true
+          description: ID do pagamento
           schema:
             type: integer
-            format: int64
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AtualizarPagamento'
+              $ref: "#/components/schemas/PagamentoUpdate"
       responses:
-        '200':
+        "200":
           description: Pagamento atualizado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pagamento'
-        '404':
+                $ref: "#/components/schemas/Pagamento"
+        "404":
           description: Pagamento não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
-      summary: Remove um pagamento
       tags: [Pagamentos]
+      summary: Remove um pagamento
       parameters:
-        - in: path
-          name: id
+        - name: id
+          in: path
           required: true
+          description: ID do pagamento
           schema:
             type: integer
-            format: int64
       responses:
-        '204':
+        "204":
           description: Pagamento removido com sucesso
-        '404':
+        "404":
           description: Pagamento não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /clientes:
+    get:
+      tags: [Clientes]
+      summary: Lista todos os clientes
+      responses:
+        "200":
+          description: Lista de clientes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cliente"
+    post:
+      tags: [Clientes]
+      summary: Cria um novo cliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClienteCreate"
+      responses:
+        "201":
+          description: Cliente criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cliente"
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /clientes/{id}:
+    patch:
+      tags: [Clientes]
+      summary: Atualiza um cliente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do cliente
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClienteUpdate"
+      responses:
+        "200":
+          description: Cliente atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cliente"
+        "404":
+          description: Cliente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags: [Clientes]
+      summary: Remove um cliente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do cliente
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Cliente removido com sucesso
+        "404":
+          description: Cliente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /filiais:
+    get:
+      tags: [Filiais]
+      summary: Lista todas as filiais
+      responses:
+        "200":
+          description: Lista de filiais
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Filial"
+    post:
+      tags: [Filiais]
+      summary: Cria uma nova filial
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilialCreate"
+      responses:
+        "201":
+          description: Filial criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Filial"
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /filiais/{id}:
+    patch:
+      tags: [Filiais]
+      summary: Atualiza uma filial
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da filial
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilialUpdate"
+      responses:
+        "200":
+          description: Filial atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Filial"
+        "404":
+          description: Filial não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags: [Filiais]
+      summary: Remove uma filial
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da filial
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Filial removida com sucesso
+        "404":
+          description: Filial não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /enderecos:
+    get:
+      tags: [Endereços]
+      summary: Lista todos os endereços
+      responses:
+        "200":
+          description: Lista de endereços
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Endereco"
+    post:
+      tags: [Endereços]
+      summary: Cria um novo endereço
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnderecoCreate"
+      responses:
+        "201":
+          description: Endereço criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Endereco"
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /enderecos/{id}:
+    patch:
+      tags: [Endereços]
+      summary: Atualiza um endereço
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do endereço
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnderecoUpdate"
+      responses:
+        "200":
+          description: Endereço atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Endereco"
+        "404":
+          description: Endereço não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags: [Endereços]
+      summary: Remove um endereço
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do endereço
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Endereço removido com sucesso
+        "404":
+          description: Endereço não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
 components:
   schemas:
-    # ---------- RESERVAS ----------
-    StatusReserva:
-      type: string
-      enum: [PENDENTE, CONFIRMADA, CANCELADA]
-      example: PENDENTE
-
-    NovaReserva:
+    # =============================
+    # CLIENTE
+    # =============================
+    Cliente:
       type: object
-      required:
-        - data
-        - espacoId
-        - clienteNome
       properties:
-        data:
-          type: string
-          format: date-time
-          example: 2025-12-01T19:00:00Z
-        espacoId:
+        id:
           type: integer
-          example: 1
-        clienteNome:
+        nome:
           type: string
-          example: João da Silva
-        status:
-          $ref: '#/components/schemas/StatusReserva'
+        cpf:
+          type: string
+        telefone:
+          type: string
+        email:
+          type: string
 
-    Reserva:
-      allOf:
-        - $ref: '#/components/schemas/NovaReserva'
-        - type: object
-          required:
-            - id
-          properties:
-            id:
-              type: integer
-              format: int64
-              example: 10
+    ClienteCreate:
+      type: object
+      required: [nome, cpf, telefone, email]
+      properties:
+        nome:
+          type: string
+        cpf:
+          type: string
+        telefone:
+          type: string
+        email:
+          type: string
 
-    # ---------- ESPAÇOS ----------
+    ClienteUpdate:
+      type: object
+      properties:
+        nome:
+          type: string
+        cpf:
+          type: string
+        telefone:
+          type: string
+        email:
+          type: string
+
+    # =============================
+    # ENDEREÇO
+    # =============================
+    Endereco:
+      type: object
+      properties:
+        id:
+          type: integer
+        rua:
+          type: string
+        numero:
+          type: string
+        bairro:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+        complemento:
+          type: string
+
+    EnderecoCreate:
+      type: object
+      required: [rua, numero, bairro, cidade, estado]
+      properties:
+        rua: { type: string }
+        numero: { type: string }
+        bairro: { type: string }
+        cidade: { type: string }
+        estado: { type: string }
+        complemento: { type: string }
+
+    EnderecoUpdate:
+      type: object
+      properties:
+        rua: { type: string }
+        numero: { type: string }
+        bairro: { type: string }
+        cidade: { type: string }
+        estado: { type: string }
+        complemento: { type: string }
+
+    # =============================
+    # ESPAÇO
+    # =============================
     Espaco:
       type: object
-      required:
-        - id
-        - capacidade
-        - preco
-        - tipo
-        - endereco
       properties:
-        id:
-          type: integer
-          format: int64
-          example: 3
-        capacidade:
-          type: integer
-          example: 50
-        preco:
-          type: number
-          format: float
-          example: 500.0
-        tipo:
-          type: string
-          example: Sala de Reunião
-        endereco:
-          type: string
-          example: Rua das Flores, 123, Centro
+        id: { type: integer }
+        nome: { type: string }
+        tipo: { type: string }
+        capacidade: { type: string }
+        preco: { type: string }
+        enderecoId: { type: integer }
+        imagemURL: { type: string }
 
-    NovoEspaco:
-      type: object
-      required:
-        - capacidade
-        - preco
-        - tipo
-        - endereco
-      properties:
-        capacidade:
-          type: integer
-          example: 50
-        preco:
-          type: number
-          format: float
-          example: 500.0
-        tipo:
-          type: string
-          example: Auditório
-        endereco:
-          type: string
-          example: Avenida Principal, 1000
-
-    # ---------- PAGAMENTOS ----------
-    StatusPagamento:
-      type: string
-      enum: [PENDENTE, APROVADO, SINAL, ESTORNADO, RECUSADO]
-      example: PENDENTE
-
-    NovoPagamento:
-      type: object
-      required:
-        - reservaId
-        - total
-      properties:
-        reservaId:
-          type: integer
-          example: 10
-        total:
-          type: number
-          format: float
-          example: 750.0
-
-    AtualizarPagamento:
+    # =============================
+    # FILIAL
+    # =============================
+    Filial:
       type: object
       properties:
-        total:
-          type: number
-          format: float
-          example: 800.0
-        status:
-          $ref: '#/components/schemas/StatusPagamento'
+        id: { type: integer }
+        nome: { type: string }
+        cnpj: { type: string }
+        enderecoId: { type: integer }
 
+    FilialCreate:
+      type: object
+      required: [nome, cnpj, enderecoId]
+      properties:
+        nome: { type: string }
+        cnpj: { type: string }
+        enderecoId: { type: integer }
+
+    FilialUpdate:
+      type: object
+      properties:
+        nome: { type: string }
+        cnpj: { type: string }
+        enderecoId: { type: integer }
+
+    # =============================
+    # PAGAMENTO
+    # =============================
     Pagamento:
       type: object
-      required:
-        - id
-        - reservaId
-        - total
-        - pago
-        - status
       properties:
-        id:
-          type: integer
-          format: int64
-          example: 5
-        reservaId:
-          type: integer
-          example: 10
-        total:
-          type: number
-          format: float
-          example: 750.0
-        pago:
-          type: number
-          format: float
-          example: 250.0
-        status:
-          $ref: '#/components/schemas/StatusPagamento'
+        id: { type: integer }
+        valor_pago: { type: number }
+        total: { type: string }
+        status: { type: string }
+
+    PagamentoCreate:
+      type: object
+      required: [valor_pago, total, status]
+      properties:
+        valor_pago: { type: number }
+        total: { type: string }
+        status: { type: string }
+
+    PagamentoUpdate:
+      type: object
+      properties:
+        valor_pago: { type: number }
+        total: { type: string }
+        status: { type: string }
+
+    PagamentoReserva:
+      type: object
+      properties:
+        id: { type: integer }
+        valor_pago: { type: number }
+        status: { type: string }
+
+    # =============================
+    # RESERVA
+    # =============================
+    Reserva:
+      type: object
+      properties:
+        id: { type: integer }
+        inicio: { type: string }
+        fim: { type: string }
+        espaco: { type: integer }
+        cliente: { type: integer }
+        status: { type: string }
+        pagamento:
+          $ref: "#/components/schemas/PagamentoReserva"
+
+    ReservaCreate:
+      type: object
+      required: [inicio, fim, espacoId, clienteId]
+      properties:
+        inicio: { type: string }
+        fim: { type: string }
+        espacoId: { type: integer }
+        clienteId: { type: integer }
+
+    ReservaUpdate:
+      type: object
+      properties:
+        inicio: { type: string }
+        fim: { type: string }
+        espacoId: { type: integer }
+        clienteId: { type: integer }
+        status: { type: string }
+
+    ReservaPagar:
+      type: object
+      properties:
+        valor_pago: { type: number }
+        status: { type: string }
+
+    # =============================
+    # ERRO
+    # =============================
+    Error:
+      type: object
+      properties:
+        erro:
+          type: string

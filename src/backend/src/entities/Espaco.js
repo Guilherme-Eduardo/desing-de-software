@@ -11,7 +11,6 @@ export default class Espaco {
         this.imagemURL = imagemURL;
     }
 
-    // Getters
     getNome() { return this.nome; }
     getTipo() { return this.tipo; }
     getCapacidade() { return this.capacidade; }
@@ -20,7 +19,6 @@ export default class Espaco {
     getEnderecoId() { return this.enderecoId; }
     getImagemURL() { return this.imagemURL; } 
 
-    // Setters
     setNome(nome) { this.nome = nome; }
     setTipo(tipo) { this.tipo = tipo; }
     setCapacidade(capacidade) { this.capacidade = capacidade; }
@@ -29,7 +27,6 @@ export default class Espaco {
     setEnderecoId(enderecoId) { this.enderecoId = enderecoId; }
     setImagemURL(url) { this.imagemURL = url; }
 
-    // Cria um obejto a partir de um objeto
     static fromObject(id, obj) {
         if (!obj) {
             throw new Error("Objeto de espaço inválido");

@@ -16,7 +16,7 @@ export default function ModalEspacoUpdate({ open, onClose, dados, setEspacos, en
     enderecoId: "",
   });
 
-  // Preenche o formulário quando os dados do espaco mudarem
+  /* Carrega as informações que vieram do back */
   useEffect(() => {
     if (dados) {
       setForm({
@@ -35,20 +35,17 @@ export default function ModalEspacoUpdate({ open, onClose, dados, setEspacos, en
     setForm((prev) => ({ ...prev, [name]: value }));
   }
 
+  /* Envia uma requisicao para o back criar um espaco */
   async function handleSubmit(e) {
     e.preventDefault();
 
-
-    console.log ("FORMS: ", form);
     const formData = new FormData(e.target);
     await atualizarEspaco(form.id, formData);
-
 
     if (setEspacos) {
       const atualizada = await listarEspacos();
       setEspacos(atualizada);
     }
-
     onClose();
   }
 
@@ -64,10 +61,8 @@ export default function ModalEspacoUpdate({ open, onClose, dados, setEspacos, en
         },
       }}
     >
-      {/* Wrapper para centralizar na tela */}
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="relative w-full max-w-lg p-6 pb-16 rounded-lg bg-[#fff7e6] shadow-lg">
-          {/* Botão X no canto superior direito */}
           <button
             type="button"
             onClick={onClose}
@@ -84,7 +79,6 @@ export default function ModalEspacoUpdate({ open, onClose, dados, setEspacos, en
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Nome do espaço */}
             <div>
               <p
                 htmlFor="nome"
@@ -105,7 +99,6 @@ export default function ModalEspacoUpdate({ open, onClose, dados, setEspacos, en
               />
             </div>
 
-            {/* Tipo do espaço */}
             <div>
               <p
                 htmlFor="tipo"
@@ -125,7 +118,6 @@ export default function ModalEspacoUpdate({ open, onClose, dados, setEspacos, en
               />
             </div>
 
-            {/* Capacidade */}
             <div>
               <p
                 htmlFor="capacidade"
@@ -146,7 +138,6 @@ export default function ModalEspacoUpdate({ open, onClose, dados, setEspacos, en
               />
             </div>
 
-            {/* Preço por hora / diária */}
             <div>
               <p
                 htmlFor="preco"

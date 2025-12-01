@@ -22,6 +22,7 @@ export default function ReservaPage() {
     const [dadosReserva, setDadosReserva] = useState(null);
     const [openModalPagamento, setOpenModalPagamento] = useState(false);
 
+    /* Verifica se é uma data válida*/
     function datasInvalidas(inicio, fim) {
         const d1 = new Date(inicio);
         const d2 = new Date(fim);
@@ -29,7 +30,7 @@ export default function ReservaPage() {
         return d1 > d2;
     }
 
-
+    /* Envia uma requisicao para criar uma reserva no back*/
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -54,7 +55,7 @@ export default function ReservaPage() {
     }
 
 
-
+    /* Carrega as informacoes para serem exibidas */
     useEffect(() => {
         async function carregar() {
 
@@ -76,6 +77,7 @@ export default function ReservaPage() {
         setReservas((prev) => prev.filter(e => e.id !== id));
     }
 
+    /* Formata a data */
     function formatarData(data) {
         const dataObj = new Date(data);
         const dia = String(dataObj.getDate()).padStart(2, '0');
@@ -96,7 +98,6 @@ export default function ReservaPage() {
                     </h1>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        {/* Nome do cliente */}
                         <div>
                             <p
                                 htmlFor="cliente"
@@ -121,7 +122,6 @@ export default function ReservaPage() {
                             </select>
                         </div>
 
-                        {/* Espaço */}
                         <div>
                             <p
                                 htmlFor="espaco"
@@ -145,7 +145,6 @@ export default function ReservaPage() {
 
                             </select>
                         </div>
-                        {/* Fim da reserva */}
                         <div>
                             <p
                                 htmlFor="inicio"
@@ -163,7 +162,6 @@ export default function ReservaPage() {
                             />
                         </div>
 
-                        {/* Fim da reserva */}
                         <div>
                             <p
                                 htmlFor="fim"

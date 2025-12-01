@@ -22,7 +22,7 @@ export default function ModalReservaUpdate({
     fim: "",
   });
 
-  // Preenche o formulário quando os dados da reserva mudarem
+  /* Carrega os dados para o forms */
   useEffect(() => {
     if (!dados) return;
 
@@ -41,6 +41,7 @@ export default function ModalReservaUpdate({
     setForm((prev) => ({ ...prev, [name]: value }));
   }
 
+  /* Envia uma requisicao para atualizar a reserva */
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -66,10 +67,8 @@ export default function ModalReservaUpdate({
         },
       }}
     >
-      {/* Wrapper para centralizar na tela */}
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="relative w-full max-w-lg p-6 pb-16 rounded-lg bg-[#fff7e6] shadow-lg">
-          {/* Botão X no canto superior direito */}
           <button
             type="button"
             onClick={onClose}
@@ -86,7 +85,6 @@ export default function ModalReservaUpdate({
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Cliente */}
             <div>
               <p
                 htmlFor="clienteId"
@@ -112,7 +110,6 @@ export default function ModalReservaUpdate({
               </select>
             </div>
 
-            {/* Espaço */}
             <div>
               <p
                 htmlFor="espacoId"
@@ -138,7 +135,6 @@ export default function ModalReservaUpdate({
               </select>
             </div>
 
-            {/* Início da reserva */}
             <div>
               <p
                 htmlFor="inicio"
@@ -158,7 +154,6 @@ export default function ModalReservaUpdate({
               />
             </div>
 
-            {/* Fim da reserva */}
             <div>
               <p
                 htmlFor="fim"

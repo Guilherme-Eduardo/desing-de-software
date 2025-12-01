@@ -235,7 +235,7 @@ async function obterEspaco(id) {
 async function criarEspaco(dados) {
     const res = await fetch(`${API_BASE_URL}/espacos`, {
         method: "POST",
-        body: dados // AQUI vai o FormData SEM headers
+        body: dados
     });
     if (!res.ok) throw new Error(await res.text());
     return res.json();
@@ -452,8 +452,7 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
         inicio: "",
         fim: ""
     });
-    // Preenche o formulário quando os dados da reserva mudarem
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+    /* Carrega os dados para o forms */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (!dados) return;
         setForm({
             id: dados.id ?? "",
@@ -472,7 +471,7 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                 [name]: value
             }));
     }
-    async function handleSubmit(e) {
+    /* Envia uma requisicao para atualizar a reserva */ async function handleSubmit(e) {
         e.preventDefault();
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$api$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["atualizarReserva"])(form.id, form);
         if (setReservas) {
@@ -504,12 +503,12 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                         className: "absolute right-4 top-4 text-gray-500 hover:text-gray-800",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f40$mui$2b$icons$2d$material$40$7$2e$3$2e$5_$40$mui$2b$material$40$7$2e$3$2e$5_$40$emotion$2b$react$40$11$2e$14$2e$0_$40$types$2b$react$40$19$2e$2$2e$_3256c685f253f51a373a74367e3d372b$2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Clear$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                             fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                            lineNumber: 78,
+                            lineNumber: 77,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                        lineNumber: 73,
+                        lineNumber: 72,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -518,7 +517,7 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                         children: "Atualizar Reserva"
                     }, void 0, false, {
                         fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                        lineNumber: 81,
+                        lineNumber: 80,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -533,7 +532,7 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                                         children: "Cliente"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                        lineNumber: 91,
+                                        lineNumber: 89,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -549,7 +548,7 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                                                 children: "Selecione um cliente"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                                lineNumber: 106,
+                                                lineNumber: 104,
                                                 columnNumber: 17
                                             }, this),
                                             clientes?.map((client)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -557,19 +556,19 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                                                     children: client.nome
                                                 }, client.id, false, {
                                                     fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                                    lineNumber: 108,
+                                                    lineNumber: 106,
                                                     columnNumber: 19
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                        lineNumber: 97,
+                                        lineNumber: 95,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                lineNumber: 90,
+                                lineNumber: 88,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -580,7 +579,7 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                                         children: "Espaço"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                        lineNumber: 117,
+                                        lineNumber: 114,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -596,7 +595,7 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                                                 children: "Selecione um espaço"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                                lineNumber: 132,
+                                                lineNumber: 129,
                                                 columnNumber: 17
                                             }, this),
                                             espacos?.map((esp)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -604,19 +603,19 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                                                     children: esp.nome
                                                 }, esp.id, false, {
                                                     fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                                    lineNumber: 134,
+                                                    lineNumber: 131,
                                                     columnNumber: 19
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                        lineNumber: 123,
+                                        lineNumber: 120,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                lineNumber: 116,
+                                lineNumber: 113,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -627,7 +626,7 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                                         children: "Início"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                        lineNumber: 143,
+                                        lineNumber: 139,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -640,13 +639,13 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                                         className: "text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                        lineNumber: 149,
+                                        lineNumber: 145,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                lineNumber: 142,
+                                lineNumber: 138,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -657,7 +656,7 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                                         children: "Fim"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                        lineNumber: 163,
+                                        lineNumber: 158,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -670,13 +669,13 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                                         className: "text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                        lineNumber: 169,
+                                        lineNumber: 164,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                lineNumber: 162,
+                                lineNumber: 157,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -685,13 +684,13 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
                                 children: "Atualizar Reserva"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                                lineNumber: 181,
+                                lineNumber: 176,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-                        lineNumber: 88,
+                        lineNumber: 87,
                         columnNumber: 11
                     }, this)
                 ]
@@ -707,7 +706,7 @@ function ModalReservaUpdate({ open, onClose, dados, setReservas, espacos, client
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/reserva/components/ModalReservaUpdate.js",
-        lineNumber: 58,
+        lineNumber: 59,
         columnNumber: 5
     }, this);
 }
@@ -737,9 +736,7 @@ function ModalPagamento({ open, onClose, dados, setReservas }) {
         id: "",
         valor_pago: ""
     });
-    // Preenche o formulário quando os dados do cliente mudarem
-    // no useEffect
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+    /* Carrega os dados para serem exibidos no front*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (dados) {
             setForm({
                 id: dados.id ?? "",
@@ -749,8 +746,7 @@ function ModalPagamento({ open, onClose, dados, setReservas }) {
     }, [
         dados
     ]);
-    // no handleSubmit
-    async function handleSubmit(e) {
+    /* Envia uma requisicao para criar uma reserva */ async function handleSubmit(e) {
         e.preventDefault();
         const valor = form.valor_pago;
         if (Number.isNaN(valor) || valor <= 0) {
@@ -794,12 +790,12 @@ function ModalPagamento({ open, onClose, dados, setReservas }) {
                         className: "absolute right-4 top-4 text-gray-500 hover:text-gray-800",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f40$mui$2b$icons$2d$material$40$7$2e$3$2e$5_$40$mui$2b$material$40$7$2e$3$2e$5_$40$emotion$2b$react$40$11$2e$14$2e$0_$40$types$2b$react$40$19$2e$2$2e$_3256c685f253f51a373a74367e3d372b$2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Clear$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                             fileName: "[project]/src/app/reserva/components/ModalPagamento.js",
-                            lineNumber: 77,
+                            lineNumber: 75,
                             columnNumber: 25
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/reserva/components/ModalPagamento.js",
-                        lineNumber: 72,
+                        lineNumber: 70,
                         columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -808,7 +804,7 @@ function ModalPagamento({ open, onClose, dados, setReservas }) {
                         children: "Insira o valor desejável para efetuar o pagamento."
                     }, void 0, false, {
                         fileName: "[project]/src/app/reserva/components/ModalPagamento.js",
-                        lineNumber: 80,
+                        lineNumber: 78,
                         columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -821,7 +817,7 @@ function ModalPagamento({ open, onClose, dados, setReservas }) {
                                 value: form.id
                             }, void 0, false, {
                                 fileName: "[project]/src/app/reserva/components/ModalPagamento.js",
-                                lineNumber: 88,
+                                lineNumber: 86,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -832,7 +828,7 @@ function ModalPagamento({ open, onClose, dados, setReservas }) {
                                         children: "Valor total ou um sinal..."
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/reserva/components/ModalPagamento.js",
-                                        lineNumber: 90,
+                                        lineNumber: 88,
                                         columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -845,13 +841,13 @@ function ModalPagamento({ open, onClose, dados, setReservas }) {
                                         placeholder: "Ex.: 500.00"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/reserva/components/ModalPagamento.js",
-                                        lineNumber: 96,
+                                        lineNumber: 94,
                                         columnNumber: 29
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/reserva/components/ModalPagamento.js",
-                                lineNumber: 89,
+                                lineNumber: 87,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -860,29 +856,29 @@ function ModalPagamento({ open, onClose, dados, setReservas }) {
                                 children: "Efetuar pagamento"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/reserva/components/ModalPagamento.js",
-                                lineNumber: 108,
+                                lineNumber: 106,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/reserva/components/ModalPagamento.js",
-                        lineNumber: 87,
+                        lineNumber: 85,
                         columnNumber: 21
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/reserva/components/ModalPagamento.js",
-                lineNumber: 71,
+                lineNumber: 69,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/reserva/components/ModalPagamento.js",
-            lineNumber: 70,
+            lineNumber: 68,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/reserva/components/ModalPagamento.js",
-        lineNumber: 59,
+        lineNumber: 57,
         columnNumber: 9
     }, this);
 }
@@ -926,12 +922,12 @@ function ReservaPage() {
     const [openModal, setOpenModal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [dadosReserva, setDadosReserva] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [openModalPagamento, setOpenModalPagamento] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    function datasInvalidas(inicio, fim) {
+    /* Verifica se é uma data válida*/ function datasInvalidas(inicio, fim) {
         const d1 = new Date(inicio);
         const d2 = new Date(fim);
         return d1 > d2;
     }
-    async function handleSubmit(e) {
+    /* Envia uma requisicao para criar uma reserva no back*/ async function handleSubmit(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
         const dados = Object.fromEntries(formData.entries());
@@ -948,7 +944,7 @@ function ReservaPage() {
         setReservas(reservas);
         e.target.reset();
     }
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+    /* Carrega as informacoes para serem exibidas */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         async function carregar() {
             const reservas = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$api$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["listarReservas"])();
             const clientes = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$api$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["listarClientes"])();
@@ -965,7 +961,7 @@ function ReservaPage() {
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$api$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["removerReserva"])(id);
         setReservas((prev)=>prev.filter((e)=>e.id !== id));
     }
-    function formatarData(data) {
+    /* Formata a data */ function formatarData(data) {
         const dataObj = new Date(data);
         const dia = String(dataObj.getDate()).padStart(2, '0');
         const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
@@ -976,7 +972,7 @@ function ReservaPage() {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$Header$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/src/app/reserva/page.js",
-                lineNumber: 90,
+                lineNumber: 92,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -990,7 +986,7 @@ function ReservaPage() {
                                 children: "Gostaria de fazer uma reserva?"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/reserva/page.js",
-                                lineNumber: 94,
+                                lineNumber: 96,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -1005,7 +1001,7 @@ function ReservaPage() {
                                                 children: "nome do cliente"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 101,
+                                                lineNumber: 102,
                                                 columnNumber: 29
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -1019,7 +1015,7 @@ function ReservaPage() {
                                                         children: "Selecione um cliente"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/reserva/page.js",
-                                                        lineNumber: 114,
+                                                        lineNumber: 115,
                                                         columnNumber: 33
                                                     }, this),
                                                     clientes.map((client)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -1027,19 +1023,19 @@ function ReservaPage() {
                                                             children: client.nome
                                                         }, client.id, false, {
                                                             fileName: "[project]/src/app/reserva/page.js",
-                                                            lineNumber: 116,
+                                                            lineNumber: 117,
                                                             columnNumber: 37
                                                         }, this))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 107,
+                                                lineNumber: 108,
                                                 columnNumber: 29
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/reserva/page.js",
-                                        lineNumber: 100,
+                                        lineNumber: 101,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1095,7 +1091,7 @@ function ReservaPage() {
                                                 children: "inicio"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 150,
+                                                lineNumber: 149,
                                                 columnNumber: 29
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1106,13 +1102,13 @@ function ReservaPage() {
                                                 className: "text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 156,
+                                                lineNumber: 155,
                                                 columnNumber: 29
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/reserva/page.js",
-                                        lineNumber: 149,
+                                        lineNumber: 148,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1123,7 +1119,7 @@ function ReservaPage() {
                                                 children: "Fim"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 168,
+                                                lineNumber: 166,
                                                 columnNumber: 29
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1134,13 +1130,13 @@ function ReservaPage() {
                                                 className: "text-black block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 174,
+                                                lineNumber: 172,
                                                 columnNumber: 29
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/reserva/page.js",
-                                        lineNumber: 167,
+                                        lineNumber: 165,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1149,19 +1145,19 @@ function ReservaPage() {
                                         children: "Fazer reserva"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/reserva/page.js",
-                                        lineNumber: 184,
+                                        lineNumber: 182,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/reserva/page.js",
-                                lineNumber: 98,
+                                lineNumber: 100,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/reserva/page.js",
-                        lineNumber: 93,
+                        lineNumber: 95,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1172,7 +1168,7 @@ function ReservaPage() {
                                 children: "Lista de Reservas"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/reserva/page.js",
-                                lineNumber: 194,
+                                lineNumber: 192,
                                 columnNumber: 21
                             }, this),
                             reservas.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1180,7 +1176,7 @@ function ReservaPage() {
                                 children: "Nenhum reserva cadastrado."
                             }, void 0, false, {
                                 fileName: "[project]/src/app/reserva/page.js",
-                                lineNumber: 199,
+                                lineNumber: 197,
                                 columnNumber: 25
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "space-y-3",
@@ -1197,12 +1193,12 @@ function ReservaPage() {
                                                     fontSize: "medium"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/reserva/page.js",
-                                                    lineNumber: 217,
+                                                    lineNumber: 215,
                                                     columnNumber: 45
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 213,
+                                                lineNumber: 211,
                                                 columnNumber: 41
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1215,12 +1211,12 @@ function ReservaPage() {
                                                     fontSize: "medium"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/reserva/page.js",
-                                                    lineNumber: 223,
+                                                    lineNumber: 221,
                                                     columnNumber: 45
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 219,
+                                                lineNumber: 217,
                                                 columnNumber: 41
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1233,12 +1229,12 @@ function ReservaPage() {
                                                     fontSize: "medium"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/reserva/page.js",
-                                                    lineNumber: 229,
+                                                    lineNumber: 227,
                                                     columnNumber: 45
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 225,
+                                                lineNumber: 223,
                                                 columnNumber: 41
                                             }, this),
                                             item.status === "confirmado" ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1248,12 +1244,12 @@ function ReservaPage() {
                                                     fontSize: "medium"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/reserva/page.js",
-                                                    lineNumber: 236,
+                                                    lineNumber: 234,
                                                     columnNumber: 49
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 232,
+                                                lineNumber: 230,
                                                 columnNumber: 45
                                             }, this) : item.status === "reservado" ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                 type: "button",
@@ -1262,12 +1258,12 @@ function ReservaPage() {
                                                     fontSize: "medium"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/reserva/page.js",
-                                                    lineNumber: 243,
+                                                    lineNumber: 241,
                                                     columnNumber: 49
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 239,
+                                                lineNumber: 237,
                                                 columnNumber: 45
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                 type: "button",
@@ -1276,12 +1272,12 @@ function ReservaPage() {
                                                     fontSize: "medium"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/reserva/page.js",
-                                                    lineNumber: 250,
+                                                    lineNumber: 248,
                                                     columnNumber: 49
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 246,
+                                                lineNumber: 244,
                                                 columnNumber: 45
                                             }, this),
                                             client && esp && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1295,14 +1291,14 @@ function ReservaPage() {
                                                                 children: "Nome do Cliente: "
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                                lineNumber: 259,
+                                                                lineNumber: 257,
                                                                 columnNumber: 53
                                                             }, this),
                                                             client.nome
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/reserva/page.js",
-                                                        lineNumber: 258,
+                                                        lineNumber: 256,
                                                         columnNumber: 49
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1313,14 +1309,14 @@ function ReservaPage() {
                                                                 children: "Nome do Espaço: "
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                                lineNumber: 263,
+                                                                lineNumber: 261,
                                                                 columnNumber: 53
                                                             }, this),
                                                             esp.nome
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/reserva/page.js",
-                                                        lineNumber: 262,
+                                                        lineNumber: 260,
                                                         columnNumber: 49
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1331,14 +1327,14 @@ function ReservaPage() {
                                                                 children: "Período Inicial: "
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                                lineNumber: 267,
+                                                                lineNumber: 265,
                                                                 columnNumber: 53
                                                             }, this),
                                                             formatarData(item.inicio)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/reserva/page.js",
-                                                        lineNumber: 266,
+                                                        lineNumber: 264,
                                                         columnNumber: 49
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1349,14 +1345,14 @@ function ReservaPage() {
                                                                 children: "Período Final: "
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                                lineNumber: 271,
+                                                                lineNumber: 269,
                                                                 columnNumber: 53
                                                             }, this),
                                                             formatarData(item.fim)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/reserva/page.js",
-                                                        lineNumber: 270,
+                                                        lineNumber: 268,
                                                         columnNumber: 49
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1367,7 +1363,7 @@ function ReservaPage() {
                                                                 children: "Valor a pagar: R$"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                                lineNumber: 275,
+                                                                lineNumber: 273,
                                                                 columnNumber: 53
                                                             }, this),
                                                             esp.preco,
@@ -1375,7 +1371,7 @@ function ReservaPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/reserva/page.js",
-                                                        lineNumber: 274,
+                                                        lineNumber: 272,
                                                         columnNumber: 49
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1386,44 +1382,44 @@ function ReservaPage() {
                                                                 children: "Status da Reserva: "
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                                lineNumber: 279,
+                                                                lineNumber: 277,
                                                                 columnNumber: 53
                                                             }, this),
                                                             item.status
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/reserva/page.js",
-                                                        lineNumber: 278,
+                                                        lineNumber: 276,
                                                         columnNumber: 49
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/reserva/page.js",
-                                                lineNumber: 257,
+                                                lineNumber: 255,
                                                 columnNumber: 45
                                             }, this)
                                         ]
                                     }, idx, true, {
                                         fileName: "[project]/src/app/reserva/page.js",
-                                        lineNumber: 209,
+                                        lineNumber: 207,
                                         columnNumber: 37
                                     }, this);
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/src/app/reserva/page.js",
-                                lineNumber: 201,
+                                lineNumber: 199,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/reserva/page.js",
-                        lineNumber: 193,
+                        lineNumber: 191,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/reserva/page.js",
-                lineNumber: 92,
+                lineNumber: 94,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$reserva$2f$components$2f$ModalReservaUpdate$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1435,7 +1431,7 @@ function ReservaPage() {
                 espacos: espacos
             }, void 0, false, {
                 fileName: "[project]/src/app/reserva/page.js",
-                lineNumber: 293,
+                lineNumber: 291,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$reserva$2f$components$2f$ModalPagamento$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1445,7 +1441,7 @@ function ReservaPage() {
                 setReservas: setReservas
             }, void 0, false, {
                 fileName: "[project]/src/app/reserva/page.js",
-                lineNumber: 301,
+                lineNumber: 299,
                 columnNumber: 13
             }, this)
         ]

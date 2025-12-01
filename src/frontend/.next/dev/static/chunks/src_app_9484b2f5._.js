@@ -196,8 +196,12 @@ async function criarReserva(dados) {
         },
         body: JSON.stringify(dados)
     });
-    if (!res.ok) throw new Error("Erro");
-    return res.json();
+    const data = await res.json();
+    return {
+        ok: res.ok,
+        status: res.status,
+        data
+    };
 }
 async function atualizarReserva(id, dados) {
     const res = await fetch(`${API_BASE_URL}/reservas/${id}`, {
@@ -231,7 +235,7 @@ async function obterEspaco(id) {
 async function criarEspaco(dados) {
     const res = await fetch(`${API_BASE_URL}/espacos`, {
         method: "POST",
-        body: dados // AQUI vai o FormData SEM headers
+        body: dados
     });
     if (!res.ok) throw new Error(await res.text());
     return res.json();
@@ -453,7 +457,6 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
         telefone: "",
         email: ""
     });
-    // Preenche o formulário quando os dados do cliente mudarem
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "ModalClienteUpdate.useEffect": ()=>{
             if (dados) {
@@ -469,14 +472,14 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
     }["ModalClienteUpdate.useEffect"], [
         dados
     ]);
-    function handleChange(e) {
+    /* Atualização */ function handleChange(e) {
         const { name, value } = e.target;
         setForm((prev)=>({
                 ...prev,
                 [name]: value
             }));
     }
-    async function handleSubmit(e) {
+    /* Envia a requisição de criar cliente para o back */ async function handleSubmit(e) {
         e.preventDefault();
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$api$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["atualizarCliente"])(form.id, form);
         if (setClientes) {
@@ -508,12 +511,12 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
                         className: "absolute right-4 top-4 text-gray-500 hover:text-gray-800",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f40$mui$2b$icons$2d$material$40$7$2e$3$2e$5_$40$mui$2b$material$40$7$2e$3$2e$5_$40$emotion$2b$react$40$11$2e$14$2e$0_$40$types$2b$react$40$19$2e$2$2e$_3256c685f253f51a373a74367e3d372b$2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Clear$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                             fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                            lineNumber: 70,
+                            lineNumber: 69,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                        lineNumber: 65,
+                        lineNumber: 64,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -522,7 +525,7 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
                         children: "Atualizar cliente"
                     }, void 0, false, {
                         fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                        lineNumber: 73,
+                        lineNumber: 72,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -535,7 +538,7 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
                                 value: form.id
                             }, void 0, false, {
                                 fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                lineNumber: 81,
+                                lineNumber: 80,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -546,7 +549,7 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
                                         children: "Nome completo"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                        lineNumber: 84,
+                                        lineNumber: 82,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -560,13 +563,13 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
                                         placeholder: "Ex.: João da Silva"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                        lineNumber: 90,
+                                        lineNumber: 88,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                lineNumber: 83,
+                                lineNumber: 81,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -577,7 +580,7 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
                                         children: "Documento (CPF ou RG)"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                        lineNumber: 105,
+                                        lineNumber: 102,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -591,13 +594,13 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
                                         placeholder: "Ex.: 123.456.789-00"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                        lineNumber: 111,
+                                        lineNumber: 108,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                lineNumber: 104,
+                                lineNumber: 101,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -608,7 +611,7 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
                                         children: "Telefone"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                        lineNumber: 126,
+                                        lineNumber: 122,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -621,13 +624,13 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
                                         placeholder: "Ex.: (41) 99999-9999"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                        lineNumber: 132,
+                                        lineNumber: 128,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                lineNumber: 125,
+                                lineNumber: 121,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -638,7 +641,7 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
                                         children: "E-mail"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                        lineNumber: 146,
+                                        lineNumber: 141,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -651,13 +654,13 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
                                         placeholder: "cliente@exemplo.com"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                        lineNumber: 152,
+                                        lineNumber: 147,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                lineNumber: 145,
+                                lineNumber: 140,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -666,13 +669,13 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
                                 children: "Atualizar cliente"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                                lineNumber: 164,
+                                lineNumber: 159,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-                        lineNumber: 80,
+                        lineNumber: 79,
                         columnNumber: 11
                     }, this)
                 ]
@@ -688,7 +691,7 @@ function ModalClienteUpdate({ open, onClose, dados, setClientes }) {
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/cliente/components/ModalClienteUpdate.js",
-        lineNumber: 50,
+        lineNumber: 51,
         columnNumber: 5
     }, this);
 }
@@ -728,7 +731,7 @@ function CadastroClientePage() {
     const [clientes, setClientes] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [openModal, setOpenModal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [dadosCliente, setDadosCliente] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+    /* Carrega os dados pro front */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "CadastroClientePage.useEffect": ()=>{
             async function carregar() {
                 const dados = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$api$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["listarClientes"])();
@@ -737,7 +740,7 @@ function CadastroClientePage() {
             carregar();
         }
     }["CadastroClientePage.useEffect"], []);
-    async function handleSubmit(e) {
+    /* Envia o cadastro de cliente pro back */ async function handleSubmit(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
         const dados = Object.fromEntries(formData.entries());
@@ -746,7 +749,7 @@ function CadastroClientePage() {
         setClientes(atualizada);
         e.target.reset();
     }
-    async function handleRemoveCliente(id) {
+    /* Remove e atualiza o back */ async function handleRemoveCliente(id) {
         try {
             await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$api$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["removerCliente"])(id);
             const atualizada = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$api$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["listarClientes"])();
@@ -759,7 +762,7 @@ function CadastroClientePage() {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$Header$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/src/app/cliente/page.js",
-                lineNumber: 53,
+                lineNumber: 56,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -773,7 +776,7 @@ function CadastroClientePage() {
                                 children: "Cadastro de Cliente"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/cliente/page.js",
-                                lineNumber: 57,
+                                lineNumber: 60,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -788,7 +791,7 @@ function CadastroClientePage() {
                                                 children: "Nome completo"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/cliente/page.js",
-                                                lineNumber: 65,
+                                                lineNumber: 67,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -800,13 +803,13 @@ function CadastroClientePage() {
                                                 placeholder: "Ex.: João da Silva"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/cliente/page.js",
-                                                lineNumber: 68,
+                                                lineNumber: 70,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/cliente/page.js",
-                                        lineNumber: 64,
+                                        lineNumber: 66,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -817,7 +820,7 @@ function CadastroClientePage() {
                                                 children: "Documento (CPF ou RG)"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/cliente/page.js",
-                                                lineNumber: 81,
+                                                lineNumber: 82,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -829,13 +832,13 @@ function CadastroClientePage() {
                                                 placeholder: "Ex.: 123.456.789-00"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/cliente/page.js",
-                                                lineNumber: 84,
+                                                lineNumber: 85,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/cliente/page.js",
-                                        lineNumber: 80,
+                                        lineNumber: 81,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -874,7 +877,7 @@ function CadastroClientePage() {
                                                 children: "E-mail"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/cliente/page.js",
-                                                lineNumber: 112,
+                                                lineNumber: 111,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -885,13 +888,13 @@ function CadastroClientePage() {
                                                 placeholder: "cliente@exemplo.com"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/cliente/page.js",
-                                                lineNumber: 115,
+                                                lineNumber: 114,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/cliente/page.js",
-                                        lineNumber: 111,
+                                        lineNumber: 110,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -900,19 +903,19 @@ function CadastroClientePage() {
                                         children: "Cadastrar cliente"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/cliente/page.js",
-                                        lineNumber: 125,
+                                        lineNumber: 124,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/cliente/page.js",
-                                lineNumber: 61,
+                                lineNumber: 64,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/cliente/page.js",
-                        lineNumber: 56,
+                        lineNumber: 59,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -923,7 +926,7 @@ function CadastroClientePage() {
                                 children: "Lista de Clientes"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/cliente/page.js",
-                                lineNumber: 137,
+                                lineNumber: 135,
                                 columnNumber: 11
                             }, this),
                             clientes.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -931,7 +934,7 @@ function CadastroClientePage() {
                                 children: "Nenhum cliente cadastrado."
                             }, void 0, false, {
                                 fileName: "[project]/src/app/cliente/page.js",
-                                lineNumber: 142,
+                                lineNumber: 140,
                                 columnNumber: 13
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "space-y-3",
@@ -945,12 +948,12 @@ function CadastroClientePage() {
                                                     fontSize: "medium"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/cliente/page.js",
-                                                    lineNumber: 156,
+                                                    lineNumber: 153,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/cliente/page.js",
-                                                lineNumber: 152,
+                                                lineNumber: 149,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -963,12 +966,12 @@ function CadastroClientePage() {
                                                     fontSize: "medium"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/cliente/page.js",
-                                                    lineNumber: 163,
+                                                    lineNumber: 159,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/cliente/page.js",
-                                                lineNumber: 159,
+                                                lineNumber: 155,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -982,10 +985,28 @@ function CadastroClientePage() {
                                                                 children: "Nome: "
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/cliente/page.js",
-                                                                lineNumber: 167,
+                                                                lineNumber: 163,
                                                                 columnNumber: 23
                                                             }, this),
                                                             item.nome
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/cliente/page.js",
+                                                        lineNumber: 162,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "py-0.5",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "font-medium",
+                                                                children: "Documento: "
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/cliente/page.js",
+                                                                lineNumber: 167,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            item.cpf
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/cliente/page.js",
@@ -997,13 +1018,13 @@ function CadastroClientePage() {
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                 className: "font-medium",
-                                                                children: "Documento: "
+                                                                children: "Telefone: "
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/cliente/page.js",
                                                                 lineNumber: 171,
                                                                 columnNumber: 23
                                                             }, this),
-                                                            item.cpf
+                                                            item.telefone
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/cliente/page.js",
@@ -1015,64 +1036,46 @@ function CadastroClientePage() {
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                 className: "font-medium",
-                                                                children: "Telefone: "
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/cliente/page.js",
-                                                                lineNumber: 175,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            item.telefone
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/cliente/page.js",
-                                                        lineNumber: 174,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        className: "py-0.5",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "font-medium",
                                                                 children: "Email: "
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/cliente/page.js",
-                                                                lineNumber: 179,
+                                                                lineNumber: 175,
                                                                 columnNumber: 23
                                                             }, this),
                                                             item.email
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/cliente/page.js",
-                                                        lineNumber: 178,
+                                                        lineNumber: 174,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/cliente/page.js",
-                                                lineNumber: 165,
+                                                lineNumber: 161,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, item.id, true, {
                                         fileName: "[project]/src/app/cliente/page.js",
-                                        lineNumber: 147,
+                                        lineNumber: 145,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/app/cliente/page.js",
-                                lineNumber: 144,
+                                lineNumber: 142,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/cliente/page.js",
-                        lineNumber: 136,
+                        lineNumber: 134,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/cliente/page.js",
-                lineNumber: 55,
+                lineNumber: 58,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$3_$40$babel$2b$core$40$7$2e$28$2e$5_babel$2d$plugin$2d$react$2d$compiler$40$1$2e$0$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$cliente$2f$components$2f$ModalClienteUpdate$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1082,7 +1085,7 @@ function CadastroClientePage() {
                 setClientes: setClientes
             }, void 0, false, {
                 fileName: "[project]/src/app/cliente/page.js",
-                lineNumber: 190,
+                lineNumber: 186,
                 columnNumber: 7
             }, this)
         ]
