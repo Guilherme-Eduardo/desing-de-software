@@ -595,9 +595,6 @@ paths:
 
 components:
   schemas:
-    # =============================
-    # CLIENTE
-    # =============================
     Cliente:
       type: object
       properties:
@@ -637,9 +634,6 @@ components:
         email:
           type: string
 
-    # =============================
-    # ENDEREÇO
-    # =============================
     Endereco:
       type: object
       properties:
@@ -679,9 +673,6 @@ components:
         estado: { type: string }
         complemento: { type: string }
 
-    # =============================
-    # ESPAÇO
-    # =============================
     Espaco:
       type: object
       properties:
@@ -693,9 +684,6 @@ components:
         enderecoId: { type: integer }
         imagemURL: { type: string }
 
-    # =============================
-    # FILIAL
-    # =============================
     Filial:
       type: object
       properties:
@@ -719,9 +707,6 @@ components:
         cnpj: { type: string }
         enderecoId: { type: integer }
 
-    # =============================
-    # PAGAMENTO
-    # =============================
     Pagamento:
       type: object
       properties:
@@ -752,9 +737,6 @@ components:
         valor_pago: { type: number }
         status: { type: string }
 
-    # =============================
-    # RESERVA
-    # =============================
     Reserva:
       type: object
       properties:
@@ -791,9 +773,6 @@ components:
         valor_pago: { type: number }
         status: { type: string }
 
-    # =============================
-    # ERRO
-    # =============================
     Error:
       type: object
       properties:
